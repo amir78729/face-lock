@@ -1,9 +1,9 @@
 import cv2
-from simple_facerec import SimpleFacerec
+from simple_facerec import FaceRecognition
 
 if __name__ == '__main__':
     # Encode faces from a folder
-    sfr = SimpleFacerec()
+    sfr = FaceRecognition()
     sfr.load_encoding_images("images/")
 
     # Load Camera

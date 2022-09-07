@@ -1,6 +1,6 @@
 import cv2
 import copy
-from simple_facerec import SimpleFacerec
+from simple_facerec import FaceRecognition
 
 ESCAPE = 27
 ENTER = 13
@@ -32,7 +32,7 @@ def draw_rectangle(_frame, _y1, _x2, _y2, _x1, _color=(0, 200, 0), _text=''):
 
 def show_faces(_frame):
     try:
-        _sfr = SimpleFacerec()
+        _sfr = FaceRecognition()
         _face_locations = _sfr.detect_faces(_frame)
         if _face_locations.any():
             for _face_loc in _face_locations:
@@ -107,7 +107,7 @@ def add_pic_to_dataset():
 
 if __name__ == '__main__':
     # Encode faces from a folder
-    sfr = SimpleFacerec()
+    sfr = FaceRecognition()
     sfr.load_encoding_images("images/")
 
     # Load Camera
