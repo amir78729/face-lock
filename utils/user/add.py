@@ -4,7 +4,8 @@ import copy
 import cv2
 from constants import *
 from utils.screen.faces import show_faces_on_screen
-from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show_loading_on_screen
+from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show_loading_on_screen, \
+    add_description_to_screen
 
 
 def enter_user_name():
@@ -12,22 +13,26 @@ def enter_user_name():
     _name = ''
     while True:
         ret_add, frame_add = _cap.read()
-        show_faces_on_screen(frame_add)
+        is_a_face_detected = show_faces_on_screen(frame_add)
+
 
         add_title_to_screen(frame_add, 'ADD IMAGE: ENTER NAME')
         add_subtitle_to_screen(frame_add, 'please enter your name: ' + _name)
-        cv2.imshow('Frame', frame_add)
-        key_add = cv2.waitKey(1)
+        if not is_a_face_detected:
+            add_description_to_screen(frame_add, 'NO FACE DETECTED!', (0, 0, 200))
 
-        if key_add != -1:
-            if key_add == DELETE:
+        cv2.imshow('Frame', frame_add)
+        _key = cv2.waitKey(1)
+
+        if _key != -1:
+            if _key == DELETE:
                 _name = _name[:-1]
-            elif key_add == ESCAPE:
+            elif _key == ESCAPE:
                 break
-            elif key_add == ENTER and _name != '':
+            elif _key == ENTER and _name != '':
                 return _name
             else:
-                _name += chr(key_add)
+                _name += chr(_key)
                 _name = _name.replace('_', ' ')
 
 
@@ -44,17 +49,23 @@ def take_and_save_user_image(_name, _index):
     while True:
         ret_add, frame_add = cap.read()
         frame_add_copy = copy.deepcopy(frame_add)
-        show_faces_on_screen(frame_add)
+        is_a_face_detected = show_faces_on_screen(frame_add)
         add_title_to_screen(
             frame_add,
             'ADD IMAGE: ADD IMAGE TO DATABASE ({} / {})'.format(_index, get_configs('images_per_user'))
         )
         add_subtitle_to_screen(frame_add, 'press ENTER to take picture')
-        cv2.imshow('Frame', frame_add)
-        key_add = cv2.waitKey(1)
+        if not is_a_face_detected:
+            add_description_to_screen(frame_add, 'NO FACE DETECTED!', (0, 0, 200))
 
-        if key_add == ENTER:
+        cv2.imshow('Frame', frame_add)
+        _key = cv2.waitKey(1)
+
+        if _key == ENTER and is_a_face_detected:
             cv2.imwrite('images/{}_{}.jpg'.format(_name, _index), frame_add_copy)
+            break
+
+        if _key == ESCAPE:
             break
 
 

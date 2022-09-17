@@ -19,6 +19,7 @@ def add_description_to_screen(_frame, _text, _color=(200, 200, 200)):
 
 def show_loading_on_screen():
     cap = cv2.VideoCapture(get_configs('camera_arg'))
-    ret_add, frame_loading = cap.read()
-    add_title_to_screen(frame_loading, 'LOADING...', (0, 200, 200))
-    cv2.imshow('Frame', frame_loading)
+    ret_add, frame_add = cap.read()
+    add_title_to_screen(frame_add, 'LOADING...', (0, 200, 200))
+    cv2.imshow('Frame', frame_add)
+    _key = cv2.waitKey(1)

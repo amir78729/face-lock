@@ -15,6 +15,7 @@ class FaceRecognition:
     def load_encoding_images(self, images_path):
         """
         Load encoding images from path
+
         :param images_path:
         :return:
         """

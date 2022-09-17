@@ -1,6 +1,5 @@
 import cv2
 from face_recognition_module import FaceRecognition
-from utils.screen.texts import add_description_to_screen
 
 
 def draw_rectangle_on_screen(_frame, _y1, _x2, _y2, _x1, _color=(0, 200, 0), _text=''):
@@ -20,8 +19,8 @@ def draw_rectangle_on_screen(_frame, _y1, _x2, _y2, _x1, _color=(0, 200, 0), _te
 
 def show_faces_on_screen(_frame):
     try:
-        _sfr = FaceRecognition()
-        _face_locations = _sfr.detect_faces(_frame)
+        _fr = FaceRecognition()
+        _face_locations = _fr.detect_faces(_frame)
         if _face_locations.any():
             for _face_loc in _face_locations:
                 draw_rectangle_on_screen(
@@ -32,7 +31,6 @@ def show_faces_on_screen(_frame):
                     _face_loc[3],
                     _color=(200, 200, 200),
                 )
-        else:
-            add_description_to_screen(_frame, 'NO FACE DETECTED!', (0, 0, 200))
+        return _face_locations.any()
     except Exception as e:
         print(e)
