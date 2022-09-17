@@ -7,7 +7,8 @@ if __name__ == '__main__':
     sfr.load_encoding_images("images/")
 
     # Load Camera
-    cap = cv2.VideoCapture(0)
+    # cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(CAMERA_IP)
 
     while True:
         ret, frame = cap.read()
