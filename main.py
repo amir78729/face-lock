@@ -2,10 +2,9 @@ import cv2
 from face_recognition_module import FaceRecognition
 from constants import *
 from utils.screen import draw_rectangle_on_screen
-from utils.user import add_user_image_to_dataset
+from utils.user import add_user_image_to_dataset, is_user_admin, is_admin_user_authenticated
 
 if __name__ == '__main__':
-
 
     # Encode faces from a folder
     sfr = FaceRecognition()
@@ -41,8 +40,14 @@ if __name__ == '__main__':
 
         key = cv2.waitKey(1)
         if key == ord('a'):
-            add_user_image_to_dataset()
-            sfr.load_encoding_images(get_configs('images_path'))
+            if is_user_admin():
+                if is_admin_user_authenticated():
+                    add_user_image_to_dataset()
+                    sfr.load_encoding_images(get_configs('images_path'))
+                else:
+                    print("WRONG PASSWORD")  # TODO add 3 retry and add to configs
+            else:
+                print('YOU ARE NOT AN ADMIN')
 
         if key == ESCAPE:
             break
