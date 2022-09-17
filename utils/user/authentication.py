@@ -1,7 +1,10 @@
+import glob
+import os
+
 import cv2
 from constants import *
 from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, add_description_to_screen
-from utils.screen.faces import show_faces_on_screen
+from utils.screen.faces import show_detected_faces_on_screen
 from utils.security import get_encrypted_password
 
 
@@ -19,7 +22,7 @@ def is_user_admin(_fr):
         except Exception:
             pass
 
-        is_a_face_detected = show_faces_on_screen(frame_add)
+        is_a_face_detected = show_detected_faces_on_screen(frame_add)
 
         add_title_to_screen(frame_add, 'ADD USER: LOGIN')
         add_subtitle_to_screen(frame_add, 'please enter your admin ID: ' + _id)
@@ -54,7 +57,7 @@ def is_admin_user_authenticated(retry):
     _password = ''
     while True:
         ret_add, frame_add = _cap.read()
-        show_faces_on_screen(frame_add)
+        show_detected_faces_on_screen(frame_add)
 
         add_title_to_screen(frame_add, 'ADD USER: LOGIN')
         add_subtitle_to_screen(frame_add, 'please enter the password: ' + len(_password) * '*')

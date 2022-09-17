@@ -3,7 +3,7 @@ import os
 import copy
 import cv2
 from constants import *
-from utils.screen.faces import show_faces_on_screen
+from utils.screen.faces import show_detected_faces_on_screen
 from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show_loading_on_screen, \
     add_description_to_screen
 
@@ -13,8 +13,7 @@ def enter_user_name():
     _name = ''
     while True:
         ret_add, frame_add = _cap.read()
-        is_a_face_detected = show_faces_on_screen(frame_add)
-
+        is_a_face_detected = show_detected_faces_on_screen(frame_add)
 
         add_title_to_screen(frame_add, 'ADD IMAGE: ENTER NAME')
         add_subtitle_to_screen(frame_add, 'please enter your name: ' + _name)
@@ -49,11 +48,10 @@ def take_and_save_user_image(_name, _index):
     while True:
         ret_add, frame_add = cap.read()
         frame_add_copy = copy.deepcopy(frame_add)
-        is_a_face_detected = show_faces_on_screen(frame_add)
-        add_title_to_screen(
-            frame_add,
-            'ADD IMAGE: ADD IMAGE TO DATABASE ({} / {})'.format(_index, get_configs('images_per_user'))
-        )
+        is_a_face_detected = show_detected_faces_on_screen(frame_add)
+
+        add_title_to_screen(frame_add,
+                            'ADD IMAGE: ADD IMAGE TO DATABASE ({} / {})'.format(_index, get_configs('images_per_user')))
         add_subtitle_to_screen(frame_add, 'press ENTER to take picture')
         if not is_a_face_detected:
             add_description_to_screen(frame_add, 'NO FACE DETECTED!', (0, 0, 200))
@@ -71,5 +69,5 @@ def take_and_save_user_image(_name, _index):
 
 def add_user_image_to_dataset():
     name = generate_user_id()
-    [take_and_save_user_image(_name=name, _index=i+1) for i in range(get_configs('images_per_user'))]
+    [take_and_save_user_image(_name=name, _index=i + 1) for i in range(get_configs('images_per_user'))]
     show_loading_on_screen()

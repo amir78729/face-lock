@@ -1,4 +1,6 @@
 import cv2
+
+from constants import get_configs
 from face_recognition_module import FaceRecognition
 
 
@@ -17,7 +19,7 @@ def draw_rectangle_on_screen(_frame, _y1, _x2, _y2, _x1, _color=(0, 200, 0), _te
         cv2.putText(_frame, _text, (_x1 + 10, _y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, _color, 2)
 
 
-def show_faces_on_screen(_frame):
+def show_detected_faces_on_screen(_frame):
     try:
         _fr = FaceRecognition()
         _face_locations = _fr.detect_faces(_frame)
@@ -34,3 +36,24 @@ def show_faces_on_screen(_frame):
         return _face_locations.any()
     except Exception as e:
         print(e)
+
+
+def show_recognized_faces_on_screen(_frame, _fr):
+    try:
+        face_locations, face_names = _fr.recognize_known_faces(_frame)
+        for face_loc, name in zip(face_locations, face_names):
+            _id = name.split('_')[0]
+            draw_rectangle_on_screen(
+                _frame,
+                face_loc[0],
+                face_loc[1],
+                face_loc[2],
+                face_loc[3],
+                _color=(0, 0, 200) if name == 'Unknown'
+                else (0, 200, 200) if _id in get_configs('admin_users')
+                else (0, 200, 0),
+                _text='{}{}'.format('*' if _id in get_configs('admin_users') else '', _id)
+            )
+    except Exception as e:
+        show_detected_faces_on_screen(_frame)
+    cv2.imshow('Frame', _frame)

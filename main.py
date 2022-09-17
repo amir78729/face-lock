@@ -1,7 +1,8 @@
 import cv2
 from face_recognition_module import FaceRecognition
 from constants import *
-from utils.screen.faces import draw_rectangle_on_screen, show_faces_on_screen
+from utils.screen.faces import draw_rectangle_on_screen, show_detected_faces_on_screen, show_recognized_faces_on_screen
+from utils.screen.texts import add_description_to_screen
 from utils.user.add import add_user_image_to_dataset
 from utils.user.authentication import is_user_admin, is_admin_user_authenticated
 
@@ -19,27 +20,9 @@ if __name__ == '__main__':
         if not frame.any():
             raise Exception('CAMERA NOT FOUND')
 
-        # Detect Faces
-        try:
-            face_locations, face_names = fr.recognize_known_faces(frame)
-            for face_loc, name in zip(face_locations, face_names):
-                color = (0, 0, 200) if name == 'Unknown' else (0, 200, 0)
-                _id = name.split('_')[0]
-                draw_rectangle_on_screen(
-                    frame,
-                    face_loc[0],
-                    face_loc[1],
-                    face_loc[2],
-                    face_loc[3],
-                    _color=(0, 0, 200) if name == 'Unknown'
-                    else (0, 200, 200) if _id in get_configs('admin_users')
-                    else (0, 200, 0),
-                    _text='{}{}'.format('*' if _id in get_configs('admin_users') else '', _id)
-                )
-        except Exception as e:
-            show_faces_on_screen(frame)
+        show_recognized_faces_on_screen(frame, fr)
 
-        cv2.imshow('Frame', frame)
+
 
         key = cv2.waitKey(1)
         if key == ord('a'):
