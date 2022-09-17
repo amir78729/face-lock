@@ -49,7 +49,7 @@ class FaceRecognition:
             fx=self.frame_resizing,
             fy=self.frame_resizing
         )
-        # Find all the faces and face encodings in the current frame of video
+        # Find all the faces.py and face encodings in the current frame of video
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
         small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
         face_locations = face_recognition.face_locations(small_frame)

@@ -1,12 +1,13 @@
 import cv2
 from face_recognition_module import FaceRecognition
 from constants import *
-from utils.screen import draw_rectangle_on_screen
-from utils.user import add_user_image_to_dataset, is_user_admin, is_admin_user_authenticated
+from utils.screen.faces import draw_rectangle_on_screen
+from utils.user.add import add_user_image_to_dataset
+from utils.user.authentication import is_user_admin, is_admin_user_authenticated
 
 if __name__ == '__main__':
 
-    # Encode faces from a folder
+    # Encode faces.py from a folder
     sfr = FaceRecognition()
     sfr.load_encoding_images(get_configs('images_path'))
 
