@@ -4,5 +4,6 @@
   "images_path": "images/",
   "images_per_user": 3,
   "camera_arg": 0,
-  "wrong_password_limit": 3
+  "wrong_password_limit": 3,
+  "strict_authentication": true
 }

@@ -1,7 +1,8 @@
+import copy
 import glob
 import os
-import copy
 import cv2
+
 from constants import *
 from utils.screen.faces import show_detected_faces_on_screen
 from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show_loading_on_screen, \
