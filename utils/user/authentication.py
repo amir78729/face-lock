@@ -7,6 +7,11 @@ from utils.security import get_encrypted_password
 
 
 def is_user_admin(_fr):
+    """
+    Check if User is Admin
+    :param _fr: face recognition module
+    :return: is user admin
+    """
     _cap = cv2.VideoCapture(0)
     _id = ''
     is_authentication_strict = get_configs('strict_authentication')
@@ -55,6 +60,12 @@ def is_user_admin(_fr):
 
 
 def is_admin_user_authenticated(retry):
+    """
+    Check if admin entered the password correctly
+
+    :param retry: show error on page
+    :return:
+    """
     _cap = cv2.VideoCapture(0)
     _password = ''
     while True:

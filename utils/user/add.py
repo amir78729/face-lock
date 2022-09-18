@@ -10,6 +10,10 @@ from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show
 
 
 def enter_user_name():
+    """
+    Enter Username
+    :return:
+    """
     _cap = cv2.VideoCapture(0)
     _name = ''
     while True:
@@ -37,6 +41,10 @@ def enter_user_name():
 
 
 def generate_user_id():
+    """
+    Generate ID for new user.
+    :return:
+    """
     files = glob.glob(os.path.join(get_configs('images_path'), '*.*'))
     if not files:
         return '0000'
@@ -45,6 +53,12 @@ def generate_user_id():
 
 
 def take_and_save_user_image(_name, _index):
+    """
+    Take a Picture from user and save taken image as a file
+    :param _name: User ID
+    :param _index:  Replica Index
+    :return:
+    """
     cap = cv2.VideoCapture(get_configs('camera_arg'))
     while True:
         ret_add, frame_add = cap.read()
@@ -69,6 +83,11 @@ def take_and_save_user_image(_name, _index):
 
 
 def add_user_image_to_dataset():
+    """
+    Take Picture from user ``images_per_user`` times
+
+    :return:
+    """
     name = generate_user_id()
     [take_and_save_user_image(_name=name, _index=i + 1) for i in range(get_configs('images_per_user'))]
     show_loading_on_screen()

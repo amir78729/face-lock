@@ -5,6 +5,18 @@ from face_recognition_module import FaceRecognition
 
 
 def draw_rectangle_on_screen(_frame, _y1, _x2, _y2, _x1, _color=(0, 200, 0), _text=''):
+    """
+    Draw a rectangle on a frame
+
+    :param _frame: Input frame
+    :param _y1: Y1
+    :param _x2: X2
+    :param _y2: Y2
+    :param _x1: X1
+    :param _color: Color
+    :param _text: Title
+    :return:
+    """
     if _text == '':
         cv2.rectangle(_frame, (_x1, _y1), (_x2, _y2), (0, 0, 0), 6)
     else:
@@ -20,6 +32,12 @@ def draw_rectangle_on_screen(_frame, _y1, _x2, _y2, _x1, _color=(0, 200, 0), _te
 
 
 def show_detected_faces_on_screen(_frame):
+    """
+    Show detected faces on a frame
+
+    :param _frame: Input frame
+    :return: boolean value for checking if any face was detected in input frame
+    """
     try:
         _fr = FaceRecognition()
         _face_locations = _fr.detect_faces(_frame)
@@ -39,6 +57,13 @@ def show_detected_faces_on_screen(_frame):
 
 
 def show_recognized_faces_on_screen(_frame, _fr):
+    """
+    Show recognized faces on a frame
+
+    :param _frame: Input frame
+    :param _fr: face recognition module
+    :return:
+    """
     try:
         face_locations, face_names = _fr.recognize_known_faces(_frame)
         for face_loc, name in zip(face_locations, face_names):

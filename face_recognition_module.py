@@ -16,7 +16,7 @@ class FaceRecognition:
         """
         Load encoding images from path
 
-        :param images_path:
+        :param images_path: Directory of Images
         :return:
         """
         # Load Images
@@ -44,6 +44,12 @@ class FaceRecognition:
             print(e)
 
     def recognize_known_faces(self, frame):
+        """
+        Face Recognition Process for a frame
+
+        :param frame: Input Image
+        :return:
+        """
         small_frame = cv2.resize(
             frame,
             (0, 0),
@@ -73,6 +79,12 @@ class FaceRecognition:
         return face_locations.astype(int), face_names
 
     def detect_faces(self, frame):
+        """
+        Face Detection Process for a frame
+
+        :param frame: Input Image
+        :return:
+        """
         small_frame = cv2.resize(
             frame,
             (0, 0),
