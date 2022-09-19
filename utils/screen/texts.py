@@ -43,7 +43,7 @@ def show_loading_on_screen():
     Show loading on a frame
     """
     cap = cv2.VideoCapture(get_configs('camera_arg'))
-    ret_add, frame_add = cap.read()
-    add_title_to_screen(frame_add, 'LOADING...', (0, 200, 200))
-    cv2.imshow('Frame', frame_add)
+    ret_add, _frame = cap.read()
+    add_title_to_screen(_frame, 'LOADING...', (0, 200, 200))
+    cv2.imshow('Frame', _frame)
     _key = cv2.waitKey(1)

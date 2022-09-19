@@ -17,15 +17,15 @@ def enter_user_name():
     _cap = cv2.VideoCapture(0)
     _name = ''
     while True:
-        ret_add, frame_add = _cap.read()
-        is_a_face_detected = show_detected_faces_on_screen(frame_add)
+        ret_add, _frame = _cap.read()
+        is_a_face_detected = show_detected_faces_on_screen(_frame)
 
-        add_title_to_screen(frame_add, 'ADD IMAGE: ENTER NAME')
-        add_subtitle_to_screen(frame_add, 'please enter your name: ' + _name)
+        add_title_to_screen(_frame, 'ADD IMAGE: ENTER NAME')
+        add_subtitle_to_screen(_frame, 'please enter your name: ' + _name)
         if not is_a_face_detected:
-            add_description_to_screen(frame_add, 'NO FACE DETECTED!', (0, 0, 200))
+            add_description_to_screen(_frame, 'NO FACE DETECTED!', (0, 0, 200))
 
-        cv2.imshow('Frame', frame_add)
+        cv2.imshow('Frame', _frame)
         _key = cv2.waitKey(1)
 
         if _key != -1:
@@ -61,21 +61,21 @@ def take_and_save_user_image(_name, _index):
     """
     cap = cv2.VideoCapture(get_configs('camera_arg'))
     while True:
-        ret_add, frame_add = cap.read()
-        frame_add_copy = copy.deepcopy(frame_add)
-        is_a_face_detected = show_detected_faces_on_screen(frame_add)
+        ret_add, _frame = cap.read()
+        _frame_copy = copy.deepcopy(_frame)
+        is_a_face_detected = show_detected_faces_on_screen(_frame)
 
-        add_title_to_screen(frame_add,
+        add_title_to_screen(_frame,
                             'ADD IMAGE: ADD IMAGE TO DATABASE ({} / {})'.format(_index, get_configs('images_per_user')))
-        add_subtitle_to_screen(frame_add, 'press ENTER to take picture')
+        add_subtitle_to_screen(_frame, 'press ENTER to take picture')
         if not is_a_face_detected:
-            add_description_to_screen(frame_add, 'NO FACE DETECTED!', (0, 0, 200))
+            add_description_to_screen(_frame, 'NO FACE DETECTED!', (0, 0, 200))
 
-        cv2.imshow('Frame', frame_add)
+        cv2.imshow('Frame', _frame)
         _key = cv2.waitKey(1)
 
         if _key == ENTER and is_a_face_detected:
-            cv2.imwrite('images/{}_{}.jpg'.format(_name, _index), frame_add_copy)
+            cv2.imwrite('images/{}_{}.jpg'.format(_name, _index), _frame_copy)
             break
 
         if _key == ESCAPE:
