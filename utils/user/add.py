@@ -1,15 +1,16 @@
 import copy
-import glob
-import os
+
 import cv2
 
 from constants import *
+from utils.files import generate_next_user_id_from_files
 from utils.screen.faces import show_detected_faces_on_screen
 from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show_loading_on_screen, \
     add_description_to_screen
+from utils.user.authentication import is_user_admin, is_admin_user_authenticated
 
 
-def enter_user_name():
+def enter_user_name(_fr):
     """
     Enter Username
     :return:
@@ -18,7 +19,7 @@ def enter_user_name():
     _name = ''
     while True:
         ret_add, _frame = _cap.read()
-        is_a_face_detected = show_detected_faces_on_screen(_frame)
+        is_a_face_detected = show_detected_faces_on_screen(_fr, _frame)
 
         add_title_to_screen(_frame, 'ADD IMAGE: ENTER NAME')
         add_subtitle_to_screen(_frame, 'please enter your name: ' + _name)
@@ -40,21 +41,10 @@ def enter_user_name():
                 _name = _name.replace('_', ' ')
 
 
-def generate_user_id():
-    """
-    Generate ID for new user.
-    :return:
-    """
-    files = glob.glob(os.path.join(get_configs('images_path'), '*.*'))
-    if not files:
-        return '0000'
-    return '{:04d}'.format(
-        max(list(set(map(lambda x: int(x.split(get_configs('images_path'))[1].split('_')[0]), files)))) + 1)
-
-
-def take_and_save_user_image(_name, _index):
+def take_and_save_user_image(_name, _index, _fr):
     """
     Take a Picture from user and save taken image as a file
+    :param _fr: User ID
     :param _name: User ID
     :param _index:  Replica Index
     :return:
@@ -63,7 +53,7 @@ def take_and_save_user_image(_name, _index):
     while True:
         ret_add, _frame = cap.read()
         _frame_copy = copy.deepcopy(_frame)
-        is_a_face_detected = show_detected_faces_on_screen(_frame)
+        is_a_face_detected = show_detected_faces_on_screen(_fr, _frame)
 
         add_title_to_screen(_frame,
                             'ADD IMAGE: ADD IMAGE TO DATABASE ({} / {})'.format(_index, get_configs('images_per_user')))
@@ -75,19 +65,33 @@ def take_and_save_user_image(_name, _index):
         _key = cv2.waitKey(1)
 
         if _key == ENTER and is_a_face_detected:
-            cv2.imwrite('images/{}_{}.jpg'.format(_name, _index), _frame_copy)
+            cv2.imwrite('{}/{}_{}.jpg'.format(get_configs('images_path'), _name, _index), _frame_copy)
             break
 
         if _key == ESCAPE:
             break
 
 
-def add_user_image_to_dataset():
+def add_user_image_to_dataset(_fr):
     """
     Take Picture from user ``images_per_user`` times
 
     :return:
     """
-    name = generate_user_id()
-    [take_and_save_user_image(_name=name, _index=i + 1) for i in range(get_configs('images_per_user'))]
+    new_id = generate_next_user_id_from_files()
+    [take_and_save_user_image(_name=new_id, _index=i + 1, _fr=_fr) for i in range(get_configs('images_per_user'))]
     show_loading_on_screen()
+
+
+def add_user(_fr):
+    if is_user_admin(_fr):
+        _try = 0
+        while _try < get_configs('wrong_password_limit'):
+            if is_admin_user_authenticated(_fr, retry=_try != 0):
+                add_user_image_to_dataset(_fr)
+                _fr.load_encoding_images(get_configs('images_path'))
+                break
+            else:
+                _try += 1
+    else:
+        print('YOU ARE NOT AN ADMIN')

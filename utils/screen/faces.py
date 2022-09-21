@@ -31,10 +31,11 @@ def draw_rectangle_on_screen(_frame, _y1, _x2, _y2, _x1, _color=(0, 200, 0), _te
         cv2.putText(_frame, _text, (_x1 + 10, _y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, _color, 2)
 
 
-def show_detected_faces_on_screen(_frame):
+def show_detected_faces_on_screen(_fr, _frame):
     """
     Show detected faces on a frame
 
+    :param _fr: face recognition module
     :param _frame: Input frame
     :return: boolean value for checking if any face was detected in input frame
     """
@@ -80,5 +81,6 @@ def show_recognized_faces_on_screen(_frame, _fr):
                 _text='{}{}'.format('*' if _id in get_configs('admin_users') else '', _id)
             )
     except Exception as e:
-        show_detected_faces_on_screen(_frame)
+        show_detected_faces_on_screen(_fr, _frame)
+
     cv2.imshow('Frame', _frame)

@@ -23,10 +23,10 @@ def is_user_admin(_fr):
             face_locations, face_names = _fr.recognize_known_faces(_frame)
             for face_loc, name in zip(face_locations, face_names):
                 detected_faces.append(name.split('_')[0])
-        except Exception:
-            pass
+        except Exception as e:
+            print(e)
 
-        is_a_face_detected = show_detected_faces_on_screen(_frame)
+        is_a_face_detected = show_detected_faces_on_screen(_fr, _frame)
 
         add_title_to_screen(_frame, 'AUTHENTICATION')
         add_subtitle_to_screen(_frame, 'please enter your admin ID: ' + _id)
@@ -59,10 +59,11 @@ def is_user_admin(_fr):
                 _id = _id.replace('_', ' ')
 
 
-def is_admin_user_authenticated(retry):
+def is_admin_user_authenticated(_fr, retry):
     """
     Check if admin entered the password correctly
 
+    :param _fr: face recognition module
     :param retry: show error on page
     :return:
     """
@@ -70,7 +71,7 @@ def is_admin_user_authenticated(retry):
     _password = ''
     while True:
         ret_add, _frame = _cap.read()
-        show_detected_faces_on_screen(_frame)
+        show_detected_faces_on_screen(_fr, _frame)
 
         add_title_to_screen(_frame, 'AUTHENTICATION')
         add_subtitle_to_screen(_frame, 'please enter the password: ' + len(_password) * '*')

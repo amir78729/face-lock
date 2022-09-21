@@ -1,18 +1,9 @@
-import glob
-import os
 import cv2
 
 from constants import *
+from utils.files import get_list_of_files, get_all_user_ids_from_files, delete_user_image_file
 from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show_loading_on_screen
-
-
-def get_all_user_ids():
-    """
-    Generate ID for new user.
-    :return:
-    """
-    files = glob.glob(os.path.join(get_configs('images_path'), '*.*'))  # TODO: make function
-    return list(set(map(lambda x: x.split(get_configs('images_path'))[1].split('_')[0], files)))
+from utils.user.authentication import is_user_admin, is_admin_user_authenticated
 
 
 def enter_id():
@@ -40,8 +31,8 @@ def enter_id():
             elif _key == ESCAPE:
                 break
             elif _key == ENTER:
-                if _id in get_all_user_ids() and _id not in admins:
-                    files = glob.glob(os.path.join(get_configs('images_path'), '*.*'))  # TODO: make function
+                if _id in get_all_user_ids_from_files() and _id not in admins:
+                    files = get_list_of_files()
                     return [x for x in files if _id in x]
 
             else:
@@ -49,7 +40,22 @@ def enter_id():
                 _id = _id.replace('_', ' ')
 
 
-def remove_user():
+def delete_user_images():
     file_paths = enter_id()
-    [os.remove(path) for path in file_paths]
+    [delete_user_image_file(path) for path in file_paths]
     show_loading_on_screen()
+
+
+def delete_user(_fr):
+    if is_user_admin(_fr):
+        _try = 0
+        while _try < get_configs('wrong_password_limit'):
+            if is_admin_user_authenticated(_fr, retry=_try != 0):
+                delete_user_images()
+                _fr.load_encoding_images(
+                    get_configs('images_path'))  # FIXME after deleting user still is detected on screen
+                break
+            else:
+                _try += 1
+    else:
+        print('YOU ARE NOT AN ADMIN')
