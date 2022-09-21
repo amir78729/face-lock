@@ -28,7 +28,7 @@ def is_user_admin(_fr):
 
         is_a_face_detected = show_detected_faces_on_screen(_fr, _frame)
 
-        add_title_to_screen(_frame, 'AUTHENTICATION')
+        add_title_to_screen(_frame, 'AUTHENTICATION', (0, 200, 200))
         add_subtitle_to_screen(_frame, 'please enter your admin ID: ' + _id)
 
         if not is_a_face_detected:
@@ -73,7 +73,7 @@ def is_admin_user_authenticated(_fr, retry):
         ret_add, _frame = _cap.read()
         show_detected_faces_on_screen(_fr, _frame)
 
-        add_title_to_screen(_frame, 'AUTHENTICATION')
+        add_title_to_screen(_frame, 'AUTHENTICATION', (0, 200, 200))
         add_subtitle_to_screen(_frame, 'please enter the password: ' + len(_password) * '*')
         if retry:
             add_description_to_screen(_frame, 'WRONG PASSWORD! TRY AGAIN...', (0, 0, 200))

@@ -2,7 +2,7 @@
   "admin_users": ["0000"],
   "admin_password": "MTIzNA==",
   "images_path": "images/",
-  "images_per_user": 3,
+  "images_per_user": 2,
   "camera_arg": 0,
   "wrong_password_limit": 3,
   "strict_authentication": true
