@@ -42,7 +42,7 @@ def enter_user_name(_fr):
                 _name = _name[:-1]
             elif _key == ESCAPE:
                 break
-            elif _key == ENTER:
+            elif _key == ENTER and _name != '':
                 return get_name()
             else:
                 if get_configs('using_numeric_keypad'):
@@ -106,8 +106,10 @@ def add_user_image_to_dataset(_fr):
     :return:
     """
     new_id = generate_next_user_id_from_files()
-    new_username = enter_user_name(_fr)
-    add_username_by_user_id(new_id, new_username)
+    if get_configs('store_usernames'):
+        new_username = enter_user_name(_fr)
+        if new_username and new_username != '':
+            add_username_by_user_id(new_id, new_username)
     [take_and_save_user_image(_name=new_id, _index=i + 1, _fr=_fr) for i in range(get_configs('images_per_user'))]
     show_loading_on_screen()
 

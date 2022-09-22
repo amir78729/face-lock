@@ -33,15 +33,31 @@ def enter_id():
             elif _key == ENTER:
                 if _id in get_all_user_ids_from_files() and _id not in admins:
                     files = get_list_of_files()
-                    return [x for x in files if _id in x]
+                    return [x for x in files if _id in x], _id
 
             else:
                 _id += chr(_key)
                 _id = _id.replace('_', ' ')
 
 
+def delete_username_by_user_id(_id):
+    """
+    Delete username by id
+
+    :param _id: user id
+    :return:
+    """
+    with open(get_configs('names_data'), 'r') as names_data:
+        json_decoded = json.load(names_data)
+    json_decoded.pop(_id, None)
+
+    with open(get_configs('names_data'), 'w') as names_data:
+        json.dump(json_decoded, names_data)
+
+
 def delete_user_images():
-    file_paths = enter_id()
+    file_paths, _id = enter_id()
+    delete_username_by_user_id(_id)
     [delete_user_image_file(path) for path in file_paths]
     show_loading_on_screen()
 

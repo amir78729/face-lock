@@ -7,5 +7,6 @@
   "camera_arg": 0,
   "wrong_password_limit": 3,
   "strict_authentication": true,
-  "using_numeric_keypad": false
+  "using_numeric_keypad": false,
+  "store_usernames": true
 }
