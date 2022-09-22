@@ -1,6 +1,6 @@
 import cv2
 
-from constants import get_configs
+from constants import get_configs, get_username_by_id
 from face_recognition_module import FaceRecognition
 
 
@@ -65,6 +65,11 @@ def show_recognized_faces_on_screen(_frame, _fr):
     :param _fr: face recognition module
     :return:
     """
+    def get_name(_id):
+        try:
+            return get_username_by_id(_id)
+        except KeyError:
+            return _id
     try:
         face_locations, face_names = _fr.recognize_known_faces(_frame)
         for face_loc, name in zip(face_locations, face_names):
@@ -78,7 +83,7 @@ def show_recognized_faces_on_screen(_frame, _fr):
                 _color=(0, 0, 200) if name == 'Unknown'
                 else (0, 200, 200) if _id in get_configs('admin_users')
                 else (0, 200, 0),
-                _text='{}{}'.format('*' if _id in get_configs('admin_users') else '', _id)
+                _text='{}{}'.format('*' if _id in get_configs('admin_users') else '', get_name(_id))
             )
     except Exception as e:
         show_detected_faces_on_screen(_fr, _frame)

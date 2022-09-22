@@ -84,6 +84,21 @@ def take_and_save_user_image(_name, _index, _fr):
             break
 
 
+def add_username_by_user_id(_id, _username):
+    """
+    Getting username by id
+
+    :param _id: user id
+    :param _username: username
+    :return:
+    """
+    with open(get_configs('names_data'), 'r') as names_data:
+        json_decoded = json.load(names_data)
+    json_decoded[_id] = _username
+    with open(get_configs('names_data'), 'w') as names_data:
+        json.dump(json_decoded, names_data)
+
+
 def add_user_image_to_dataset(_fr):
     """
     Take Picture from user ``images_per_user`` times
@@ -91,8 +106,8 @@ def add_user_image_to_dataset(_fr):
     :return:
     """
     new_id = generate_next_user_id_from_files()
-    new_name = enter_user_name(_fr)
-    print(new_name)
+    new_username = enter_user_name(_fr)
+    add_username_by_user_id(new_id, new_username)
     [take_and_save_user_image(_name=new_id, _index=i + 1, _fr=_fr) for i in range(get_configs('images_per_user'))]
     show_loading_on_screen()
 
