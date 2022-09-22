@@ -4,6 +4,7 @@ import cv2
 
 from constants import *
 from utils.files import generate_next_user_id_from_files
+from utils.keypad import convert_keypad_input_sequence_to_string, standardize_keypad_input_sequence
 from utils.screen.faces import show_detected_faces_on_screen
 from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show_loading_on_screen, \
     add_description_to_screen
@@ -17,12 +18,18 @@ def enter_user_name(_fr):
     """
     _cap = cv2.VideoCapture(0)
     _name = ''
+
+    def get_name():
+        if get_configs('using_numeric_keypad'):
+            return convert_keypad_input_sequence_to_string(standardize_keypad_input_sequence(_name))
+        return _name
+
     while True:
         ret_add, _frame = _cap.read()
         is_a_face_detected = show_detected_faces_on_screen(_fr, _frame)
 
         add_title_to_screen(_frame, 'ADD IMAGE: ENTER NAME')
-        add_subtitle_to_screen(_frame, 'please enter your name: ' + _name)
+        add_subtitle_to_screen(_frame, 'please enter your name: ' + get_name())
         if not is_a_face_detected:
             add_description_to_screen(_frame, 'NO FACE DETECTED!', (0, 0, 200))
 
@@ -34,8 +41,8 @@ def enter_user_name(_fr):
                 _name = _name[:-1]
             elif _key == ESCAPE:
                 break
-            elif _key == ENTER and _name != '':
-                return _name
+            elif _key == ENTER:
+                return get_name()
             else:
                 _name += chr(_key)
                 _name = _name.replace('_', ' ')
@@ -79,6 +86,8 @@ def add_user_image_to_dataset(_fr):
     :return:
     """
     new_id = generate_next_user_id_from_files()
+    new_name = enter_user_name(_fr)
+    print(new_name)
     [take_and_save_user_image(_name=new_id, _index=i + 1, _fr=_fr) for i in range(get_configs('images_per_user'))]
     show_loading_on_screen()
 

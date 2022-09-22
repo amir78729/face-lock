@@ -90,3 +90,16 @@ def is_admin_user_authenticated(_fr, retry):
             else:
                 _password += chr(_key)
                 _password = _password.replace('_', ' ')
+
+
+def run_a_function_after_authenticating_admin(_fr, function):  # FIXME
+    if is_user_admin(_fr):
+        _try = 0
+        while _try < get_configs('wrong_password_limit'):
+            if is_admin_user_authenticated(_fr, retry=_try != 0):
+                function()
+                break
+            else:
+                _try += 1
+    else:
+        print('YOU ARE NOT AN ADMIN')

@@ -5,5 +5,6 @@
   "images_per_user": 2,
   "camera_arg": 0,
   "wrong_password_limit": 3,
-  "strict_authentication": true
+  "strict_authentication": true,
+  "using_numeric_keypad": false
 }
