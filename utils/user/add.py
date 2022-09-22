@@ -4,7 +4,8 @@ import cv2
 
 from constants import *
 from utils.files import generate_next_user_id_from_files
-from utils.keypad import convert_keypad_input_sequence_to_string, standardize_keypad_input_sequence
+from utils.keypad import convert_keypad_input_sequence_to_string, standardize_keypad_input_sequence, \
+    KEYPAD_VALID_NUMERIC_INPUTS
 from utils.screen.faces import show_detected_faces_on_screen
 from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show_loading_on_screen, \
     add_description_to_screen
@@ -44,8 +45,12 @@ def enter_user_name(_fr):
             elif _key == ENTER:
                 return get_name()
             else:
-                _name += chr(_key)
-                _name = _name.replace('_', ' ')
+                if get_configs('using_numeric_keypad'):
+                    if chr(_key) in KEYPAD_VALID_NUMERIC_INPUTS:
+                        _name += chr(_key)
+                else:
+                    _name += chr(_key)
+                    _name = _name.replace('_', ' ')
 
 
 def take_and_save_user_image(_name, _index, _fr):

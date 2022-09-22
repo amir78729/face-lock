@@ -70,7 +70,6 @@ def standardize_keypad_input_sequence(input_string):
     result = ''
     if input_string != '':
         for i in range(len(input_string) - 1):
-            print(input_string[i], input_string[i + 1], input_string[i] == input_string[i + 1])
             result += input_string[i]
             if not input_string[i] == input_string[i + 1] and '#' not in [input_string[i], input_string[i + 1]]:
                 result += '#'
