@@ -1,12 +1,12 @@
 {
   "admin_users": ["0000"],
   "admin_password": "MTIzNA==",
-  "images_path": "data/images/",
+  "store_usernames": true,
   "names_data": "data/names.json",
+  "using_numeric_keypad": false,
+  "images_path": "data/images/",
   "images_per_user": 2,
   "camera_arg": 0,
   "wrong_password_limit": 3,
-  "strict_authentication": true,
-  "using_numeric_keypad": false,
-  "store_usernames": true
+  "strict_authentication": true
 }
