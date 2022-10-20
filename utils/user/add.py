@@ -10,6 +10,7 @@ from utils.screen.faces import show_detected_faces_on_screen
 from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show_loading_on_screen, \
     add_description_to_screen
 from utils.user.authentication import is_user_admin, is_admin_user_authenticated
+from utils.logger import log
 
 
 def enter_user_name(_fr):
@@ -43,6 +44,8 @@ def enter_user_name(_fr):
             elif _key == ESCAPE:
                 break
             elif _key == ENTER and _name != '':
+                if get_configs('logging')['use_logging_in_admin_login']:
+                    log('username entered: "{}"'.format(get_name()))
                 return get_name()
             else:
                 if get_configs('using_numeric_keypad'):
@@ -98,6 +101,9 @@ def add_username_by_user_id(_id, _username):
     with open(get_configs('names_data'), 'w') as names_data:
         json.dump(json_decoded, names_data)
 
+        if get_configs('logging')['use_logging_in_add_user']:
+            log('name "{}" added for user "{}"'.format(_username, _id))
+
 
 def add_user_image_to_dataset(_fr):
     """
@@ -111,18 +117,30 @@ def add_user_image_to_dataset(_fr):
         if new_username and new_username != '':
             add_username_by_user_id(new_id, new_username)
     [take_and_save_user_image(_name=new_id, _index=i + 1, _fr=_fr) for i in range(get_configs('images_per_user'))]
+    if get_configs('logging')['use_logging_in_add_user']:
+        log('user "{}" added successfully'.format(new_id))
     show_loading_on_screen()
 
 
 def add_user(_fr):
+    if get_configs('logging')['use_logging_in_add_user']:
+        log('adding user...')
     if is_user_admin(_fr):
+        if get_configs('logging')['use_logging_in_admin_login']:
+            log('admin entered user id')
         _try = 0
         while _try < get_configs('wrong_password_limit'):
             if is_admin_user_authenticated(_fr, retry=_try != 0):
+                if get_configs('logging')['use_logging_in_admin_login']:
+                    log('admin logged in')
                 add_user_image_to_dataset(_fr)
                 _fr.load_encoding_images(get_configs('images_path'))
                 break
             else:
+                if get_configs('logging')['use_logging_in_wrong_password']:
+                    log('wrong password')
                 _try += 1
+
     else:
-        print('YOU ARE NOT AN ADMIN')
+        if get_configs('logging')['use_logging_in_add_user']:
+            log('adding canceled')

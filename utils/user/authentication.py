@@ -4,6 +4,7 @@ from constants import *
 from utils.screen.faces import show_detected_faces_on_screen
 from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, add_description_to_screen
 from utils.security import get_encrypted_password
+from utils.logger import log
 
 
 def is_user_admin(_fr):
@@ -77,6 +78,7 @@ def is_admin_user_authenticated(_fr, retry):
         add_subtitle_to_screen(_frame, 'please enter the password: ' + len(_password) * '*')
         if retry:
             add_description_to_screen(_frame, 'WRONG PASSWORD! TRY AGAIN...', (0, 0, 200))
+
         cv2.imshow('Frame', _frame)
         _key = cv2.waitKey(1)
 

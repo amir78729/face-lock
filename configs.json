@@ -8,5 +8,14 @@
   "images_per_user": 2,
   "camera_arg": 0,
   "wrong_password_limit": 3,
-  "strict_authentication": true
+  "strict_authentication": true,
+  "logging": {
+    "file_path": ".logs",
+    "log_in_file": true,
+    "log_in_console": true,
+    "use_logging_in_add_user": true,
+    "use_logging_in_delete_user": true,
+    "use_logging_in_admin_login": true,
+    "use_logging_in_wrong_password": true
+  }
 }
