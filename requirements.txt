@@ -3,3 +3,5 @@ cmake
 dlib
 face_recognition
 tqdm
+matplotlib
+numpy
