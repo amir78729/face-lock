@@ -6,6 +6,7 @@ import numpy as np
 from tqdm import tqdm
 from constants import *
 
+
 class FaceRecognition:
     def __init__(self):
         self.known_face_encodings = []
