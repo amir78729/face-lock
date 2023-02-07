@@ -4,7 +4,7 @@ import os
 import glob
 import numpy as np
 from tqdm import tqdm
-
+from constants import *
 
 class FaceRecognition:
     def __init__(self):
@@ -65,7 +65,11 @@ class FaceRecognition:
         face_names = []
         for face_encoding in face_encodings:
             # See if the face is a match for the known face(s)
-            matches = face_recognition.compare_faces(self.known_face_encodings, face_encoding)
+            matches = face_recognition.compare_faces(
+                self.known_face_encodings,
+                face_encoding,
+                tolerance=get_configs('face_recognition')['tolerance']
+            )
             name = "Unknown"
             face_distances = face_recognition.face_distance(self.known_face_encodings, face_encoding)
             best_match_index = np.argmin(face_distances)

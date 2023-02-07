@@ -17,5 +17,8 @@
     "use_logging_in_delete_user": true,
     "use_logging_in_admin_login": true,
     "use_logging_in_wrong_password": true
+  },
+  "face_recognition": {
+    "tolerance": 0.5
   }
 }
