@@ -29,7 +29,7 @@ if __name__ == '__main__':
         if key == ord('d'):
             delete_user(fr)
 
-        if key == ESCAPE:
+        if key == ESCAPE or key == ord('q'):
             break
 
     cap.release()
