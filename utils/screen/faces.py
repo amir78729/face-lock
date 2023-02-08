@@ -52,7 +52,7 @@ def show_detected_faces_on_screen(_fr, _frame):
                     _face_loc[3],
                     _color=(200, 200, 200),
                 )
-        return _face_locations.any()
+        return _face_locations.any(), _face_locations
     except Exception as e:
         print(e)
 

@@ -27,7 +27,7 @@ def is_user_admin(_fr):
         except Exception as e:
             print(e)
 
-        is_a_face_detected = show_detected_faces_on_screen(_fr, _frame)
+        is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
 
         add_title_to_screen(_frame, 'AUTHENTICATION', (0, 200, 200))
         add_subtitle_to_screen(_frame, 'please enter your admin ID: ' + _id)
