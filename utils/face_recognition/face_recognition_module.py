@@ -1,4 +1,5 @@
-import face_recognition
+# import face_recognition
+from services.face_recognition import face_encodings, face_locations, face_distance, compare_faces
 import cv2
 import os
 import glob
@@ -21,9 +22,9 @@ class FaceRecognition:
         :return:
         """
         # Load Images
-        images_path = glob.glob(os.path.join(images_path, "*.*"))
+        images_path = glob.glob(os.path.join(images_path, '*.*'))
 
-        print("{} encoding images found.".format(len(images_path)))
+        print('{} encoding images found.'.format(len(images_path)))
 
         try:
             # Store image encoding and names
@@ -35,12 +36,12 @@ class FaceRecognition:
                 basename = os.path.basename(img_path)
                 (filename, ext) = os.path.splitext(basename)
                 # Get encoding
-                img_encoding = face_recognition.face_encodings(rgb_img)[0]
+                img_encoding = face_encodings(rgb_img)[0]
 
                 # Store file name and file encoding
                 self.known_face_encodings.append(img_encoding)
                 self.known_face_names.append(filename)
-            print("Encoding images loaded")
+            print('Encoding images loaded')
         except Exception as e:
             print(e)
 
@@ -60,28 +61,28 @@ class FaceRecognition:
         # Find all the faces.py and face encodings in the current frame of video
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
         small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
-        face_locations = face_recognition.face_locations(small_frame)
-        face_encodings = face_recognition.face_encodings(small_frame, face_locations)
+        _face_locations = face_locations(small_frame)
+        _face_encodings = face_encodings(small_frame, _face_locations)
 
         face_names = []
-        for face_encoding in face_encodings:
+        for face_encoding in _face_encodings:
             # See if the face is a match for the known face(s)
-            matches = face_recognition.compare_faces(
+            matches = compare_faces(
                 self.known_face_encodings,
                 face_encoding,
                 tolerance=get_configs('face_recognition')['tolerance']
             )
-            name = "Unknown"
-            face_distances = face_recognition.face_distance(self.known_face_encodings, face_encoding)
+            name = 'Unknown'
+            face_distances = face_distance(self.known_face_encodings, face_encoding)
             best_match_index = np.argmin(face_distances)
             if matches[best_match_index]:
                 name = self.known_face_names[best_match_index]
             face_names.append(name)
 
         # Convert to numpy array to adjust coordinates with frame resizing quickly
-        face_locations = np.array(face_locations)
-        face_locations = face_locations / self.frame_resizing
-        return face_locations.astype(int), face_names
+        _face_locations = np.array(_face_locations)
+        _face_locations = _face_locations / self.frame_resizing
+        return _face_locations.astype(int), face_names
 
     def detect_faces(self, frame):
         """
@@ -97,7 +98,7 @@ class FaceRecognition:
             fy=self.frame_resizing
         )
         small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
-        face_locations = face_recognition.face_locations(small_frame)
-        face_locations = np.array(face_locations)
-        face_locations = face_locations / self.frame_resizing
-        return face_locations.astype(int)
+        _face_locations = face_locations(small_frame)
+        _face_locations = np.array(_face_locations)
+        _face_locations = _face_locations / self.frame_resizing
+        return _face_locations.astype(int)

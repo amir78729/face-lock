@@ -1,7 +1,9 @@
 opencv-python
 cmake
 dlib
-face_recognition
+face_recognition_models
 tqdm
 matplotlib
 numpy
+nexmo
+Pillow

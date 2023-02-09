@@ -21,12 +21,18 @@ def is_user_admin(_fr):
         detected_faces = []
         try:
             face_locations, face_names = _fr.recognize_known_faces(_frame)
+
+            # print(face_locations)
+            # print(face_names)
             for face_loc, name in zip(face_locations, face_names):
                 detected_faces.append(name.split('_')[0])
         except Exception as e:
             print(e)
 
         is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
+
+        print(is_a_face_detected)
+        print(face_locations)
 
         add_title_to_screen(_frame, 'AUTHENTICATION', (0, 200, 200))
         add_subtitle_to_screen(_frame, 'please enter your admin ID: ' + _id)
@@ -41,7 +47,7 @@ def is_user_admin(_fr):
                 else:
                     add_description_to_screen(_frame, 'YOU ARE NOT AN ADMIN!', (0, 0, 200))
             elif _id != '':
-                add_description_to_screen(_frame, 'YOUR ID IS NOT "{}"'.format(_id), (0, 0, 200))
+                add_description_to_screen(_frame, 'YOUR ID IS NOT '{}''.format(_id), (0, 0, 200))
 
         cv2.imshow('Frame', _frame)
         _key = cv2.waitKey(1)

@@ -72,6 +72,8 @@ def show_recognized_faces_on_screen(_frame, _fr):
             return _id
     try:
         face_locations, face_names = _fr.recognize_known_faces(_frame)
+        print(face_locations)
+        print(face_names)
         for face_loc, name in zip(face_locations, face_names):
             _id = name.split('_')[0]
             draw_rectangle_on_screen(

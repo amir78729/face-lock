@@ -61,7 +61,7 @@ def delete_user_images():
     delete_username_by_user_id(_id)
     [delete_user_image_file(path) for path in file_paths]
     if get_configs('logging')['use_logging_in_delete_user']:
-        log('user "{}" deleted successfully'.format(_id))
+        log('user '{}' deleted successfully'.format(_id))
     show_loading_on_screen()
 
 
