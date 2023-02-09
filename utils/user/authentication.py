@@ -3,7 +3,7 @@ import cv2
 from constants import *
 from utils.screen.faces import show_detected_faces_on_screen
 from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, add_description_to_screen
-from utils.security.encryption import get_encrypted_password
+from utils.encryption import get_encrypted_password
 
 
 def is_user_admin(_fr):

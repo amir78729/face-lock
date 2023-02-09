@@ -1,7 +1,7 @@
 import cv2
 
 from constants import *
-from utils.face_recognition.face_recognition_module import FaceRecognition
+from utils.face_recognition import FaceRecognition
 from utils.screen.faces import show_recognized_faces_on_screen
 from utils.user.add import add_user
 from utils.user.delete import delete_user

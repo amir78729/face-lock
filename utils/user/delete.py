@@ -1,10 +1,10 @@
 import cv2
 
 from constants import *
-from utils.files.files import get_list_of_files, get_all_user_ids_from_files, delete_user_image_file
+from utils.files import get_list_of_files, get_all_user_ids_from_files, delete_user_image_file
 from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show_loading_on_screen
 from utils.user.authentication import is_user_admin, is_admin_user_authenticated
-from utils.logger.log import log
+from utils.log import log
 
 
 def enter_id():

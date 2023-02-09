@@ -3,14 +3,14 @@ import copy
 import cv2
 
 from constants import *
-from utils.files.files import generate_next_user_id_from_files
-from utils.keypad.keypad import convert_keypad_input_sequence_to_string, standardize_keypad_input_sequence, \
+from utils.files import generate_next_user_id_from_files
+from utils.keypad import convert_keypad_input_sequence_to_string, standardize_keypad_input_sequence, \
     KEYPAD_VALID_NUMERIC_INPUTS
 from utils.screen.faces import show_detected_faces_on_screen
 from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show_loading_on_screen, \
     add_description_to_screen
 from utils.user.authentication import is_user_admin, is_admin_user_authenticated
-from utils.logger.log import log
+from utils.log import log
 
 
 def enter_user_name(_fr):
