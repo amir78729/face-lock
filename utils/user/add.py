@@ -29,8 +29,6 @@ def enter_user_name(_fr):
     while True:
         ret_add, _frame = _cap.read()
         is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
-        print(is_a_face_detected)
-        print(face_locations)
         add_title_to_screen(_frame, 'ADD IMAGE: ENTER NAME')
         add_subtitle_to_screen(_frame, 'please enter your name: ' + get_name())
         if not is_a_face_detected:
@@ -70,7 +68,6 @@ def take_and_save_user_image(_name, _index, _fr):
         ret_add, _frame = cap.read()
         _frame_copy = copy.deepcopy(_frame)
         is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
-        print(_frame_copy)
 
         add_title_to_screen(_frame,
                             'ADD IMAGE: ADD IMAGE TO DATABASE ({} / {})'.format(_index, get_configs('images_per_user')))

@@ -2,6 +2,7 @@ from constants import *
 import calendar
 import time
 
+
 def log(_msg):
     log_config = get_configs('logging')
 
