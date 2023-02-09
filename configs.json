@@ -19,6 +19,6 @@
     "use_logging_in_wrong_password": true
   },
   "face_recognition": {
-    "tolerance": 0.5
+    "tolerance": 0.4
   }
 }

@@ -1,7 +1,7 @@
 import cv2
 
 from constants import get_configs, get_username_by_id
-from face_recognition_module import FaceRecognition
+from utils.face_recognition.face_recognition_module import FaceRecognition
 
 
 def draw_rectangle_on_screen(_frame, _y1, _x2, _y2, _x1, _color=(0, 200, 0), _text=''):
