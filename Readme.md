@@ -31,8 +31,9 @@ graph
     enter_id_delete --> train
     
     main(Main view) -->|opening the door|authentication{Authentication}
-    authentication --> |success|door_open(Open Door)
-    authentication --> |failure|door_close(Show Warning)
+    authentication --> |Authenticated|door_open(Show Success Message)
+    authentication --> |No Face Detected|door_close(Show Error Message)
+    authentication --> |Not Authenticated|door_close(Show Error Message)
     door_close --> main
     door_open --> main
     
