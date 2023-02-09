@@ -6,6 +6,12 @@ ENTER = 13
 TAB = 9
 DELETE = 127
 
+YELLOW = (0, 200, 200)
+RED = (0, 0, 200)
+WHITE = (200, 200, 200)
+GREEN = (0, 200, 0)
+BLACK = (0, 0, 0)
+
 
 def get_configs(config_key):
     """

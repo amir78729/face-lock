@@ -22,8 +22,6 @@ def is_user_admin(_fr):
         try:
             face_locations, face_names = _fr.recognize_known_faces(_frame)
 
-            # print(face_locations)
-            # print(face_names)
             for face_loc, name in zip(face_locations, face_names):
                 detected_faces.append(name.split('_')[0])
         except Exception as e:
@@ -31,23 +29,20 @@ def is_user_admin(_fr):
 
         is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
 
-        print(is_a_face_detected)
-        print(face_locations)
-
-        add_title_to_screen(_frame, 'AUTHENTICATION', (0, 200, 200))
+        add_title_to_screen(_frame, 'AUTHENTICATION', YELLOW)
         add_subtitle_to_screen(_frame, 'please enter your admin ID: ' + _id)
 
         if not is_a_face_detected:
-            add_description_to_screen(_frame, 'NO FACE DETECTED!', (0, 0, 200))
+            add_description_to_screen(_frame, 'NO FACE DETECTED!', RED)
 
         if is_authentication_strict:
             if is_a_face_detected and _id in detected_faces:
                 if _id in get_configs('admin_users'):
-                    add_description_to_screen(_frame, 'PRESS ENTER TO CONTINUE!', (0, 200, 0))
+                    add_description_to_screen(_frame, 'PRESS ENTER TO CONTINUE!', GREEN)
                 else:
-                    add_description_to_screen(_frame, 'YOU ARE NOT AN ADMIN!', (0, 0, 200))
+                    add_description_to_screen(_frame, 'YOU ARE NOT AN ADMIN!', RED)
             elif _id != '':
-                add_description_to_screen(_frame, 'YOUR ID IS NOT '{}''.format(_id), (0, 0, 200))
+                add_description_to_screen(_frame, 'YOUR ID IS NOT "{}"'.format(_id), RED)
 
         cv2.imshow('Frame', _frame)
         _key = cv2.waitKey(1)
@@ -79,10 +74,10 @@ def is_admin_user_authenticated(_fr, retry):
         ret_add, _frame = _cap.read()
         show_detected_faces_on_screen(_fr, _frame)
 
-        add_title_to_screen(_frame, 'AUTHENTICATION', (0, 200, 200))
+        add_title_to_screen(_frame, 'AUTHENTICATION', YELLOW)
         add_subtitle_to_screen(_frame, 'please enter the password: ' + len(_password) * '*')
         if retry:
-            add_description_to_screen(_frame, 'WRONG PASSWORD! TRY AGAIN...', (0, 0, 200))
+            add_description_to_screen(_frame, 'WRONG PASSWORD! TRY AGAIN...', RED)
 
         cv2.imshow('Frame', _frame)
         _key = cv2.waitKey(1)
@@ -99,14 +94,28 @@ def is_admin_user_authenticated(_fr, retry):
                 _password = _password.replace('_', ' ')
 
 
-def run_a_function_after_authenticating_admin(_fr, function):  # FIXME
-    if is_user_admin(_fr):
-        _try = 0
-        while _try < get_configs('wrong_password_limit'):
-            if is_admin_user_authenticated(_fr, retry=_try != 0):
-                function()
-                break
-            else:
-                _try += 1
-    else:
-        print('YOU ARE NOT AN ADMIN')
+def enter_user(_fr):
+    _cap = cv2.VideoCapture(0)
+    _id = ''
+    while True:
+        ret_add, _frame = _cap.read()
+        detected_faces = []
+        try:
+            face_locations, face_names = _fr.recognize_known_faces(_frame)
+
+            for face_loc, name in zip(face_locations, face_names):
+                detected_faces.append(name.split('_')[0])
+        except Exception as e:
+            print(e)
+
+        is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
+
+        add_title_to_screen(_frame, 'DOOR IS OPEN', GREEN)
+        add_subtitle_to_screen(_frame, 'WELCOME!')
+        add_description_to_screen(_frame, "Don't forget to close the door!", YELLOW)
+
+        cv2.imshow('Frame', _frame)
+        _key = cv2.waitKey(1)
+
+        if _key == ENTER:
+            break

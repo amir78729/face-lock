@@ -20,7 +20,7 @@ def enter_id():
     while True:
         ret_add, _frame = _cap.read()
 
-        add_title_to_screen(_frame, 'DELETE USER', (0, 0, 200))
+        add_title_to_screen(_frame, 'DELETE USER', RED)
         add_subtitle_to_screen(_frame, 'please enter id to delete: ' + _id)
 
         cv2.imshow('Frame', _frame)
@@ -61,7 +61,7 @@ def delete_user_images():
     delete_username_by_user_id(_id)
     [delete_user_image_file(path) for path in file_paths]
     if get_configs('logging')['use_logging_in_delete_user']:
-        log('user '{}' deleted successfully'.format(_id))
+        log('user "{}" deleted successfully'.format(_id))
     show_loading_on_screen()
 
 

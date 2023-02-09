@@ -1,10 +1,10 @@
 import cv2
 
-from constants import get_configs, get_username_by_id
+from constants import *
 from utils.face_recognition import FaceRecognition
 
 
-def draw_rectangle_on_screen(_frame, _y1, _x2, _y2, _x1, _color=(0, 200, 0), _text=''):
+def draw_rectangle_on_screen(_frame, _y1, _x2, _y2, _x1, _color=GREEN, _text=''):
     """
     Draw a rectangle on a frame
 
@@ -18,16 +18,16 @@ def draw_rectangle_on_screen(_frame, _y1, _x2, _y2, _x1, _color=(0, 200, 0), _te
     :return:
     """
     if _text == '':
-        cv2.rectangle(_frame, (_x1, _y1), (_x2, _y2), (0, 0, 0), 6)
+        cv2.rectangle(_frame, (_x1, _y1), (_x2, _y2), BLACK, 6)
     else:
-        cv2.rectangle(_frame, (_x1, _y1 - 40), (_x2, _y2), (0, 0, 0), 6)
-        cv2.rectangle(_frame, (_x1, _y1 - 40), (_x2, _y1), (0, 0, 0), 6)
+        cv2.rectangle(_frame, (_x1, _y1 - 40), (_x2, _y2), BLACK, 6)
+        cv2.rectangle(_frame, (_x1, _y1 - 40), (_x2, _y1), BLACK, 6)
 
     cv2.rectangle(_frame, (_x1, _y1), (_x2, _y2), _color, 2)
     if _text != '':
-        cv2.rectangle(_frame, (_x1, _y1 - 40), (_x2, _y1), (0, 0, 0), -1)
+        cv2.rectangle(_frame, (_x1, _y1 - 40), (_x2, _y1), BLACK, -1)
         cv2.rectangle(_frame, (_x1, _y1 - 40), (_x2, _y1), _color, 2)
-        cv2.putText(_frame, _text, (_x1 + 10, _y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 0), 6)
+        cv2.putText(_frame, _text, (_x1 + 10, _y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, BLACK, 6)
         cv2.putText(_frame, _text, (_x1 + 10, _y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, _color, 2)
 
 
@@ -50,7 +50,7 @@ def show_detected_faces_on_screen(_fr, _frame):
                     _face_loc[1],
                     _face_loc[2],
                     _face_loc[3],
-                    _color=(200, 200, 200),
+                    _color=WHITE,
                 )
         return _face_locations.any(), _face_locations
     except Exception as e:
@@ -72,8 +72,7 @@ def show_recognized_faces_on_screen(_frame, _fr):
             return _id
     try:
         face_locations, face_names = _fr.recognize_known_faces(_frame)
-        print(face_locations)
-        print(face_names)
+
         for face_loc, name in zip(face_locations, face_names):
             _id = name.split('_')[0]
             draw_rectangle_on_screen(
@@ -82,9 +81,9 @@ def show_recognized_faces_on_screen(_frame, _fr):
                 face_loc[1],
                 face_loc[2],
                 face_loc[3],
-                _color=(0, 0, 200) if name == 'Unknown'
-                else (0, 200, 200) if _id in get_configs('admin_users')
-                else (0, 200, 0),
+                _color=RED if name == 'Unknown'
+                else YELLOW if _id in get_configs('admin_users')
+                else GREEN,
                 _text='{}{}'.format('*' if _id in get_configs('admin_users') else '', get_name(_id))
             )
     except Exception as e:

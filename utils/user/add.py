@@ -32,7 +32,7 @@ def enter_user_name(_fr):
         add_title_to_screen(_frame, 'ADD IMAGE: ENTER NAME')
         add_subtitle_to_screen(_frame, 'please enter your name: ' + get_name())
         if not is_a_face_detected:
-            add_description_to_screen(_frame, 'NO FACE DETECTED!', (0, 0, 200))
+            add_description_to_screen(_frame, 'NO FACE DETECTED!', RED)
 
         cv2.imshow('Frame', _frame)
         _key = cv2.waitKey(1)
@@ -44,7 +44,7 @@ def enter_user_name(_fr):
                 break
             elif _key == ENTER and _name != '':
                 if get_configs('logging')['use_logging_in_admin_login']:
-                    log('username entered: '{}''.format(get_name()))
+                    log('username entered: "{}"'.format(get_name()))
                 return get_name()
             else:
                 if get_configs('using_numeric_keypad'):
@@ -73,7 +73,7 @@ def take_and_save_user_image(_name, _index, _fr):
                             'ADD IMAGE: ADD IMAGE TO DATABASE ({} / {})'.format(_index, get_configs('images_per_user')))
         add_subtitle_to_screen(_frame, 'press ENTER to take picture')
         if not is_a_face_detected:
-            add_description_to_screen(_frame, 'NO FACE DETECTED!', (0, 0, 200))
+            add_description_to_screen(_frame, 'NO FACE DETECTED!', RED)
 
         cv2.imshow('Frame', _frame)
         _key = cv2.waitKey(1)
@@ -105,7 +105,7 @@ def add_username_by_user_id(_id, _username):
         json.dump(json_decoded, names_data)
 
         if get_configs('logging')['use_logging_in_add_user']:
-            log('name '{}' added for user '{}''.format(_username, _id))
+            log('name "{}" added for user "{}"'.format(_username, _id))
 
 
 def add_user_image_to_dataset(_fr):
@@ -121,7 +121,7 @@ def add_user_image_to_dataset(_fr):
             add_username_by_user_id(new_id, new_username)
     [take_and_save_user_image(_name=new_id, _index=i + 1, _fr=_fr) for i in range(get_configs('images_per_user'))]
     if get_configs('logging')['use_logging_in_add_user']:
-        log('user '{}' added successfully'.format(new_id))
+        log('user "{}" added successfully'.format(new_id))
     show_loading_on_screen()
 
 

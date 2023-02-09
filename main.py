@@ -5,6 +5,7 @@ from utils.face_recognition import FaceRecognition
 from utils.screen.faces import show_recognized_faces_on_screen
 from utils.user.add import add_user
 from utils.user.delete import delete_user
+from utils.user.authentication import enter_user
 
 if __name__ == '__main__':
     # Encode faces.py from a folder
@@ -23,13 +24,13 @@ if __name__ == '__main__':
         show_recognized_faces_on_screen(frame, fr)
 
         key = cv2.waitKey(1)
+        if key == ENTER:
+            enter_user(fr)
         if key == ord('a'):
             add_user(fr)
-
-        if key == ord('d'):
+        elif key == ord('d'):
             delete_user(fr)
-
-        if key == ESCAPE or key == ord('q'):
+        elif key == ESCAPE or key == ord('q'):
             break
 
     cap.release()
