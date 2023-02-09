@@ -1,9 +1,12 @@
 import cv2
+import time
 
 from utils.screen.faces import show_detected_faces_on_screen
 from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, add_description_to_screen
 from utils.encryption import get_encrypted_password
 from utils.files import get_configs
+from utils.user.retrieve import get_username_by_id
+from utils.log import log
 from constants.keys import *
 from constants.colors import *
 
@@ -97,27 +100,34 @@ def is_admin_user_authenticated(_fr, retry):
 
 
 def enter_user(_fr):
-    _cap = cv2.VideoCapture(0)
-    _id = ''
-    while True:
-        ret_add, _frame = _cap.read()
-        detected_faces = []
+    def get_name(_id):
         try:
-            face_locations, face_names = _fr.recognize_known_faces(_frame)
+            return get_username_by_id(_id)
+        except KeyError:
+            return _id
+    cap = cv2.VideoCapture(get_configs('camera_arg'))
+    ret_add, _frame = cap.read()
+    face_locations, face_names = _fr.recognize_known_faces(_frame)
 
-            for face_loc, name in zip(face_locations, face_names):
-                detected_faces.append(name.split('_')[0])
-        except Exception as e:
-            print(e)
+    try:
+        name = get_name(face_names[0])
+        if name == 'Unknown':
+            add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
+            add_subtitle_to_screen(_frame, 'You are not able to enter')
+            add_description_to_screen(_frame, "please call system's administrator", YELLOW)
+            log('unsuccessful entrance, unauthorized access')
+        else:
+            add_title_to_screen(_frame, 'DOOR IS OPEN', GREEN)
+            add_subtitle_to_screen(_frame, 'WELCOME!')
+            add_description_to_screen(_frame, "Don't forget to close the door!", YELLOW)
+            log('"{}" entered'.format(name))
+    except (IndexError, TypeError):
+        add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
+        add_subtitle_to_screen(_frame, 'No face was detected!', YELLOW)
+        add_description_to_screen(_frame, "Please try again...")
+        log('unsuccessful entrance, no face detected')
 
-        is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
+    cv2.imshow('Frame', _frame)
+    _key = cv2.waitKey(1)
+    time.sleep(3)
 
-        add_title_to_screen(_frame, 'DOOR IS OPEN', GREEN)
-        add_subtitle_to_screen(_frame, 'WELCOME!')
-        add_description_to_screen(_frame, "Don't forget to close the door!", YELLOW)
-
-        cv2.imshow('Frame', _frame)
-        _key = cv2.waitKey(1)
-
-        if _key == ENTER:
-            break

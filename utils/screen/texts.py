@@ -1,6 +1,9 @@
 import cv2
 
-from constants import *
+from constants.keys import *
+from constants.colors import *
+from utils.files import get_configs
+
 
 
 def add_title_to_screen(_frame, _text, _color=WHITE):
