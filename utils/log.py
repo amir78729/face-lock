@@ -1,4 +1,3 @@
-import calendar
 import time
 
 from utils.files import get_configs
@@ -7,7 +6,7 @@ from utils.files import get_configs
 def log(_msg):
     log_config = get_configs('logging')
 
-    time_stamp = calendar.timegm(time.gmtime())
+    time_stamp = time.ctime(time.time())
     log_msg = '{}: {}\n'.format(time_stamp, _msg.upper())
 
     if log_config['log_in_console']:
