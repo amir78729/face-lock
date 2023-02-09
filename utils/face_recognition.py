@@ -61,7 +61,7 @@ class FaceRecognition:
         # Find all the faces.py and face encodings in the current frame of video
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
         small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
-        _face_locations = face_locations(small_frame)
+        _face_locations = face_locations(small_frame, get_configs('face_recognition')['number_of_times_to_upsample'], get_configs('face_recognition')['model'])
         _face_encodings = face_encodings(small_frame, _face_locations)
 
         face_names = []
@@ -98,7 +98,7 @@ class FaceRecognition:
             fy=self.frame_resizing
         )
         small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
-        _face_locations = face_locations(small_frame)
+        _face_locations = face_locations(small_frame, get_configs('face_recognition')['number_of_times_to_upsample'], get_configs('face_recognition')['model'])
         _face_locations = np.array(_face_locations)
         _face_locations = _face_locations / self.frame_resizing
         return _face_locations.astype(int)

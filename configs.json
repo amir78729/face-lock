@@ -19,6 +19,9 @@
     "use_logging_in_wrong_password": true
   },
   "face_recognition": {
-    "tolerance": 0.4
+    "tolerance": 0.4,
+    "num_jitters": 1,
+    "number_of_times_to_upsample": 1,
+    "model": "hog"
   }
 }
