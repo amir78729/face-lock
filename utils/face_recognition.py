@@ -5,7 +5,7 @@ import os
 import glob
 import numpy as np
 from tqdm import tqdm
-from constants import *
+from utils.files import get_configs
 
 
 class FaceRecognition:

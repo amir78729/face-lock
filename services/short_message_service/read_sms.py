@@ -12,7 +12,7 @@ class SmsModem:
         self.ser = serial_device
         self.owing = None
         if serial_device is not None:
-            self.ser.write(b'ATE0+CMGDA='DEL ALL'\r')  # echo off, clear all messages on SIM900
+            self.ser.write(b"ATE0+CMGDA='DEL ALL'\r")  # echo off, clear all messages on SIM900
             self.owing = Indication.OK
 
     def writeline(self, text):
@@ -43,7 +43,7 @@ def message_type(message):
                 n = re.search('(\d+)', m.group(2))
                 return Indication.RX_SMS, n.group(1)
             elif m.group(1) == 'CMGR':
-                sections = re.findall(r''(.*?)'', m.group(2))
+                sections = re.findall(r"'(.*?)'", m.group(2))
                 return Indication.TEXT, sections
 
         m = re.match('OK', message)

@@ -1,8 +1,9 @@
 import copy
-
+import json
 import cv2
 
-from constants import *
+from constants.keys import *
+from constants.colors import *
 from utils.files import generate_next_user_id_from_files
 from utils.keypad import convert_keypad_input_sequence_to_string, standardize_keypad_input_sequence, \
     KEYPAD_VALID_NUMERIC_INPUTS
@@ -11,6 +12,7 @@ from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show
     add_description_to_screen
 from utils.user.authentication import is_user_admin, is_admin_user_authenticated
 from utils.log import log
+from utils.files import get_configs
 
 
 def enter_user_name(_fr):
@@ -59,7 +61,7 @@ def take_and_save_user_image(_name, _index, _fr):
     """
     Take a Picture from user and save taken image as a file
     :param _fr: User ID
-    :param _name: User ID
+    :param _name: name
     :param _index:  Replica Index
     :return:
     """
