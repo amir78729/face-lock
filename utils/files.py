@@ -1,5 +1,6 @@
 import glob
 import os
+import json
 
 from constants import get_configs
 
@@ -31,3 +32,15 @@ def generate_next_user_id_from_files():
         return '0000'
     return '{:04d}'.format(
         max(list(set(map(lambda x: int(x.split(get_configs('images_path'))[1].split('_')[0]), files)))) + 1)
+
+
+def get_configs(config_key):
+    """
+    Getting App Config from ``constants.py``
+
+    :param config_key: Key of desired config
+    :return: value of desired config
+    """
+    with open('configs.json', 'r') as json_file:
+        configs = json.load(json_file)
+    return configs[config_key]
