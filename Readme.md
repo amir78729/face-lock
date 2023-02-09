@@ -20,19 +20,25 @@ pip install -r requirements.txt
 | `d`           | Delete existing user |
 | `q`, `Esc`    | Quit                 |
 
+## Flow
 
 ```mermaid
-graph LR
+graph 
     train(Train Model) --> main
     
-    main(Main view) -->|press: a|enter_admin_id_add(Enter ID: Admin)
-    enter_admin_id_add --> enter_password_add(Enter Password)
-    enter_password_add --> enter_name_add(Enter Name)
+    main(Main view) -->|press: d|admin_authentication_delete(Admin Authentication)
+    admin_authentication_delete --> enter_id_delete(Enter ID to Delete)
+    enter_id_delete --> train
+    
+    main(Main view) -->|opening the door|authentication{Authentication}
+    authentication --> |success|door_open(Open Door)
+    authentication --> |failure|door_close(Show Warning)
+    door_close --> main
+    door_open --> main
+    
+    main(Main view) -->|press: a|admin_authentication_add(Admin Authentication)
+    admin_authentication_add --> enter_name_add(Enter Name)
     enter_name_add --> take_pic_add(Take Picture from user)
     take_pic_add --> train
-    
-    main(Main view) -->|press: d|enter_admin_id_delete(Enter ID: Admin)
-    enter_admin_id_delete --> enter_password_delete(Enter Password)
-    enter_password_delete --> enter_id_delete(Enter ID to Delete)
-    enter_id_delete --> train
+
 ```
