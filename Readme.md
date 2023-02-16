@@ -43,3 +43,11 @@ graph
     take_pic_add --> train
 
 ```
+
+## Admin Panel Dashboard
+
+starting the server:
+
+```shell
+cd admin_panel && flask --app server --debug run
+```
