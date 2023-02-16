@@ -24,6 +24,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/users">Users</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/system">System</a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -32,7 +35,7 @@
     <h1 class="display-3 text-light">Home</h1>
 
     <div>
-        <div class="card text-white bg-danger mb-3" style="max-width: 18rem;" onclick="window.location='/users'">
+        <div class="card text-white bg-danger mb-3 mt-4" style="max-width: 18rem;" onclick="window.location='/users'">
             <div class="card-body">
                 <h5 class="card-title">Users</h5>
                 <p class="card-text">
@@ -40,11 +43,19 @@
                 </p>
             </div>
         </div>
-        <div class="card text-white bg-success mb-3" style="max-width: 18rem;" onclick="window.location='/logs'">
+        <div class="card text-white bg-success mb-3 mt-4" style="max-width: 18rem;" onclick="window.location='/logs'">
             <div class="card-body">
                 <h5 class="card-title">Logs</h5>
                 <p class="card-text">
                     Explore logs in system
+                </p>
+            </div>
+        </div>
+        <div class="card bg-warning mb-3 mt-4" style="max-width: 18rem;" onclick="window.location='/system'">
+            <div class="card-body">
+                <h5 class="card-title">System Info</h5>
+                <p class="card-text">
+                    View System Configurations
                 </p>
             </div>
         </div>

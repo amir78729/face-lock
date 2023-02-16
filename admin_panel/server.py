@@ -46,3 +46,10 @@ def users():
         data[_id]['name'] = names[_id] if _id in names else '-'
         data[_id]['role'] = 'Adminstrator' if _id in admins else 'User'
     return render_template('users.html', users=data)
+
+@app.route('/system')
+def system():
+    configs = {}
+    with open('../configs.json', 'r') as reader:
+        configs = json.load(reader)
+    return render_template('system.html', configs=configs)
