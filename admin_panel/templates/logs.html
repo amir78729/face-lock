@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FACE LOCK - LOGS</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        h1 {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body class="bg-dark">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark container">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item active disabled">
+                <a class="nav-link" href="/logs">Logs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/users">Users</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main class="container">
+    <h1 class="display-3 text-light">Logs</h1>
+
+
+    <div>
+        {% for log in logs %}
+        <code class="text-success">{{ log }}</code>
+        <br>
+        {% endfor %}
+    </div>
+</main>
+
+</body>
+</html>
