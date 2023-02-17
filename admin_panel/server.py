@@ -6,8 +6,6 @@ app = Flask(static_folder=os.path.abspath("../data"), import_name=__name__)
 IMAGES = os.path.join('../data', 'images')
 app.config['UPLOAD_FOLDER'] = IMAGES
 
-
-
 @app.route('/')
 def main():
     return render_template('main.html')
@@ -16,23 +14,23 @@ def main():
 @app.route('/logs')
 def log():
     logs = []
-    with open('../.logs', 'r') as reader:
+    with open('../{}'.format(configs['logging']['file_path']), 'r') as reader:
         logs = reader.readlines()
     return render_template('logs.html', logs=logs)
 
 
 @app.route('/users')
 def users():
-    names = []
-    admins = []
     with open('../configs.json', 'r') as reader:
         configs = json.load(reader)
-        admins = configs['admin_users']
-    with open('../data/names.json', 'r') as reader:
+    names = []
+    admins = []
+    admins = configs['authentication']['admin_users']
+    with open('../{}'.format(configs['general']['names_data']), 'r') as reader:
         names = json.load(reader)
 
     images_names = []
-    dir_path = '../data/images'
+    dir_path = '../{}'.format(configs['general']['images_path'])
     for path in os.listdir(dir_path):
         if os.path.isfile(os.path.join(dir_path, path)):
             images_names.append(path)
@@ -49,7 +47,6 @@ def users():
 
 @app.route('/system')
 def system():
-    configs = {}
     with open('../configs.json', 'r') as reader:
         configs = json.load(reader)
     return render_template('system.html', configs=configs)

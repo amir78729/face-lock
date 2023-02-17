@@ -19,7 +19,7 @@ def is_user_admin(_fr):
     """
     _cap = cv2.VideoCapture(0)
     _id = ''
-    is_authentication_strict = get_configs('strict_authentication')
+    is_authentication_strict = get_configs('authentication')['strict_authentication']
 
     while True:
         ret_add, _frame = _cap.read()
@@ -42,7 +42,7 @@ def is_user_admin(_fr):
 
         if is_authentication_strict:
             if is_a_face_detected and _id in detected_faces:
-                if _id in get_configs('admin_users'):
+                if _id in get_configs('authentication')['admin_users']:
                     add_description_to_screen(_frame, 'PRESS ENTER TO CONTINUE!', GREEN)
                 else:
                     add_description_to_screen(_frame, 'YOU ARE NOT AN ADMIN!', RED)
@@ -59,7 +59,7 @@ def is_user_admin(_fr):
                 break
             elif _key == ENTER and _id != '':
                 if not is_authentication_strict or _id in detected_faces:
-                    return _id in get_configs('admin_users')
+                    return _id in get_configs('authentication')['admin_users']
             else:
                 _id += chr(_key)
                 _id = _id.replace('_', ' ')
@@ -93,7 +93,7 @@ def is_admin_user_authenticated(_fr, retry):
             elif _key == ESCAPE:
                 break
             elif _key == ENTER and _password != '':
-                return get_encrypted_password(_password) == get_configs('admin_password')
+                return get_encrypted_password(_password) == get_configs('authentication')['admin_password']
             else:
                 _password += chr(_key)
                 _password = _password.replace('_', ' ')
@@ -105,7 +105,7 @@ def enter_user(_fr):
             return get_username_by_id(_id)
         except KeyError:
             return _id
-    cap = cv2.VideoCapture(get_configs('camera_arg'))
+    cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
     ret_add, _frame = cap.read()
     face_locations, face_names = _fr.recognize_known_faces(_frame)
 

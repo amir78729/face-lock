@@ -11,10 +11,10 @@ from utils.files import get_configs
 if __name__ == '__main__':
     # Encode faces.py from a folder
     fr = FaceRecognition()
-    fr.load_encoding_images(get_configs('images_path'))
+    fr.load_encoding_images(get_configs('general')['images_path'])
 
     # Load Camera
-    cap = cv2.VideoCapture(get_configs('camera_arg'))
+    cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
     # CAMERA_IP = 'http://192.168.1.110:8080/video'
 
     while True:

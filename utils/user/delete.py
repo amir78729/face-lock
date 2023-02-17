@@ -18,7 +18,7 @@ def enter_id():
     """
     _cap = cv2.VideoCapture(0)
     _id = ''
-    admins = get_configs('admin_users')
+    admins = get_configs('authentication')['admin_users']
 
     while True:
         ret_add, _frame = _cap.read()
@@ -51,11 +51,11 @@ def delete_username_by_user_id(_id):
     :param _id: user id
     :return:
     """
-    with open(get_configs('names_data'), 'r') as names_data:
+    with open(get_configs('general')['names_data'], 'r') as names_data:
         json_decoded = json.load(names_data)
     json_decoded.pop(_id, None)
 
-    with open(get_configs('names_data'), 'w') as names_data:
+    with open(get_configs('general')['names_data'], 'w') as names_data:
         json.dump(json_decoded, names_data)
 
 
@@ -75,13 +75,13 @@ def delete_user(_fr):
         if get_configs('logging')['use_logging_in_admin_login']:
             log('admin entered user id')
         _try = 0
-        while _try < get_configs('wrong_password_limit'):
+        while _try < get_configs('authentication')['wrong_password_limit']:
             if is_admin_user_authenticated(_fr, retry=_try != 0):
                 if get_configs('logging')['use_logging_in_admin_login']:
                     log('admin logged in')
                 delete_user_images()
                 _fr.load_encoding_images(
-                    get_configs('images_path'))  # FIXME after deleting user still is detected on screen
+                    get_configs('general')['images_path'])  # FIXME after deleting user still is detected on screen
                 break
             else:
                 if get_configs('logging')['use_logging_in_wrong_password']:

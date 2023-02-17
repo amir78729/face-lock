@@ -84,9 +84,9 @@ def show_recognized_faces_on_screen(_frame, _fr):
                 face_loc[2],
                 face_loc[3],
                 _color=RED if name == 'Unknown'
-                else YELLOW if _id in get_configs('admin_users')
+                else YELLOW if _id in get_configs('authentication')['admin_users']
                 else GREEN,
-                _text='{}{}'.format('*' if _id in get_configs('admin_users') else '', get_name(_id))
+                _text='{}{}'.format('*' if _id in get_configs('authentication')['admin_users'] else '', get_name(_id))
             )
     except Exception as e:
         show_detected_faces_on_screen(_fr, _frame)

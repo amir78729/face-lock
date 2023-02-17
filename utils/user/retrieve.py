@@ -9,6 +9,6 @@ def get_username_by_id(_id):
     :param _id: user id
     :return: username
     """
-    with open(get_configs('names_data'), 'r') as json_file:
+    with open(get_configs('general')['names_data'], 'r') as json_file:
         names = json.load(json_file)
     return names[_id]

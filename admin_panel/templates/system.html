@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FACE LOCK - USERS</title>
+    <title>FACE LOCK - SYSTEM</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
@@ -42,23 +42,35 @@
 <main class="container">
     <h1 class="display-3 text-light">Users</h1>
     <div>
-        <h2 class="display-4 text-light">General Info</h2>
         <table class="table table-striped table-dark">
             <tbody>
-            {% for config in configs %}
+            <tr>
+                <th class="display-4">General Info</th>
+                <th></th>
+            </tr>
+            {% for config in configs['general'] %}
             <tr class="text-warning">
-                {% if config not in ['logging', 'face_recognition'] %}
+                <td>{{ config }}</td>
+                <td>{{ configs['general'][config] }}</td>
+            </tr>
+            {% endfor %}
+
+            <tr>
+                <th class="display-4">Authentication</th>
+                <th></th>
+            </tr>
+            {% for config in configs['authentication'] %}
+            <tr class="text-warning">
                 <td>{{ config }}</td>
                 {% if config not in ['admin_users'] %}
-                <td>{{ configs[config] }}</td>
+                <td>{{ configs['authentication'][config] }}</td>
 
                 {% else %}
                 <td>
-                    {% for admin in configs['admin_users'] %}
+                    {% for admin in configs['authentication']['admin_users'] %}
                     <p>{{ admin }}</p>
                     {% endfor %}
                 </td>
-                {% endif %}
                 {% endif %}
             </tr>
             {% endfor %}
@@ -67,7 +79,6 @@
                 <th class="display-4">Logging</th>
                 <th></th>
             </tr>
-
             {% for config in configs['logging'] %}
             <tr class="text-warning">
                 <td>{{ config }}</td>
@@ -79,13 +90,13 @@
                 <th class="display-4">Face Recognition</th>
                 <th></th>
             </tr>
-
             {% for config in configs['face_recognition'] %}
             <tr class="text-warning">
                 <td>{{ config }}</td>
                 <td>{{ configs['face_recognition'][config] }}</td>
             </tr>
             {% endfor %}
+
             </tbody>
         </table>
 
