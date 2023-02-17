@@ -72,8 +72,6 @@ def delete_user(_fr):
     if get_configs('logging')['use_logging_in_delete_user']:
         log('deleting user...')
     if is_user_admin(_fr):
-        if get_configs('logging')['use_logging_in_admin_login']:
-            log('admin entered user id')
         _try = 0
         while _try < get_configs('authentication')['wrong_password_limit']:
             if is_admin_user_authenticated(_fr, retry=_try != 0):

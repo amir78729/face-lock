@@ -58,8 +58,12 @@ def is_user_admin(_fr):
             elif _key == ESCAPE:
                 break
             elif _key == ENTER and _id != '':
+                if get_configs('logging')['use_logging_in_admin_login']:
+                    log('admin entered user id "{}"'.format(_id))
                 if not is_authentication_strict or _id in detected_faces:
                     return _id in get_configs('authentication')['admin_users']
+                if get_configs('logging')['use_logging_in_admin_login']:
+                    log('face for id "{}" was not detected'.format(_id))
             else:
                 _id += chr(_key)
                 _id = _id.replace('_', ' ')
@@ -93,7 +97,7 @@ def is_admin_user_authenticated(_fr, retry):
             elif _key == ESCAPE:
                 break
             elif _key == ENTER and _password != '':
-                return get_encrypted_password(_password) == get_configs('authentication')['admin_password']
+                return get_encrypted_password(_password) == get_configs('authentication')['admin_encrypted_password']
             else:
                 _password += chr(_key)
                 _password = _password.replace('_', ' ')
@@ -120,7 +124,7 @@ def enter_user(_fr):
             add_title_to_screen(_frame, 'DOOR IS OPEN', GREEN)
             add_subtitle_to_screen(_frame, 'WELCOME!')
             add_description_to_screen(_frame, "Don't forget to close the door!", YELLOW)
-            log('"{}" entered'.format(name))
+            log('"{}" entered'.format(name.split('_')[0]))
     except (IndexError, TypeError):
         add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
         add_subtitle_to_screen(_frame, 'No face was detected!', YELLOW)

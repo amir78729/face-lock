@@ -11,7 +11,7 @@
     "admin_users": [
       "0000"
     ],
-    "admin_password": "MTIzNA==",
+    "admin_encrypted_password": "MTIzNA==",
     "wrong_password_limit": 3,
     "strict_authentication": true
   },

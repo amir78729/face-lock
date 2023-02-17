@@ -6,6 +6,7 @@ app = Flask(static_folder=os.path.abspath("../data"), import_name=__name__)
 IMAGES = os.path.join('../data', 'images')
 app.config['UPLOAD_FOLDER'] = IMAGES
 
+
 @app.route('/')
 def main():
     return render_template('main.html')
@@ -41,9 +42,15 @@ def users():
             data[_id] = {'images': []}
         # data[_id]['images'].append(img)
         data[_id]['images'].append(os.path.join(app.config['UPLOAD_FOLDER'], img))
-        data[_id]['name'] = names[_id] if _id in names else '-'
+        data[_id]['name'] = names[_id].title() if _id in names else '-'
         data[_id]['role'] = 'Adminstrator' if _id in admins else 'User'
-    return render_template('users.html', users=data)
+
+    ids = list(data.keys())
+    ids.sort()
+    sorted_users = {i: data[i] for i in ids}
+
+    return render_template('users.html', users=sorted_users)
+
 
 @app.route('/system')
 def system():
