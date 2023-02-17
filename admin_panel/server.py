@@ -14,6 +14,8 @@ def main():
 
 @app.route('/logs')
 def log():
+    with open('../configs.json', 'r') as reader:
+        configs = json.load(reader)
     logs = []
     with open('../{}'.format(configs['logging']['file_path']), 'r') as reader:
         logs = reader.readlines()

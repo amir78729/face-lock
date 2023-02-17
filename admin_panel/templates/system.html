@@ -40,65 +40,58 @@
 </nav>
 
 <main class="container">
-    <h1 class="display-3 text-light">Users</h1>
+    <h1 class="display-3 text-light">System Info</h1>
     <div>
+        <h2 class="display-6 text-light">General Info</h2>
         <table class="table table-striped table-dark">
-            <tbody>
-            <tr>
-                <th class="display-4">General Info</th>
-                <th></th>
-            </tr>
             {% for config in configs['general'] %}
             <tr class="text-warning">
                 <td>{{ config }}</td>
-                <td>{{ configs['general'][config] }}</td>
+                <td class="text-right">{{ configs['general'][config] }}</td>
             </tr>
             {% endfor %}
-
-            <tr>
-                <th class="display-4">Authentication</th>
-                <th></th>
-            </tr>
+        </table>
+        <h2 class="display-6 text-light">Authentication</h2>
+        <table class="table table-striped table-dark">
             {% for config in configs['authentication'] %}
             <tr class="text-warning">
                 <td>{{ config }}</td>
                 {% if config not in ['admin_users'] %}
-                <td>{{ configs['authentication'][config] }}</td>
+                <td class="text-right">{{ configs['authentication'][config] }}</td>
 
                 {% else %}
                 <td>
                     {% for admin in configs['authentication']['admin_users'] %}
-                    <p>{{ admin }}</p>
+                    <p class="text-right">{{ admin }}</p>
                     {% endfor %}
                 </td>
                 {% endif %}
             </tr>
             {% endfor %}
+        </table>
 
-            <tr>
-                <th class="display-4">Logging</th>
-                <th></th>
-            </tr>
+
+        <h2 class="display-6 text-light">Logging</h2>
+        <table class="table table-striped table-dark">
             {% for config in configs['logging'] %}
             <tr class="text-warning">
                 <td>{{ config }}</td>
-                <td>{{ configs['logging'][config] }}</td>
+                <td class="text-right">{{ configs['logging'][config] }}</td>
             </tr>
             {% endfor %}
+        </table>
 
-            <tr>
-                <th class="display-4">Face Recognition</th>
-                <th></th>
-            </tr>
+
+        <h2 class="display-6 text-light">Face Recognition</h2>
+        <table class="table table-striped table-dark">
             {% for config in configs['face_recognition'] %}
             <tr class="text-warning">
                 <td>{{ config }}</td>
-                <td>{{ configs['face_recognition'][config] }}</td>
+                <td class="text-right">{{ configs['face_recognition'][config] }}</td>
             </tr>
             {% endfor %}
-
-            </tbody>
         </table>
+
 
     </div>
 </main>
