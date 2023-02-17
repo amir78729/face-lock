@@ -35,12 +35,15 @@ class FaceRecognition:
                 # Get the filename only from the initial file path.
                 basename = os.path.basename(img_path)
                 (filename, ext) = os.path.splitext(basename)
-                # Get encoding
-                img_encoding = face_encodings(rgb_img)[0]
+                try:
+                    # Get encoding
+                    img_encoding = face_encodings(rgb_img)[0]
 
-                # Store file name and file encoding
-                self.known_face_encodings.append(img_encoding)
-                self.known_face_names.append(filename)
+                    # Store file name and file encoding
+                    self.known_face_encodings.append(img_encoding)
+                    self.known_face_names.append(filename)
+                except IndexError:
+                    pass
             print('Encoding images loaded')
         except Exception as e:
             print(e)
