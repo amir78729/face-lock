@@ -54,6 +54,6 @@ starting the server:
 cd admin_panel && flask --app server run
 ```
 
-## Running on Raspberry PI
+## ![raspberry-py-logo](https://cdn-icons-png.flaticon.com/32/5969/5969184.png) Running on Raspberry PI
 
-[documentation](raspberry-pi-instruction.md)
+See the [Raspberry PI instructions](raspberry-pi-instruction.md) for more info
