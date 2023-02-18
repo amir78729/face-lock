@@ -4,7 +4,7 @@
 
 **✨ Instructions for Raspberry PI boards ✨**
 
-![raspberry-py-logo](https://cdn-icons-png.flaticon.com/32/5969/5969184.png)
+![raspberry-py-logo](https://cdn-icons-png.flaticon.com/128/5969/5969184.png)
 
 </div>
 
