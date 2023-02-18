@@ -67,21 +67,6 @@ def face_distance(_face_encodings, face_to_compare):
     return np.linalg.norm(_face_encodings - face_to_compare, axis=1)
 
 
-def load_image_file(file, mode='RGB'):
-    """
-    Loads an image file (.jpg, .png, etc) into a numpy array
-
-    :param file: image file name or file object to load
-    :param mode: format to convert the image to. Only 'RGB' (8-bit RGB, 3 channels) and 'L' (black and white) are
-    supported.
-    :return: image contents as numpy array
-    """
-    image = PIL.Image.open(file)
-    if mode:
-        image = image.convert(mode)
-    return np.array(image)
-
-
 def _raw_face_locations(img, number_of_times_to_upsample=1, model='hog'):
     """
     Returns an array of bounding boxes of human faces in an image

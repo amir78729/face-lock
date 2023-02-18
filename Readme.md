@@ -4,6 +4,8 @@
 
 </div>
 
+---
+
 ## Install Requirements
 
 Required libraries are listed in `requirements.txt` file. You can install all dependencies using this command
@@ -49,5 +51,9 @@ graph
 starting the server:
 
 ```shell
-cd admin_panel && flask --app server --debug run
+cd admin_panel && flask --app server run
 ```
+
+## Running on Raspberry PI
+
+[documentation](raspberry-pi-instruction.md)
