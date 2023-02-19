@@ -84,6 +84,7 @@ def take_and_save_user_image(_name, _index, _fr):
         if _key == ENTER and is_a_face_detected:
             top, right, bottom, left = face_locations[0]
             resized_image = cv2.resize(_frame_copy[top:bottom, left:right], (64, 64))
+            resized_image = cv2.cvtColor(resized_image, cv2.COLOR_RGB2GRAY)
             cv2.imwrite(
                 '{}/{}_{}.jpg'.format(get_configs('general')['images_path'], _name, _index),
                 resized_image,
