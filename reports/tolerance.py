@@ -29,5 +29,5 @@ if __name__ == '__main__':
         plt.xlabel('Face Distance')
         plt.ylabel('Confidence Score')
         plt.title('tolerance = {}'.format(round(tolerance, 1)))
-    plt.savefig('tolerance-report.png')
+    plt.savefig('charts/tolerance-report.png')
 
