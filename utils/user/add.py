@@ -72,7 +72,8 @@ def take_and_save_user_image(_name, _index, _fr):
         is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
 
         add_title_to_screen(_frame,
-                            'ADD IMAGE: ADD IMAGE TO DATABASE ({} / {})'.format(_index, get_configs('general')['images_per_user']))
+                            'ADD IMAGE: ADD IMAGE TO DATABASE ({} / {})'.format(_index, get_configs('general')[
+                                'images_per_user']))
         add_subtitle_to_screen(_frame, 'press ENTER to take picture')
         if not is_a_face_detected:
             add_description_to_screen(_frame, 'NO FACE DETECTED!', RED)
@@ -82,9 +83,10 @@ def take_and_save_user_image(_name, _index, _fr):
 
         if _key == ENTER and is_a_face_detected:
             top, right, bottom, left = face_locations[0]
+            resized_image = cv2.resize(_frame_copy[top:bottom, left:right], (64, 64))
             cv2.imwrite(
                 '{}/{}_{}.jpg'.format(get_configs('general')['images_path'], _name, _index),
-                _frame_copy[top:bottom, left:right]
+                resized_image,
             )
             break
 
@@ -121,7 +123,8 @@ def add_user_image_to_dataset(_fr):
         new_username = enter_user_name(_fr)
         if new_username and new_username != '':
             add_username_by_user_id(new_id, new_username)
-    [take_and_save_user_image(_name=new_id, _index=i + 1, _fr=_fr) for i in range(get_configs('general')['images_per_user'])]
+    [take_and_save_user_image(_name=new_id, _index=i + 1, _fr=_fr) for i in
+     range(get_configs('general')['images_per_user'])]
     if get_configs('logging')['use_logging_in_add_user']:
         log('user "{}" added successfully'.format(new_id))
     show_loading_on_screen()
