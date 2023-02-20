@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-from sklearn import preprocessing, compose, decomposition
+from sklearn import decomposition
 import os
 import glob
 import cv2
