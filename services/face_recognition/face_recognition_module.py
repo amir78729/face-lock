@@ -193,6 +193,7 @@ def face_landmarks(face_image, _face_locations=None, model='large'):
         raise ValueError("Invalid landmarks model type. Supported models are ['small', 'large'].")
 
 
+# TODO: REMOVE num jitters
 def face_encodings(face_image, known_face_locations=None, num_jitters=1, model='small'):
     """
     Given an image, return the 128-dimension face encoding for each face in the image.

@@ -1,4 +1,6 @@
 # import face_recognition
+import time
+
 from services.face_recognition import face_encodings, face_locations, face_distance, compare_faces
 import cv2
 import os
@@ -28,6 +30,7 @@ class FaceRecognition:
 
         try:
             # Store image encoding and names
+            start = time.time()
             for img_path in tqdm(images_path):
                 img = cv2.imread(img_path)
                 rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -44,7 +47,8 @@ class FaceRecognition:
                     self.known_face_names.append(filename)
                 except IndexError:
                     pass
-            print('Encoding images loaded')
+            end = time.time()
+            print('Model was trained in {}s.'.format(round(end - start, 4)))
         except Exception as e:
             print(e)
 
