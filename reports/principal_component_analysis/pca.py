@@ -14,7 +14,7 @@ def grouped(iterable, n):
 
 if __name__ == '__main__':
     _face_encoding = []
-    images_path = glob.glob(os.path.join('../data/images/', '*.*'))
+    images_path = glob.glob(os.path.join('../../data/images/', '*.*'))
     images_path.sort()
     for img_path in tqdm(images_path):
         img = cv2.imread(img_path)
@@ -39,7 +39,7 @@ if __name__ == '__main__':
                     label=images_path[2 * i].split('_')[0].split('/')[-1])
     plt.legend()
     plt.title('principal component analysis (2d)'.title())
-    plt.savefig('principal-component-analysis-2d-report.png')
+    plt.savefig('principal_component_analysis_2d_report.png')
 
     pca3 = decomposition.PCA(n_components=3)
     principal_components3 = pca3.fit_transform(df)
@@ -55,4 +55,4 @@ if __name__ == '__main__':
                     label=images_path[2 * i].split('_')[0].split('/')[-1])
     plt.legend()
     plt.title('principal component analysis (3d)'.title())
-    plt.savefig('principal-component-analysis-3d-report.png')
+    plt.savefig('principal_component_analysis_3d_report.png')
