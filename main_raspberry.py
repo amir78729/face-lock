@@ -28,7 +28,7 @@ if __name__ == '__main__':
         # # and occupied/unoccupied text
         image = frame.array
         # show the frame
-        cv2.imshow("Frame", image)
+        # cv2.imshow("Frame", image)
         # key = cv2.waitKey(1) & 0xFF
         # # clear the stream in preparation for the next frame
         # rawCapture.truncate(0)
@@ -37,7 +37,7 @@ if __name__ == '__main__':
         #     break
         #
         # ####
-        show_recognized_faces_on_screen(frame, fr)
+        show_recognized_faces_on_screen(image, fr)
         key = cv2.waitKey(1)
         rawCapture.truncate(0)
         if key == ENTER:
