@@ -51,7 +51,7 @@ graph
 starting the server:
 
 ```shell
-cd admin_panel && flask --app server run
+cd admin_panel && flask run
 ```
 
 ## ![raspberry-py-logo](https://cdn-icons-png.flaticon.com/16/5969/5969184.png) Running on Raspberry PI
