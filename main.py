@@ -7,6 +7,7 @@ from utils.user.add import add_user
 from utils.user.delete import delete_user
 from utils.user.authentication import enter_user
 from utils.files import get_configs
+from utils.screen.texts import add_time_to_screen
 import os
 
 is_raspberry = os.uname()[4][:3] == 'arm'
@@ -20,6 +21,7 @@ if __name__ == '__main__':
     fr.load_encoding_images(get_configs('general')['images_path'])
 
     def run(_frame, _raw_capture):
+        add_time_to_screen(_frame)
         show_recognized_faces_on_screen(_frame, fr)
         key = cv2.waitKey(1)
         # For Raspberry Pi Boards

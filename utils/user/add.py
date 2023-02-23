@@ -13,6 +13,7 @@ from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show
 from utils.user.authentication import is_user_admin, is_admin_user_authenticated
 from utils.log import log
 from utils.files import get_configs
+from utils.screen.texts import add_time_to_screen
 
 
 def enter_user_name(_fr):
@@ -30,6 +31,7 @@ def enter_user_name(_fr):
 
     while True:
         ret_add, _frame = _cap.read()
+        add_time_to_screen(_frame)
         is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
         add_title_to_screen(_frame, 'ADD IMAGE: ENTER NAME')
         add_subtitle_to_screen(_frame, 'please enter your name: ' + get_name())
@@ -69,6 +71,7 @@ def take_and_save_user_image(_name, _index, _fr):
     while True:
         ret_add, _frame = cap.read()
         _frame_copy = copy.deepcopy(_frame)
+        add_time_to_screen(_frame)
         is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
 
         add_title_to_screen(_frame,
