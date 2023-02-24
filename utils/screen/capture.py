@@ -28,7 +28,7 @@ def capture_frame():
         camera = PiCamera()
         camera.resolution = RESOLUTION
         camera.framerate = FRAME_RATE
-        output = np.empty((240, 320, 3), dtype=np.uint8)
+        output = np.empty((640, 480, 3), dtype=np.uint8)
         return camera.capture(output, 'rgb')
     ret, frame = cap.read()
     if not frame.any():
