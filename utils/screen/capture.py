@@ -29,12 +29,12 @@ def capture_frame():
         with PiCamera() as camera:
             camera.resolution = (100, 100)
             camera.framerate = 24
-            time.sleep(2)
+            # time.sleep(2)
             output = np.empty((112 * 128 * 3,), dtype=np.uint8)
             camera.capture(output, 'rgb')
             output = output.reshape((112, 128, 3))
             output = output[:100, :100, :]
-            print(output)
+            # print(output)
             return output
         # camera = PiCamera()
         # camera.resolution = RESOLUTION
