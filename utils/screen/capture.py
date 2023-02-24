@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 from utils.system import is_raspberry
 from utils.files import get_configs
@@ -27,8 +28,8 @@ def capture_frame():
         camera = PiCamera()
         camera.resolution = RESOLUTION
         camera.framerate = FRAME_RATE
-        raw_capture = PiRGBArray(camera, size=RESOLUTION)
-        return camera.capture(raw_capture, format="bgr", use_video_port=True)
+        output = np.empty((240, 320, 3), dtype=np.uint8)
+        return camera.capture(output, 'rgb')
     ret, frame = cap.read()
     if not frame.any():
         raise Exception('CAMERA NOT FOUND')
