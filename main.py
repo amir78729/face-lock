@@ -17,6 +17,7 @@ if __name__ == '__main__':
 
     while True:
         frame = capture_frame()
+        print('frame', frame)
         add_time_to_screen(frame)
         show_recognized_faces_on_screen(frame, fr)
         key = cv2.waitKey(1)
