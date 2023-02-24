@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import time
 
 from utils.system import is_raspberry
 from utils.files import get_configs
@@ -28,6 +29,7 @@ def capture_frame():
         camera = PiCamera()
         camera.resolution = RESOLUTION
         camera.framerate = FRAME_RATE
+        time.sleep(2)
         frame = np.empty((240 * 320 * 3,), dtype=np.uint8)
         camera.capture(frame, 'bgr')
         frame = frame.reshape((240, 320, 3))
