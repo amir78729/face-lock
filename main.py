@@ -29,3 +29,4 @@ if __name__ == '__main__':
         elif key == ESCAPE or key == ord('q'):
             break
     terminate_capture()
+
