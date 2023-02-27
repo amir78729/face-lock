@@ -29,5 +29,9 @@
     "num_jitters": 1,
     "number_of_times_to_upsample": 1,
     "model": "hog"
+  },
+  "sms": {
+    "send_sms": false,
+    "target_phone_number": "989129334535"
   }
 }
