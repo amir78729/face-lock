@@ -8,6 +8,8 @@ from utils.screen.texts import add_title_to_screen, add_subtitle_to_screen, show
 from utils.user.authentication import is_user_admin, is_admin_user_authenticated
 from utils.log import log
 from utils.files import get_configs
+from utils.system import is_raspberry
+from utils.screen.capture import get_raspberry_frames
 
 
 def enter_id():
@@ -16,32 +18,56 @@ def enter_id():
 
     :return: a list of files for deleting
     """
-    _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
     _id = ''
     admins = get_configs('authentication')['admin_users']
 
-    while True:
-        ret_add, _frame = _cap.read()
+    if is_raspberry:
+        frames, stream_capture = get_raspberry_frames()
+        for f in frames:
+            _frame = f.array
+            add_title_to_screen(_frame, 'DELETE USER', RED)
+            add_subtitle_to_screen(_frame, 'please enter id to delete: ' + _id)
 
-        add_title_to_screen(_frame, 'DELETE USER', RED)
-        add_subtitle_to_screen(_frame, 'please enter id to delete: ' + _id)
+            cv2.imshow('Frame', _frame)
+            _key = cv2.waitKey(1)
+            stream_capture.truncate(0)
+            if _key != -1:
+                if _key == DELETE:
+                    _id = _id[:-1]
+                elif _key == ESCAPE:
+                    break
+                elif _key == ENTER:
+                    if _id in get_all_user_ids_from_files() and _id not in admins:
+                        files = get_list_of_files()
+                        return [x for x in files if _id in x], _id
 
-        cv2.imshow('Frame', _frame)
-        _key = cv2.waitKey(1)
+                else:
+                    _id += chr(_key)
+                    _id = _id.replace('_', ' ')
+    else:
+        _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
+        while True:
+            ret_add, _frame = _cap.read()
 
-        if _key != -1:
-            if _key == DELETE:
-                _id = _id[:-1]
-            elif _key == ESCAPE:
-                break
-            elif _key == ENTER:
-                if _id in get_all_user_ids_from_files() and _id not in admins:
-                    files = get_list_of_files()
-                    return [x for x in files if _id in x], _id
+            add_title_to_screen(_frame, 'DELETE USER', RED)
+            add_subtitle_to_screen(_frame, 'please enter id to delete: ' + _id)
 
-            else:
-                _id += chr(_key)
-                _id = _id.replace('_', ' ')
+            cv2.imshow('Frame', _frame)
+            _key = cv2.waitKey(1)
+
+            if _key != -1:
+                if _key == DELETE:
+                    _id = _id[:-1]
+                elif _key == ESCAPE:
+                    break
+                elif _key == ENTER:
+                    if _id in get_all_user_ids_from_files() and _id not in admins:
+                        files = get_list_of_files()
+                        return [x for x in files if _id in x], _id
+
+                else:
+                    _id += chr(_key)
+                    _id = _id.replace('_', ' ')
 
 
 def delete_username_by_user_id(_id):
