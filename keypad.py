@@ -1,7 +1,7 @@
 # This program allows a user to enter a
 # Code. If the C-Button is pressed on the
-# keypad, the input is reset. If the user
-# hits the A-Button, the input is checked.
+# keypad, the _input is reset. If the user
+# hits the A-Button, the _input is checked.
 
 import RPi.GPIO as GPIO
 import time
@@ -24,7 +24,7 @@ C4 = 21
 keypadPressed = -1
 
 secretCode = "4789"
-input = ""
+_input = ""
 
 # Setup GPIO
 GPIO.setwarnings(False)
@@ -41,44 +41,48 @@ GPIO.setup(C2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(C3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(C4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+
 # This callback registers the key that was pressed
 # if no other key is currently pressed
-def keypadCallback(channel):
+def keypad_callback(channel):
     global keypadPressed
     if keypadPressed == -1:
         keypadPressed = channel
 
+
 # Detect the rising edges on the column lines of the
 # keypad. This way, we can detect if the user presses
 # a button when we send a pulse.
-GPIO.add_event_detect(C1, GPIO.RISING, callback=keypadCallback)
-GPIO.add_event_detect(C2, GPIO.RISING, callback=keypadCallback)
-GPIO.add_event_detect(C3, GPIO.RISING, callback=keypadCallback)
-GPIO.add_event_detect(C4, GPIO.RISING, callback=keypadCallback)
+GPIO.add_event_detect(C1, GPIO.RISING, callback=keypad_callback)
+GPIO.add_event_detect(C2, GPIO.RISING, callback=keypad_callback)
+GPIO.add_event_detect(C3, GPIO.RISING, callback=keypad_callback)
+GPIO.add_event_detect(C4, GPIO.RISING, callback=keypad_callback)
+
 
 # Sets all lines to a specific state. This is a helper
 # for detecting when the user releases a button
-def setAllLines(state):
+def set_all_lines(state):
     GPIO.output(L1, state)
     GPIO.output(L2, state)
     GPIO.output(L3, state)
     GPIO.output(L4, state)
 
-def checkSpecialKeys():
-    global input
+
+def check_special_keys():
+    global _input
     pressed = False
 
     GPIO.output(L3, GPIO.HIGH)
 
-    if (GPIO.input(C4) == 1):
-        print("Input reset!");
+    if GPIO.input(C4) == 1:
+        print("_input reset!")
         pressed = True
 
     GPIO.output(L3, GPIO.LOW)
     GPIO.output(L1, GPIO.HIGH)
 
-    if (not pressed and GPIO.input(C4) == 1):
-        if input == secretCode:
+    if not pressed and GPIO.input(C4) == 1:
+        if _input == secretCode:
             print("Code correct!")
             # TODO: Unlock a door, turn a light on, etc.
         else:
@@ -89,47 +93,48 @@ def checkSpecialKeys():
     GPIO.output(L3, GPIO.LOW)
 
     if pressed:
-        input = ""
+        _input = ""
 
     return pressed
 
+
 # reads the columns and appends the value, that corresponds
 # to the button, to a variable
-def readLine(line, characters):
-    global input
+def read_line(line, characters):
+    global _input
     # We have to send a pulse on each line to
     # detect button presses
     GPIO.output(line, GPIO.HIGH)
-    if(GPIO.input(C1) == 1):
-        input = input + characters[0]
-    if(GPIO.input(C2) == 1):
-        input = input + characters[1]
-    if(GPIO.input(C3) == 1):
-        input = input + characters[2]
-    if(GPIO.input(C4) == 1):
-        input = input + characters[3]
+    if GPIO.input(C1) == 1:
+        _input = _input + characters[0]
+    if GPIO.input(C2) == 1:
+        _input = _input + characters[1]
+    if GPIO.input(C3) == 1:
+        _input = _input + characters[2]
+    if GPIO.input(C4) == 1:
+        _input = _input + characters[3]
     GPIO.output(line, GPIO.LOW)
+
 
 try:
     while True:
         # If a button was previously pressed,
         # check, whether the user has released it yet
         if keypadPressed != -1:
-            setAllLines(GPIO.HIGH)
+            set_all_lines(GPIO.HIGH)
             if GPIO.input(keypadPressed) == 0:
                 keypadPressed = -1
             else:
                 time.sleep(0.1)
-        # Otherwise, just read the input
+        # Otherwise, just read the _input
         else:
-            if not checkSpecialKeys():
-                readLine(L1, ["1","2","3","A"])
-                readLine(L2, ["4","5","6","B"])
-                readLine(L3, ["7","8","9","C"])
-                readLine(L4, ["*","0","#","D"])
+            if not check_special_keys():
+                read_line(L1, ["1", "2", "3", "A"])
+                read_line(L2, ["4", "5", "6", "B"])
+                read_line(L3, ["7", "8", "9", "C"])
+                read_line(L4, ["*", "0", "#", "D"])
                 time.sleep(0.1)
             else:
                 time.sleep(0.1)
 except KeyboardInterrupt:
     print("\nApplication stopped!")
-
