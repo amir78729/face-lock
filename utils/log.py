@@ -12,7 +12,7 @@ def log(_msg):
     log_msg = '{}: {}\n'.format(time_stamp, _msg.upper())
 
     if log_config['log_in_console']:
-        print(Fore.CYAN, log_msg.split(':')[0], Fore.RESET, log_msg.split(':')[1], end='')
+        print(Fore.CYAN + log_msg.split(':')[0] + Fore.RESET + log_msg.split(':')[1], end='')
 
     if log_config['log_in_file']:
         with open(log_config['file_path'], 'a') as log_file:

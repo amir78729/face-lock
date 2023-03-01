@@ -9,15 +9,15 @@ if is_raspberry:
     from picamera.array import PiRGBArray
     from picamera import PiCamera
 
-RESOLUTION = (640, 480)
-FRAME_RATE = 32
+    RESOLUTION = (640, 480)
+    FRAME_RATE = 32
 
-camera = PiCamera()
-camera.resolution = RESOLUTION
-camera.framerate = FRAME_RATE
-camera.rotation = 180
-raw_capture = PiRGBArray(camera, size=RESOLUTION)
-all_captured_frames = camera.capture_continuous(raw_capture, format="bgr", use_video_port=True)
+    camera = PiCamera()
+    camera.resolution = RESOLUTION
+    camera.framerate = FRAME_RATE
+    camera.rotation = 180
+    raw_capture = PiRGBArray(camera, size=RESOLUTION)
+    all_captured_frames = camera.capture_continuous(raw_capture, format="bgr", use_video_port=True)
 
 
 def get_raspberry_frames():

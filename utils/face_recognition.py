@@ -48,9 +48,9 @@ class FaceRecognition:
                     self.known_face_names.append(filename)
                 except IndexError:
                     pass
-            print(Style.RESET_ALL, end='')
+            print(Style.RESET_ALL+'', end='')
             end = time.time()
-            print(Fore.GREEN, 'Model was trained in {}s.'.format(round(end - start, 4)), Style.RESET_ALL)
+            print(Fore.GREEN + 'Model was trained in {}s.'.format(round(end - start, 4)) + Style.RESET_ALL)
         except Exception as e:
             print(e)
 
