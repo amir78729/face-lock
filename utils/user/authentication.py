@@ -132,31 +132,60 @@ def is_admin_user_authenticated(_fr, retry):
     :param retry: show error on page
     :return:
     """
-    _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
     _password = ''
-    while True:
-        ret_add, _frame = _cap.read()
-        add_time_to_screen(_frame)
-        show_detected_faces_on_screen(_fr, _frame)
 
-        add_title_to_screen(_frame, 'AUTHENTICATION', YELLOW)
-        add_subtitle_to_screen(_frame, 'please enter the password: ' + len(_password) * '*')
-        if retry:
-            add_description_to_screen(_frame, 'WRONG PASSWORD! TRY AGAIN...', RED)
+    if is_raspberry:
+        frames, stream_capture = get_raspberry_frames()
+        for f in frames:
+            _frame = f.array
+            add_time_to_screen(_frame)
+            show_detected_faces_on_screen(_fr, _frame)
 
-        cv2.imshow('Frame', _frame)
-        _key = cv2.waitKey(1)
+            add_title_to_screen(_frame, 'AUTHENTICATION', YELLOW)
+            add_subtitle_to_screen(_frame, 'please enter the password: ' + len(_password) * '*')
+            if retry:
+                add_description_to_screen(_frame, 'WRONG PASSWORD! TRY AGAIN...', RED)
 
-        if _key != -1:
-            if _key == DELETE:
-                _password = _password[:-1]
-            elif _key == ESCAPE:
-                break
-            elif _key == ENTER and _password != '':
-                return get_encrypted_password(_password) == get_configs('authentication')['admin_encrypted_password']
-            else:
-                _password += chr(_key)
-                _password = _password.replace('_', ' ')
+            cv2.imshow('Frame', _frame)
+            _key = cv2.waitKey(1)
+            stream_capture.truncate(0)
+
+            if _key != -1:
+                if _key == DELETE:
+                    _password = _password[:-1]
+                elif _key == ESCAPE:
+                    break
+                elif _key == ENTER and _password != '':
+                    return get_encrypted_password(_password) == get_configs('authentication')[
+                        'admin_encrypted_password']
+                else:
+                    _password += chr(_key)
+                    _password = _password.replace('_', ' ')
+    else:
+        _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
+        while True:
+            ret_add, _frame = _cap.read()
+            add_time_to_screen(_frame)
+            show_detected_faces_on_screen(_fr, _frame)
+
+            add_title_to_screen(_frame, 'AUTHENTICATION', YELLOW)
+            add_subtitle_to_screen(_frame, 'please enter the password: ' + len(_password) * '*')
+            if retry:
+                add_description_to_screen(_frame, 'WRONG PASSWORD! TRY AGAIN...', RED)
+
+            cv2.imshow('Frame', _frame)
+            _key = cv2.waitKey(1)
+
+            if _key != -1:
+                if _key == DELETE:
+                    _password = _password[:-1]
+                elif _key == ESCAPE:
+                    break
+                elif _key == ENTER and _password != '':
+                    return get_encrypted_password(_password) == get_configs('authentication')['admin_encrypted_password']
+                else:
+                    _password += chr(_key)
+                    _password = _password.replace('_', ' ')
 
 
 def enter_user(_fr):
@@ -165,35 +194,70 @@ def enter_user(_fr):
             return get_username_by_id(_id)
         except KeyError:
             return _id
-    cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
-    ret_add, _frame = cap.read()
-    add_time_to_screen(_frame)
-    face_locations, face_names = _fr.recognize_known_faces(_frame)
+    if is_raspberry:
+        frames, stream_capture = get_raspberry_frames()
+        for f in frames:
+            _frame = f.array
+            add_time_to_screen(_frame)
+            face_locations, face_names = _fr.recognize_known_faces(_frame)
 
-    try:
-        if len(face_locations) > 1:
-            add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
-            add_subtitle_to_screen(_frame, 'More than one faces were detected')
-            log('unsuccessful entrance, more than one faces detected')
-        else:
-            name = get_name(face_names[0])
-            if name == 'Unknown' or len(face_locations) != 1:
+            try:
+                if len(face_locations) > 1:
+                    add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
+                    add_subtitle_to_screen(_frame, 'More than one faces were detected')
+                    log('unsuccessful entrance, more than one faces detected')
+                else:
+                    name = get_name(face_names[0])
+                    if name == 'Unknown' or len(face_locations) != 1:
+                        add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
+                        add_subtitle_to_screen(_frame, 'You are not able to enter')
+                        add_description_to_screen(_frame, "please call system's administrator", YELLOW)
+                        log('unsuccessful entrance, unauthorized access')
+                    else:
+                        add_title_to_screen(_frame, 'DOOR IS OPEN', GREEN)
+                        add_subtitle_to_screen(_frame, 'WELCOME!')
+                        add_description_to_screen(_frame, "Don't forget to close the door!", YELLOW)
+                        log('"{}" entered'.format(name.split('_')[0]))
+            except (IndexError, TypeError):
                 add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
-                add_subtitle_to_screen(_frame, 'You are not able to enter')
-                add_description_to_screen(_frame, "please call system's administrator", YELLOW)
-                log('unsuccessful entrance, unauthorized access')
-            else:
-                add_title_to_screen(_frame, 'DOOR IS OPEN', GREEN)
-                add_subtitle_to_screen(_frame, 'WELCOME!')
-                add_description_to_screen(_frame, "Don't forget to close the door!", YELLOW)
-                log('"{}" entered'.format(name.split('_')[0]))
-    except (IndexError, TypeError):
-        add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
-        add_subtitle_to_screen(_frame, 'No face was detected!', YELLOW)
-        add_description_to_screen(_frame, "Please try again...")
-        log('unsuccessful entrance, no face detected')
+                add_subtitle_to_screen(_frame, 'No face was detected!', YELLOW)
+                add_description_to_screen(_frame, "Please try again...")
+                log('unsuccessful entrance, no face detected')
 
-    cv2.imshow('Frame', _frame)
-    _key = cv2.waitKey(1)
-    time.sleep(3)
+            cv2.imshow('Frame', _frame)
+            _key = cv2.waitKey(1)
+            time.sleep(3)
+            break
+    else:
+        cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
+        ret_add, _frame = cap.read()
+        add_time_to_screen(_frame)
+        face_locations, face_names = _fr.recognize_known_faces(_frame)
+
+        try:
+            if len(face_locations) > 1:
+                add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
+                add_subtitle_to_screen(_frame, 'More than one faces were detected')
+                log('unsuccessful entrance, more than one faces detected')
+            else:
+                name = get_name(face_names[0])
+                if name == 'Unknown' or len(face_locations) != 1:
+                    add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
+                    add_subtitle_to_screen(_frame, 'You are not able to enter')
+                    add_description_to_screen(_frame, "please call system's administrator", YELLOW)
+                    log('unsuccessful entrance, unauthorized access')
+                else:
+                    add_title_to_screen(_frame, 'DOOR IS OPEN', GREEN)
+                    add_subtitle_to_screen(_frame, 'WELCOME!')
+                    add_description_to_screen(_frame, "Don't forget to close the door!", YELLOW)
+                    log('"{}" entered'.format(name.split('_')[0]))
+        except (IndexError, TypeError):
+            add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
+            add_subtitle_to_screen(_frame, 'No face was detected!', YELLOW)
+            add_description_to_screen(_frame, "Please try again...")
+            log('unsuccessful entrance, no face detected')
+
+        cv2.imshow('Frame', _frame)
+        _key = cv2.waitKey(1)
+        time.sleep(3)
 
