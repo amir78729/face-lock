@@ -228,6 +228,7 @@ def enter_user(_fr):
 
         cv2.imshow('Frame', _frame)
         _key = cv2.waitKey(1)
+        stream_capture.truncate(0)
         time.sleep(3)
     else:
         cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
