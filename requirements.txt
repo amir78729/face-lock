@@ -8,4 +8,4 @@ numpy
 nexmo
 Pillow
 flask
-serial
+pyserial
