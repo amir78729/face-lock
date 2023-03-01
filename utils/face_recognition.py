@@ -7,6 +7,7 @@ import glob
 import numpy as np
 from tqdm import tqdm
 from utils.files import get_configs
+from colorama import *
 
 
 class FaceRecognition:
@@ -30,7 +31,8 @@ class FaceRecognition:
         try:
             # Store image encoding and names
             start = time.time()
-            for img_path in tqdm(images_path):
+            print(Fore.YELLOW, end='')
+            for img_path in tqdm(images_path, ncols=64):
                 img = cv2.imread(img_path)
                 rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
@@ -46,8 +48,9 @@ class FaceRecognition:
                     self.known_face_names.append(filename)
                 except IndexError:
                     pass
+            print(Style.RESET_ALL, end='')
             end = time.time()
-            print('Model was trained in {}s.'.format(round(end - start, 4)))
+            print(Fore.GREEN, 'Model was trained in {}s.'.format(round(end - start, 4)), Style.RESET_ALL)
         except Exception as e:
             print(e)
 

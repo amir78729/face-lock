@@ -2,6 +2,7 @@ import time
 import calendar
 
 from utils.files import get_configs
+from colorama import *
 
 
 def log(_msg):
@@ -11,7 +12,7 @@ def log(_msg):
     log_msg = '{}: {}\n'.format(time_stamp, _msg.upper())
 
     if log_config['log_in_console']:
-        print(log_msg, end='')
+        print(Fore.CYAN, log_msg.split(':')[0], Fore.RESET, log_msg.split(':')[1], end='')
 
     if log_config['log_in_file']:
         with open(log_config['file_path'], 'a') as log_file:

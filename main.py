@@ -9,10 +9,11 @@ from utils.user.authentication import enter_user
 from utils.files import get_configs
 from utils.screen.texts import add_time_to_screen
 from utils.screen.capture import capture_frame, terminate_capture
+from colorama import Style, Fore
 
 
 if __name__ == '__main__':
-    print(FACE_LOCK)
+    print(Fore.GREEN, FACE_LOCK, Style.RESET_ALL)
     fr = FaceRecognition()
     fr.load_encoding_images(get_configs('general')['images_path'])
 

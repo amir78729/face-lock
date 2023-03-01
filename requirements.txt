@@ -9,3 +9,4 @@ nexmo
 Pillow
 flask
 pyserial
+colorama
