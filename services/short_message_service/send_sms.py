@@ -36,7 +36,7 @@ def send_sms(msg):
 
     print("Text Mode Enabled…")
     time.sleep(3)
-    port.write(bytes('AT+CMGS="{}″\r'.format('989123882817'), 'utf-8'))
+    port.write(bytes('AT+CMGS="{}″\r'.format('989121580288'), 'utf-8'))
     print("sending message….")
     time.sleep(3)
     port.reset_output_buffer()
