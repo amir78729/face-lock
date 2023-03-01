@@ -1,6 +1,6 @@
 import cv2
 
-from constants.keys import *
+from constants import *
 from utils.face_recognition import FaceRecognition
 from utils.screen.faces import show_recognized_faces_on_screen
 from utils.user.add import add_user
@@ -12,6 +12,7 @@ from utils.screen.capture import capture_frame, terminate_capture
 
 
 if __name__ == '__main__':
+    print(FACE_LOCK)
     fr = FaceRecognition()
     fr.load_encoding_images(get_configs('general')['images_path'])
 
