@@ -10,6 +10,8 @@ from utils.log import log
 from constants.keys import *
 from constants.colors import *
 from utils.screen.texts import add_time_to_screen
+from utils.system import is_raspberry
+from utils.screen.capture import get_raspberry_frames
 
 
 def is_user_admin(_fr):
@@ -18,57 +20,108 @@ def is_user_admin(_fr):
     :param _fr: face recognition module
     :return: is user admin
     """
-    _cap = cv2.VideoCapture(0)
     _id = ''
     is_authentication_strict = get_configs('authentication')['strict_authentication']
 
-    while True:
-        ret_add, _frame = _cap.read()
-        detected_faces = []
-        try:
-            add_time_to_screen(_frame)
-            face_locations, face_names = _fr.recognize_known_faces(_frame)
+    if is_raspberry:
+        frames, stream_capture = get_raspberry_frames()
+        for f in frames:
+            _frame = f.array
+            detected_faces = []
+            try:
+                add_time_to_screen(_frame)
+                face_locations, face_names = _fr.recognize_known_faces(_frame)
 
-            for face_loc, name in zip(face_locations, face_names):
-                detected_faces.append(name.split('_')[0])
-        except Exception as e:
-            print(e)
+                for face_loc, name in zip(face_locations, face_names):
+                    detected_faces.append(name.split('_')[0])
+            except Exception as e:
+                print(e)
 
-        is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
+            is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
 
-        add_title_to_screen(_frame, 'AUTHENTICATION', YELLOW)
-        add_subtitle_to_screen(_frame, 'please enter your admin ID: ' + _id)
+            add_title_to_screen(_frame, 'AUTHENTICATION', YELLOW)
+            add_subtitle_to_screen(_frame, 'please enter your admin ID: ' + _id)
 
-        if not is_a_face_detected:
-            add_description_to_screen(_frame, 'NO FACE DETECTED!', RED)
+            if not is_a_face_detected:
+                add_description_to_screen(_frame, 'NO FACE DETECTED!', RED)
 
-        if is_authentication_strict:
-            if is_a_face_detected and _id in detected_faces:
-                if _id in get_configs('authentication')['admin_users']:
-                    add_description_to_screen(_frame, 'PRESS ENTER TO CONTINUE!', GREEN)
+            if is_authentication_strict:
+                if is_a_face_detected and _id in detected_faces:
+                    if _id in get_configs('authentication')['admin_users']:
+                        add_description_to_screen(_frame, 'PRESS ENTER TO CONTINUE!', GREEN)
+                    else:
+                        add_description_to_screen(_frame, 'YOU ARE NOT AN ADMIN!', RED)
+                elif _id != '':
+                    add_description_to_screen(_frame, 'YOUR ID IS NOT "{}"'.format(_id), RED)
+
+            cv2.imshow('Frame', _frame)
+            _key = cv2.waitKey(1)
+            stream_capture.truncate(0)
+
+            if _key != -1:
+                if _key == DELETE:
+                    _id = _id[:-1]
+                elif _key == ESCAPE:
+                    break
+                elif _key == ENTER and _id != '':
+                    if get_configs('logging')['use_logging_in_admin_login']:
+                        log('admin entered user id "{}"'.format(_id))
+                    if not is_authentication_strict or _id in detected_faces:
+                        return _id in get_configs('authentication')['admin_users']
+                    if get_configs('logging')['use_logging_in_admin_login']:
+                        log('face for id "{}" was not detected'.format(_id))
                 else:
-                    add_description_to_screen(_frame, 'YOU ARE NOT AN ADMIN!', RED)
-            elif _id != '':
-                add_description_to_screen(_frame, 'YOUR ID IS NOT "{}"'.format(_id), RED)
+                    _id += chr(_key)
+                    _id = _id.replace('_', ' ')
+    else:
+        _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
+        while True:
+            ret_add, _frame = _cap.read()
+            detected_faces = []
+            try:
+                add_time_to_screen(_frame)
+                face_locations, face_names = _fr.recognize_known_faces(_frame)
 
-        cv2.imshow('Frame', _frame)
-        _key = cv2.waitKey(1)
+                for face_loc, name in zip(face_locations, face_names):
+                    detected_faces.append(name.split('_')[0])
+            except Exception as e:
+                print(e)
 
-        if _key != -1:
-            if _key == DELETE:
-                _id = _id[:-1]
-            elif _key == ESCAPE:
-                break
-            elif _key == ENTER and _id != '':
-                if get_configs('logging')['use_logging_in_admin_login']:
-                    log('admin entered user id "{}"'.format(_id))
-                if not is_authentication_strict or _id in detected_faces:
-                    return _id in get_configs('authentication')['admin_users']
-                if get_configs('logging')['use_logging_in_admin_login']:
-                    log('face for id "{}" was not detected'.format(_id))
-            else:
-                _id += chr(_key)
-                _id = _id.replace('_', ' ')
+            is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
+
+            add_title_to_screen(_frame, 'AUTHENTICATION', YELLOW)
+            add_subtitle_to_screen(_frame, 'please enter your admin ID: ' + _id)
+
+            if not is_a_face_detected:
+                add_description_to_screen(_frame, 'NO FACE DETECTED!', RED)
+
+            if is_authentication_strict:
+                if is_a_face_detected and _id in detected_faces:
+                    if _id in get_configs('authentication')['admin_users']:
+                        add_description_to_screen(_frame, 'PRESS ENTER TO CONTINUE!', GREEN)
+                    else:
+                        add_description_to_screen(_frame, 'YOU ARE NOT AN ADMIN!', RED)
+                elif _id != '':
+                    add_description_to_screen(_frame, 'YOUR ID IS NOT "{}"'.format(_id), RED)
+
+            cv2.imshow('Frame', _frame)
+            _key = cv2.waitKey(1)
+
+            if _key != -1:
+                if _key == DELETE:
+                    _id = _id[:-1]
+                elif _key == ESCAPE:
+                    break
+                elif _key == ENTER and _id != '':
+                    if get_configs('logging')['use_logging_in_admin_login']:
+                        log('admin entered user id "{}"'.format(_id))
+                    if not is_authentication_strict or _id in detected_faces:
+                        return _id in get_configs('authentication')['admin_users']
+                    if get_configs('logging')['use_logging_in_admin_login']:
+                        log('face for id "{}" was not detected'.format(_id))
+                else:
+                    _id += chr(_key)
+                    _id = _id.replace('_', ' ')
 
 
 def is_admin_user_authenticated(_fr, retry):
@@ -79,7 +132,7 @@ def is_admin_user_authenticated(_fr, retry):
     :param retry: show error on page
     :return:
     """
-    _cap = cv2.VideoCapture(0)
+    _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
     _password = ''
     while True:
         ret_add, _frame = _cap.read()

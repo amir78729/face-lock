@@ -16,7 +16,7 @@ def enter_id():
 
     :return: a list of files for deleting
     """
-    _cap = cv2.VideoCapture(0)
+    _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
     _id = ''
     admins = get_configs('authentication')['admin_users']
 

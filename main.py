@@ -9,7 +9,7 @@ from utils.user.delete import delete_user
 from utils.user.authentication import enter_user
 from utils.files import get_configs
 from utils.screen.texts import add_time_to_screen
-from utils.screen.capture import capture_frame, terminate_capture, get_raspberry_frames
+from utils.screen.capture import get_raspberry_frames
 from utils.system import is_raspberry
 from colorama import Style, Fore
 
@@ -22,8 +22,8 @@ if __name__ == '__main__':
 
     if is_raspberry:
         frames, stream_capture = get_raspberry_frames()
-        for _frame in frames:
-            frame = _frame.array
+        for f in frames:
+            frame = f.array
             add_time_to_screen(frame)
             show_recognized_faces_on_screen(frame, fr)
             key = cv2.waitKey(1)

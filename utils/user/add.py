@@ -21,7 +21,7 @@ def enter_user_name(_fr):
     Enter Username
     :return:
     """
-    _cap = cv2.VideoCapture(0)
+    _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
     _name = ''
 
     def get_name():
