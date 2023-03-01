@@ -21,7 +21,7 @@ if __name__ == '__main__':
     if is_raspberry:
         frames, stream_capture = get_raspberry_frames()
         for _frame in frames:
-            frame = _frame.array()
+            frame = _frame.array
             add_time_to_screen(frame)
             show_recognized_faces_on_screen(frame, fr)
             key = cv2.waitKey(1)
