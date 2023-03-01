@@ -32,7 +32,7 @@ class FaceRecognition:
             # Store image encoding and names
             start = time.time()
             print(Fore.YELLOW, end='')
-            for img_path in tqdm(images_path, ncols=64):
+            for img_path in tqdm(images_path, ncols=68):
                 img = cv2.imread(img_path)
                 rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
