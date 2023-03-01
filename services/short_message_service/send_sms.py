@@ -1,7 +1,7 @@
 import serial
 import time
 import RPi.GPIO as GPIO
-from utils.log import log
+# from utils.log import log
 from utils.files import get_configs
 
 GPIO.setmode(GPIO.BOARD)
@@ -17,16 +17,16 @@ def send_sms(msg):
 
         port.write(b"AT+CMGF=1\r")
 
-        log("Text Mode Enabled…")
+        # log("Text Mode Enabled…")
         time.sleep(3)
         port.write(bytes('AT+CMGS="{}″\r'.format(get_configs('sms')['target_phone_number']), 'utf-8'))
-        log("sending message….")
+        # log("sending message….")
         time.sleep(3)
         port.reset_output_buffer()
         time.sleep(1)
         port.write(str.encode(msg+chr(26)))
         time.sleep(3)
-        log("message sent...")
+        # log("message sent...")
 
 
 send_sms('test')
