@@ -196,38 +196,39 @@ def enter_user(_fr):
             return _id
     if is_raspberry:
         frames, stream_capture = get_raspberry_frames()
+        _frame = None
         for f in frames:
             _frame = f.array
-            add_time_to_screen(_frame)
-            face_locations, face_names = _fr.recognize_known_faces(_frame)
-
-            try:
-                if len(face_locations) > 1:
-                    add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
-                    add_subtitle_to_screen(_frame, 'More than one faces were detected')
-                    log('unsuccessful entrance, more than one faces detected')
-                else:
-                    name = get_name(face_names[0])
-                    if name == 'Unknown' or len(face_locations) != 1:
-                        add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
-                        add_subtitle_to_screen(_frame, 'You are not able to enter')
-                        add_description_to_screen(_frame, "please call system's administrator", YELLOW)
-                        log('unsuccessful entrance, unauthorized access')
-                    else:
-                        add_title_to_screen(_frame, 'DOOR IS OPEN', GREEN)
-                        add_subtitle_to_screen(_frame, 'WELCOME!')
-                        add_description_to_screen(_frame, "Don't forget to close the door!", YELLOW)
-                        log('"{}" entered'.format(name.split('_')[0]))
-            except (IndexError, TypeError):
-                add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
-                add_subtitle_to_screen(_frame, 'No face was detected!', YELLOW)
-                add_description_to_screen(_frame, "Please try again...")
-                log('unsuccessful entrance, no face detected')
-
-            cv2.imshow('Frame', _frame)
-            _key = cv2.waitKey(1)
-            time.sleep(3)
             break
+        add_time_to_screen(_frame)
+        face_locations, face_names = _fr.recognize_known_faces(_frame)
+
+        try:
+            if len(face_locations) > 1:
+                add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
+                add_subtitle_to_screen(_frame, 'More than one faces were detected')
+                log('unsuccessful entrance, more than one faces detected')
+            else:
+                name = get_name(face_names[0])
+                if name == 'Unknown' or len(face_locations) != 1:
+                    add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
+                    add_subtitle_to_screen(_frame, 'You are not able to enter')
+                    add_description_to_screen(_frame, "please call system's administrator", YELLOW)
+                    log('unsuccessful entrance, unauthorized access')
+                else:
+                    add_title_to_screen(_frame, 'DOOR IS OPEN', GREEN)
+                    add_subtitle_to_screen(_frame, 'WELCOME!')
+                    add_description_to_screen(_frame, "Don't forget to close the door!", YELLOW)
+                    log('"{}" entered'.format(name.split('_')[0]))
+        except (IndexError, TypeError):
+            add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
+            add_subtitle_to_screen(_frame, 'No face was detected!', YELLOW)
+            add_description_to_screen(_frame, "Please try again...")
+            log('unsuccessful entrance, no face detected')
+
+        cv2.imshow('Frame', _frame)
+        _key = cv2.waitKey(1)
+        time.sleep(3)
     else:
         cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
         ret_add, _frame = cap.read()
