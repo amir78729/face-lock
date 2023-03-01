@@ -17,10 +17,11 @@ camera.resolution = RESOLUTION
 camera.framerate = FRAME_RATE
 camera.rotation = 180
 raw_capture = PiRGBArray(camera, size=RESOLUTION)
+all_captured_frames = camera.capture_continuous(raw_capture, format="bgr", use_video_port=True)
 
 
 def get_raspberry_frames():
-    return [camera.capture_continuous(raw_capture, format="bgr", use_video_port=True), raw_capture]
+    return [all_captured_frames, raw_capture]
 
 
 cap = cv2.VideoCapture(get_configs('general')['camera_arg'])  # TODO GLOBALIZE
