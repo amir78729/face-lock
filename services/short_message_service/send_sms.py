@@ -12,7 +12,7 @@ def send_sms(msg):
     if get_configs('sms')['send_sms']:
         port.write(b'AT\r')
         rcv = port.read(10)
-        # print(rcv)
+        print(rcv)
         time.sleep(1)
 
         port.write(b"AT+CMGF=1\r")
@@ -27,3 +27,6 @@ def send_sms(msg):
         port.write(str.encode(msg+chr(26)))
         time.sleep(3)
         log("message sent...")
+
+
+send_sms('test')
