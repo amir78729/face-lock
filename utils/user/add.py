@@ -14,6 +14,8 @@ from utils.user.authentication import is_user_admin, is_admin_user_authenticated
 from utils.log import log
 from utils.files import get_configs
 from utils.screen.texts import add_time_to_screen
+from utils.system import is_raspberry
+from utils.screen.capture import get_raspberry_frames
 
 
 def enter_user_name(_fr):
@@ -21,7 +23,6 @@ def enter_user_name(_fr):
     Enter Username
     :return:
     """
-    _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
     _name = ''
 
     def get_name():
@@ -29,34 +30,67 @@ def enter_user_name(_fr):
             return convert_keypad_input_sequence_to_string(standardize_keypad_input_sequence(_name))
         return _name
 
-    while True:
-        ret_add, _frame = _cap.read()
-        add_time_to_screen(_frame)
-        is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
-        add_title_to_screen(_frame, 'ADD IMAGE: ENTER NAME')
-        add_subtitle_to_screen(_frame, 'please enter your name: ' + get_name())
-        if not is_a_face_detected:
-            add_description_to_screen(_frame, 'NO FACE DETECTED!', RED)
+    if is_raspberry:
+        frames, stream_capture = get_raspberry_frames()
+        for f in frames:
+            _frame = f.array
+            add_time_to_screen(_frame)
+            is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
+            add_title_to_screen(_frame, 'ADD IMAGE: ENTER NAME')
+            add_subtitle_to_screen(_frame, 'please enter your name: ' + get_name())
+            if not is_a_face_detected:
+                add_description_to_screen(_frame, 'NO FACE DETECTED!', RED)
 
-        cv2.imshow('Frame', _frame)
-        _key = cv2.waitKey(1)
+            cv2.imshow('Frame', _frame)
+            _key = cv2.waitKey(1)
+            stream_capture.truncate(0)
 
-        if _key != -1:
-            if _key == DELETE:
-                _name = _name[:-1]
-            elif _key == ESCAPE:
-                break
-            elif _key == ENTER and _name != '':
-                if get_configs('logging')['use_logging_in_admin_login']:
-                    log('username entered: "{}"'.format(get_name()))
-                return get_name()
-            else:
-                if get_configs('general')['using_numeric_keypad']:
-                    if chr(_key) in KEYPAD_VALID_NUMERIC_INPUTS:
-                        _name += chr(_key)
+            if _key != -1:
+                if _key == DELETE:
+                    _name = _name[:-1]
+                elif _key == ESCAPE:
+                    break
+                elif _key == ENTER and _name != '':
+                    if get_configs('logging')['use_logging_in_admin_login']:
+                        log('username entered: "{}"'.format(get_name()))
+                    return get_name()
                 else:
-                    _name += chr(_key)
-                    _name = _name.replace('_', ' ')
+                    if get_configs('general')['using_numeric_keypad']:
+                        if chr(_key) in KEYPAD_VALID_NUMERIC_INPUTS:
+                            _name += chr(_key)
+                    else:
+                        _name += chr(_key)
+                        _name = _name.replace('_', ' ')
+    else:
+        _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
+        while True:
+            ret_add, _frame = _cap.read()
+            add_time_to_screen(_frame)
+            is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
+            add_title_to_screen(_frame, 'ADD IMAGE: ENTER NAME')
+            add_subtitle_to_screen(_frame, 'please enter your name: ' + get_name())
+            if not is_a_face_detected:
+                add_description_to_screen(_frame, 'NO FACE DETECTED!', RED)
+
+            cv2.imshow('Frame', _frame)
+            _key = cv2.waitKey(1)
+
+            if _key != -1:
+                if _key == DELETE:
+                    _name = _name[:-1]
+                elif _key == ESCAPE:
+                    break
+                elif _key == ENTER and _name != '':
+                    if get_configs('logging')['use_logging_in_admin_login']:
+                        log('username entered: "{}"'.format(get_name()))
+                    return get_name()
+                else:
+                    if get_configs('general')['using_numeric_keypad']:
+                        if chr(_key) in KEYPAD_VALID_NUMERIC_INPUTS:
+                            _name += chr(_key)
+                    else:
+                        _name += chr(_key)
+                        _name = _name.replace('_', ' ')
 
 
 def take_and_save_user_image(_name, _index, _fr):
@@ -67,35 +101,67 @@ def take_and_save_user_image(_name, _index, _fr):
     :param _index:  Replica Index
     :return:
     """
-    cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
-    while True:
-        ret_add, _frame = cap.read()
-        _frame_copy = copy.deepcopy(_frame)
-        add_time_to_screen(_frame)
-        is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
+    if is_raspberry:
+        frames, stream_capture = get_raspberry_frames()
+        for f in frames:
+            _frame = f.array
+            _frame_copy = copy.deepcopy(_frame)
+            add_time_to_screen(_frame)
+            is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
 
-        add_title_to_screen(_frame,
-                            'ADD IMAGE: ADD IMAGE TO DATABASE ({} / {})'.format(_index, get_configs('general')[
-                                'images_per_user']))
-        add_subtitle_to_screen(_frame, 'press ENTER to take picture')
-        if not is_a_face_detected:
-            add_description_to_screen(_frame, 'NO FACE DETECTED!', RED)
+            add_title_to_screen(_frame,
+                                'ADD IMAGE: ADD IMAGE TO DATABASE ({} / {})'.format(_index, get_configs('general')[
+                                    'images_per_user']))
+            add_subtitle_to_screen(_frame, 'press ENTER to take picture')
+            if not is_a_face_detected:
+                add_description_to_screen(_frame, 'NO FACE DETECTED!', RED)
 
-        cv2.imshow('Frame', _frame)
-        _key = cv2.waitKey(1)
+            cv2.imshow('Frame', _frame)
+            _key = cv2.waitKey(1)
+            stream_capture.truncate(0)
 
-        if _key == ENTER and is_a_face_detected:
-            top, right, bottom, left = face_locations[0]
-            resized_image = cv2.resize(_frame_copy[top:bottom, left:right], (64, 64))
-            resized_image = cv2.cvtColor(resized_image, cv2.COLOR_RGB2GRAY)
-            cv2.imwrite(
-                '{}/{}_{}.jpg'.format(get_configs('general')['images_path'], _name, _index),
-                resized_image,
-            )
-            break
+            if _key == ENTER and is_a_face_detected:
+                top, right, bottom, left = face_locations[0]
+                resized_image = cv2.resize(_frame_copy[top:bottom, left:right], (64, 64))
+                resized_image = cv2.cvtColor(resized_image, cv2.COLOR_RGB2GRAY)
+                cv2.imwrite(
+                    '{}/{}_{}.jpg'.format(get_configs('general')['images_path'], _name, _index),
+                    resized_image,
+                )
+                break
 
-        if _key == ESCAPE:
-            break
+            if _key == ESCAPE:
+                break
+    else:
+        cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
+        while True:
+            ret_add, _frame = cap.read()
+            _frame_copy = copy.deepcopy(_frame)
+            add_time_to_screen(_frame)
+            is_a_face_detected, face_locations = show_detected_faces_on_screen(_fr, _frame)
+
+            add_title_to_screen(_frame,
+                                'ADD IMAGE: ADD IMAGE TO DATABASE ({} / {})'.format(_index, get_configs('general')[
+                                    'images_per_user']))
+            add_subtitle_to_screen(_frame, 'press ENTER to take picture')
+            if not is_a_face_detected:
+                add_description_to_screen(_frame, 'NO FACE DETECTED!', RED)
+
+            cv2.imshow('Frame', _frame)
+            _key = cv2.waitKey(1)
+
+            if _key == ENTER and is_a_face_detected:
+                top, right, bottom, left = face_locations[0]
+                resized_image = cv2.resize(_frame_copy[top:bottom, left:right], (64, 64))
+                resized_image = cv2.cvtColor(resized_image, cv2.COLOR_RGB2GRAY)
+                cv2.imwrite(
+                    '{}/{}_{}.jpg'.format(get_configs('general')['images_path'], _name, _index),
+                    resized_image,
+                )
+                break
+
+            if _key == ESCAPE:
+                break
 
 
 def add_username_by_user_id(_id, _username):

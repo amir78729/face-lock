@@ -4,6 +4,8 @@ from constants.keys import *
 from constants.colors import *
 from utils.files import get_configs
 from time import ctime
+from utils.system import is_raspberry
+from utils.screen.capture import get_raspberry_frames
 
 
 def add_title_to_screen(_frame, _text, _color=WHITE):
@@ -62,9 +64,22 @@ def show_loading_on_screen():
     """
     Show loading on a frame
     """
-    cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
-    ret_add, _frame = cap.read()
-    add_time_to_screen(_frame)
-    add_title_to_screen(_frame, 'LOADING...', YELLOW)
-    cv2.imshow('Frame', _frame)
-    _key = cv2.waitKey(1)
+    if is_raspberry:
+        frames, stream_capture = get_raspberry_frames()
+        _frame = None
+        for f in frames:
+            _frame = f.array
+            break
+        add_time_to_screen(_frame)
+        add_title_to_screen(_frame, 'LOADING...', YELLOW)
+        cv2.imshow('Frame', _frame)
+        _key = cv2.waitKey(1)
+        stream_capture.truncate(0)
+    else:
+        cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
+        ret_add, _frame = cap.read()
+        add_time_to_screen(_frame)
+        add_title_to_screen(_frame, 'LOADING...', YELLOW)
+        cv2.imshow('Frame', _frame)
+        _key = cv2.waitKey(1)
+
