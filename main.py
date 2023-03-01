@@ -1,4 +1,5 @@
 import cv2
+import os
 
 from constants import *
 from utils.face_recognition import FaceRecognition
@@ -14,6 +15,7 @@ from colorama import Style, Fore
 
 
 if __name__ == '__main__':
+    os.system('cls' if os.name == 'nt' else 'clear')
     print(Fore.GREEN, FACE_LOCK, Style.RESET_ALL)
     fr = FaceRecognition()
     fr.load_encoding_images(get_configs('general')['images_path'])

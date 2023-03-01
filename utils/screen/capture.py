@@ -17,6 +17,7 @@ def get_raspberry_frames():
     camera = PiCamera()
     camera.resolution = RESOLUTION
     camera.framerate = FRAME_RATE
+    camera.rotation = 180
     raw_capture = PiRGBArray(camera, size=RESOLUTION)
     return [camera.capture_continuous(raw_capture, format="bgr", use_video_port=True), raw_capture]
 
