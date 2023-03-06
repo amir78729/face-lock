@@ -54,10 +54,10 @@ def keypad_callback(channel):
 # # Detect the rising edges on the column lines of the
 # # keypad. This way, we can detect if the user presses
 # # a button when we send a pulse.
-# GPIO.add_event_detect(C1, GPIO.RISING, callback=keypad_callback)
-# GPIO.add_event_detect(C2, GPIO.RISING, callback=keypad_callback)
-# GPIO.add_event_detect(C3, GPIO.RISING, callback=keypad_callback)
-# GPIO.add_event_detect(C4, GPIO.RISING, callback=keypad_callback)
+GPIO.add_event_detect(C1, GPIO.RISING, callback=keypad_callback)
+GPIO.add_event_detect(C2, GPIO.RISING, callback=keypad_callback)
+GPIO.add_event_detect(C3, GPIO.RISING, callback=keypad_callback)
+GPIO.add_event_detect(C4, GPIO.RISING, callback=keypad_callback)
 
 
 # Sets all lines to a specific state. This is a helper
@@ -85,20 +85,32 @@ def read_keypad_line(line, characters):
 
 def read_keypad():
     global keypadPressed
-    if keypadPressed != -1:
-        set_all_lines(GPIO.HIGH)
-        if GPIO.input(keypadPressed) == 0:
-            keypadPressed = -1
-        else:
-            time.sleep(0.3)
-    else:
+    print(GPIO.event_detected(C1))
+    print(GPIO.event_detected(C2))
+    print(GPIO.event_detected(C3))
+    print(GPIO.event_detected(C4))
+    if GPIO.event_detected(C1) or GPIO.event_detected(C2) or GPIO.event_detected(C3) or GPIO.event_detected(C4):
         key = None
         for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
             key = read_keypad_line(line, characters)
             if key:
                 break
-        GPIO.cleanup()
         return key
+
+    # if keypadPressed != -1:
+    #     set_all_lines(GPIO.HIGH)
+    #     if GPIO.input(keypadPressed) == 0:
+    #         keypadPressed = -1
+    #     else:
+    #         time.sleep(0.3)
+    # else:
+    #     key = None
+    #     for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
+    #         key = read_keypad_line(line, characters)
+    #         if key:
+    #             break
+    #     # GPIO.cleanup()
+    #     return key
 
 
 # try:
