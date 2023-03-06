@@ -34,6 +34,8 @@ GPIO.setup(C2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(C3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(C4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+keypadPressed = -1
+
 
 # This callback registers the key that was pressed
 # if no other key is currently pressed
@@ -75,7 +77,7 @@ def check_special_keys():
     GPIO.output(L1, GPIO.HIGH)
 
     if not pressed and GPIO.input(C4) == 1:
-        if _input == secretCode:
+        if _input == '1234':
             print("Code correct!")
             # TODO: Unlock a door, turn a light on, etc.
         else:
