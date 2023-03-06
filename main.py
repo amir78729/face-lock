@@ -28,15 +28,15 @@ if __name__ == '__main__':
             frame = f.array
             add_time_to_screen(frame)
             show_recognized_faces_on_screen(frame, fr)
-            key = cv2.waitKey(1)
+            key = read_keypad() if get_configs('general')['using_numeric_keypad'] else cv2.waitKey(1)
             read_keypad()
             stream_capture.truncate(0)
-            if key == ENTER:
+            if key == ENTER or key == '*':
                 enter_user(fr)
-            if key == ord('a'):
+            if key == ord('a') or key == 'A':
                 add_user(fr)
             elif key == ord('d'):
-                delete_user(fr)
+                delete_user(fr) or key == 'D'
             elif key == ESCAPE or key == ord('q'):
                 break
     else:
