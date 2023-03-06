@@ -8,6 +8,7 @@ from utils.user.add import add_user
 from utils.user.delete import delete_user
 from utils.user.authentication import enter_user
 from utils.files import get_configs
+from utils.keypad import read_keypad
 from utils.screen.texts import add_time_to_screen
 from utils.screen.capture import get_raspberry_frames
 from utils.system import is_raspberry
@@ -28,6 +29,7 @@ if __name__ == '__main__':
             add_time_to_screen(frame)
             show_recognized_faces_on_screen(frame, fr)
             key = cv2.waitKey(1)
+            read_keypad()
             stream_capture.truncate(0)
             if key == ENTER:
                 enter_user(fr)
