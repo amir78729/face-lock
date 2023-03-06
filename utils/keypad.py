@@ -80,8 +80,6 @@ def read_keypad_line(line, characters):
     if GPIO.input(C4) == 1:
         pressed = characters[3]
     GPIO.output(line, GPIO.LOW)
-    if pressed:
-        print('pressed', pressed)
     return pressed
 
 
@@ -89,7 +87,8 @@ def read_keypad():
     key = None
     for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
         key = read_keypad_line(line, characters)
-        print(key)
+        if key:
+            break
     return key
 
 

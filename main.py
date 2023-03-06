@@ -34,8 +34,8 @@ if __name__ == '__main__':
                 enter_user(fr)
             if key == ord('a') or key == 'A':
                 add_user(fr)
-            elif key == ord('d'):
-                delete_user(fr) or key == 'D'
+            elif key == ord('d') or key == 'D':
+                delete_user(fr)
             elif key == ESCAPE or key == ord('q'):
                 break
     else:
