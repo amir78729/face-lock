@@ -51,13 +51,13 @@ def keypad_callback(channel):
         keypadPressed = channel
 
 
-# Detect the rising edges on the column lines of the
-# keypad. This way, we can detect if the user presses
-# a button when we send a pulse.
-GPIO.add_event_detect(C1, GPIO.RISING, callback=keypad_callback)
-GPIO.add_event_detect(C2, GPIO.RISING, callback=keypad_callback)
-GPIO.add_event_detect(C3, GPIO.RISING, callback=keypad_callback)
-GPIO.add_event_detect(C4, GPIO.RISING, callback=keypad_callback)
+# # Detect the rising edges on the column lines of the
+# # keypad. This way, we can detect if the user presses
+# # a button when we send a pulse.
+# GPIO.add_event_detect(C1, GPIO.RISING, callback=keypad_callback)
+# GPIO.add_event_detect(C2, GPIO.RISING, callback=keypad_callback)
+# GPIO.add_event_detect(C3, GPIO.RISING, callback=keypad_callback)
+# GPIO.add_event_detect(C4, GPIO.RISING, callback=keypad_callback)
 
 
 # Sets all lines to a specific state. This is a helper
