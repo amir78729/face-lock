@@ -93,10 +93,10 @@ def read_keypad():
             print(key)
             if key:
                 break
+        time.sleep(0.1)
         print('----', key)
         return key
     print('.')
-    time.sleep(0.1)
 
     # if keypadPressed != -1:
     #     set_all_lines(GPIO.HIGH)
