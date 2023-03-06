@@ -125,7 +125,7 @@ try:
             if GPIO.input(keypadPressed) == 0:
                 keypadPressed = -1
             else:
-                time.sleep(0.1)
+                time.sleep(0.5)
         # Otherwise, just read the _input
         else:
             if not check_special_keys():
@@ -133,8 +133,8 @@ try:
                 read_line(L2, ["4", "5", "6", "B"])
                 read_line(L3, ["7", "8", "9", "C"])
                 read_line(L4, ["*", "0", "#", "D"])
-                time.sleep(0.1)
+                time.sleep(0.5)
             else:
-                time.sleep(0.1)
+                time.sleep(0.5)
 except KeyboardInterrupt:
     print("\nApplication stopped!")
