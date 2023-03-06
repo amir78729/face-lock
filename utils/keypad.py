@@ -1,18 +1,37 @@
 import RPi.GPIO as GPIO
 import time
 
-KEYPAD_VALID_NUMERIC_INPUTS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#']
-KEYPAD_VALID_COMMAND_INPUTS = ['A', 'B', 'C', 'D']
+KEYPAD_INPUTS = {
+    'A': 'A',
+    'B': 'B',
+    'C': 'C',
+    'D': 'D',
+    '1': '1',
+    '2': '2',
+    '3': '3',
+    '4': '4',
+    '5': '5',
+    '6': '6',
+    '7': '7',
+    '8': '8',
+    '9': '9',
+    '*': '*',
+    '0': '0',
+    '#': '#'
+}
+
+KEYPAD_VALID_NUMERIC_INPUTS = [KEYPAD_INPUTS['1'], KEYPAD_INPUTS['2'], KEYPAD_INPUTS['3'], KEYPAD_INPUTS['4'],
+                               KEYPAD_INPUTS['5'], KEYPAD_INPUTS['6'], KEYPAD_INPUTS['7'], KEYPAD_INPUTS['8'],
+                               KEYPAD_INPUTS['9'], KEYPAD_INPUTS['*'], KEYPAD_INPUTS['0'], KEYPAD_INPUTS['#']]
+KEYPAD_VALID_COMMAND_INPUTS = [KEYPAD_INPUTS['A'], KEYPAD_INPUTS['B'], KEYPAD_INPUTS['C'], KEYPAD_INPUTS['D']]
 KEYPAD_KEYMAP = [
-    ["1", "2", "3", "A"],
-    ["4", "5", "6", "B"],
-    ["7", "8", "9", "C"],
-    ["*", "0", "#", "D"],
+    [KEYPAD_INPUTS['1'], KEYPAD_INPUTS['2'], KEYPAD_INPUTS['3'], KEYPAD_INPUTS['A']],
+    [KEYPAD_INPUTS['4'], KEYPAD_INPUTS['5'], KEYPAD_INPUTS['6'], KEYPAD_INPUTS['B']],
+    [KEYPAD_INPUTS['7'], KEYPAD_INPUTS['8'], KEYPAD_INPUTS['9'], KEYPAD_INPUTS['C']],
+    [KEYPAD_INPUTS['*'], KEYPAD_INPUTS['0'], KEYPAD_INPUTS['#'], KEYPAD_INPUTS['D']],
 ]
 
-_input = ""
-
-# These are the GPIO pin numbers where the
+# These are the GPIO pins where the
 # lines of the keypad matrix are connected
 L1 = 5
 L2 = 6
@@ -60,17 +79,9 @@ GPIO.add_event_detect(C3, GPIO.RISING, callback=keypad_callback)
 GPIO.add_event_detect(C4, GPIO.RISING, callback=keypad_callback)
 
 
-# Sets all lines to a specific state. This is a helper
-# for detecting when the user releases a button
-def set_all_lines(state):
-    GPIO.output(L1, state)
-    GPIO.output(L2, state)
-    GPIO.output(L3, state)
-    GPIO.output(L4, state)
-
 def read_keypad_line(line, characters):
     GPIO.output(line, GPIO.HIGH)
-    pressed = None
+    pressed = ''
     if GPIO.input(C1) == 1:
         pressed = characters[0]
     if GPIO.input(C2) == 1:
@@ -86,56 +97,13 @@ def read_keypad_line(line, characters):
 def read_keypad():
     global keypadPressed
     if GPIO.event_detected(C1) or GPIO.event_detected(C2) or GPIO.event_detected(C3) or GPIO.event_detected(C4):
-        print('@')
-        key = None
+        key = ''
         for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
             key = read_keypad_line(line, characters)
-            print(key)
             if key:
                 break
         time.sleep(0.1)
-        print('----', key)
         return key
-    print('.')
-
-    # if keypadPressed != -1:
-    #     set_all_lines(GPIO.HIGH)
-    #     if GPIO.input(keypadPressed) == 0:
-    #         keypadPressed = -1
-    #     else:
-    #         time.sleep(0.3)
-    # else:
-    #     key = None
-    #     for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
-    #         key = read_keypad_line(line, characters)
-    #         if key:
-    #             break
-    #     # GPIO.cleanup()
-    #     return key
-
-
-# try:
-#     while True:
-#         # If a button was previously pressed,
-#         # check, whether the user has released it yet
-#         if keypadPressed != -1:
-#             set_all_lines(GPIO.HIGH)
-#             if GPIO.input(keypadPressed) == 0:
-#                 keypadPressed = -1
-#             else:
-#                 time.sleep(0.3)
-#         # Otherwise, just read the _input
-#         else:
-#             if not check_special_keys():
-#                 read_line(L1, ["1", "2", "3", "A"])
-#                 read_line(L2, ["4", "5", "6", "B"])
-#                 read_line(L3, ["7", "8", "9", "C"])
-#                 read_line(L4, ["*", "0", "#", "D"])
-#                 time.sleep(0.3)
-#             else:
-#                 time.sleep(0.3)
-# except KeyboardInterrupt:
-#     print("\nApplication stopped!")
 
 
 MOBILE_NUMERIC_KEYPAD_DICTIONARY = {

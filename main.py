@@ -8,7 +8,7 @@ from utils.user.add import add_user
 from utils.user.delete import delete_user
 from utils.user.authentication import enter_user
 from utils.files import get_configs
-from utils.keypad import read_keypad
+from utils.keypad import read_keypad, KEYPAD_INPUTS
 from utils.screen.texts import add_time_to_screen
 from utils.screen.capture import get_raspberry_frames
 from utils.system import is_raspberry
@@ -31,13 +31,13 @@ if __name__ == '__main__':
             key = cv2.waitKey(1)
             key_keypad = read_keypad()
             stream_capture.truncate(0)
-            if key == ENTER or key_keypad == '*':
+            if key == ENTER or key_keypad == KEYPAD_INPUTS['*']:
                 enter_user(fr)
-            if key == ord('a') or key_keypad == 'A':
+            if key == ord('a') or key_keypad == KEYPAD_INPUTS['A']:
                 add_user(fr)
-            elif key == ord('d') or key_keypad == 'D':
+            elif key == ord('d') or key_keypad == KEYPAD_INPUTS['D']:
                 delete_user(fr)
-            elif key == ESCAPE or key == ord('q') or key_keypad == '#':
+            elif key == ESCAPE or key == ord('q') or key_keypad == KEYPAD_INPUTS['#']:
                 break
     else:
         while True:
