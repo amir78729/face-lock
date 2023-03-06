@@ -97,6 +97,7 @@ def read_keypad():
             key = read_keypad_line(line, characters)
             if key:
                 break
+        GPIO.cleanup()
         return key
 
 
