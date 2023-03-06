@@ -140,7 +140,10 @@ def read_keypad_line(line, characters):
 
 
 def read_keypad():
-    [read_keypad_line(line, characters) for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP)]
+    key = None
+    for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
+        key = read_keypad_line(line, characters)
+    return key
 
 
 # try:
