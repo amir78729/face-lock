@@ -85,17 +85,18 @@ def read_keypad_line(line, characters):
 
 def read_keypad():
     global keypadPressed
-    print(GPIO.event_detected(C1))
-    print(GPIO.event_detected(C2))
-    print(GPIO.event_detected(C3))
-    print(GPIO.event_detected(C4))
     if GPIO.event_detected(C1) or GPIO.event_detected(C2) or GPIO.event_detected(C3) or GPIO.event_detected(C4):
+        print('@')
         key = None
         for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
             key = read_keypad_line(line, characters)
+            print(key)
             if key:
                 break
+        print('----', key)
         return key
+    print('.')
+    time.sleep(0.1)
 
     # if keypadPressed != -1:
     #     set_all_lines(GPIO.HIGH)
