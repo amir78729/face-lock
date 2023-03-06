@@ -36,7 +36,7 @@ if __name__ == '__main__':
                 add_user(fr)
             elif key == ord('d') or key == 'D':
                 delete_user(fr)
-            elif key == ESCAPE or key == ord('q'):
+            elif key == ESCAPE or key == ord('q') or key == '#':
                 break
     else:
         while True:

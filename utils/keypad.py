@@ -84,12 +84,20 @@ def read_keypad_line(line, characters):
 
 
 def read_keypad():
-    key = None
-    for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
-        key = read_keypad_line(line, characters)
-        if key:
-            break
-    return key
+    global keypadPressed
+    if keypadPressed != -1:
+        set_all_lines(GPIO.HIGH)
+        if GPIO.input(keypadPressed) == 0:
+            keypadPressed = -1
+        else:
+            time.sleep(0.3)
+    else:
+        key = None
+        for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
+            key = read_keypad_line(line, characters)
+            if key:
+                break
+        return key
 
 
 # try:
