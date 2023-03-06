@@ -68,60 +68,6 @@ def set_all_lines(state):
     GPIO.output(L3, state)
     GPIO.output(L4, state)
 
-
-def check_special_keys():
-    global _input
-    pressed = False
-
-    GPIO.output(L3, GPIO.HIGH)
-
-    if GPIO.input(C4) == 1:
-        print("_input reset!")
-        pressed = True
-
-    GPIO.output(L3, GPIO.LOW)
-    GPIO.output(L1, GPIO.HIGH)
-
-    if not pressed and GPIO.input(C4) == 1:
-        if _input == '1234':
-            print("Code correct!")
-            # TODO: Unlock a door, turn a light on, etc.
-        else:
-            print("Incorrect code!")
-            # TODO: Sound an alarm, send an email, etc.
-        pressed = True
-
-    GPIO.output(L3, GPIO.LOW)
-
-    if pressed:
-        _input = ""
-
-    return pressed
-
-
-# reads the columns and appends the value, that corresponds
-# to the button, to a variable
-def read_line(line, characters):
-    global _input
-    # We have to send a pulse on each line to
-    # detect button presses
-    GPIO.output(line, GPIO.HIGH)
-    if GPIO.input(C1) == 1:
-        print(characters[0])
-        _input = _input + characters[0]
-    if GPIO.input(C2) == 1:
-        print(characters[1])
-        _input = _input + characters[1]
-    if GPIO.input(C3) == 1:
-        print(characters[2])
-        _input = _input + characters[2]
-    if GPIO.input(C4) == 1:
-        print(characters[3])
-        _input = _input + characters[3]
-    GPIO.output(line, GPIO.LOW)
-    print(_input)
-
-
 def read_keypad_line(line, characters):
     GPIO.output(line, GPIO.HIGH)
     pressed = None

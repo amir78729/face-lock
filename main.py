@@ -29,7 +29,6 @@ if __name__ == '__main__':
             add_time_to_screen(frame)
             show_recognized_faces_on_screen(frame, fr)
             key = read_keypad() if get_configs('general')['using_numeric_keypad'] else cv2.waitKey(1)
-            print(read_keypad())
             stream_capture.truncate(0)
             if key == ENTER or key == '*':
                 enter_user(fr)
