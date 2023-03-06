@@ -143,6 +143,7 @@ def read_keypad():
     key = None
     for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
         key = read_keypad_line(line, characters)
+        print(key)
     return key
 
 
