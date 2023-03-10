@@ -73,7 +73,7 @@ def is_user_admin(_fr):
                     if get_configs('logging')['use_logging_in_admin_login']:
                         log('face for id "{}" was not detected'.format(_id))
                 else:
-                    _id += chr(_key)
+                    _id += chr(key_keypad if get_configs('general')['using_numeric_keypad'] else _key)
                     # TODO: add keypad input
                     _id = _id.replace('_', ' ')
     else:
@@ -163,8 +163,7 @@ def is_admin_user_authenticated(_fr, retry):
                     return get_encrypted_password(_password) == get_configs('authentication')[
                         'admin_encrypted_password']
                 else:
-                    # TODO
-                    _password += chr(_key)
+                    _password += chr(key_keypad if get_configs('general')['using_numeric_keypad'] else _key)
                     _password = _password.replace('_', ' ')
     else:
         _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
