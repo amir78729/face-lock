@@ -31,20 +31,20 @@ def enter_id():
 
             cv2.imshow('Frame', _frame)
             _key = cv2.waitKey(1)
-            key_keypad = read_keypad()
+            _key_keypad = read_keypad()
             stream_capture.truncate(0)
             if _key != -1:
-                if _key == DELETE or key_keypad == KEYPAD_INPUTS['D']:
+                if _key == DELETE or _key_keypad == KEYPAD_INPUTS['D']:
                     _id = _id[:-1]
-                elif _key == ESCAPE or key_keypad == KEYPAD_INPUTS['#']:
+                elif _key == ESCAPE or _key_keypad == KEYPAD_INPUTS['#']:
                     break
-                elif _key == ENTER or key_keypad == KEYPAD_INPUTS['*']:
+                elif _key == ENTER or _key_keypad == KEYPAD_INPUTS['*']:
                     if _id in get_all_user_ids_from_files() and _id not in admins:
                         files = get_list_of_files()
                         return [x for x in files if _id in x], _id
 
                 else:
-                    _id += chr(key_keypad if get_configs('general')['using_numeric_keypad'] else _key)
+                    _id += chr(_key_keypad if get_configs('general')['using_numeric_keypad'] else _key)
                     _id = _id.replace('_', ' ')
     else:
         _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
