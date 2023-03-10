@@ -16,6 +16,7 @@ from utils.files import get_configs
 from utils.screen.texts import add_time_to_screen
 from utils.system import is_raspberry
 from utils.screen.capture import get_raspberry_frames
+from utils.keypad import read_keypad, KEYPAD_INPUTS
 
 
 def enter_user_name(_fr):
@@ -43,22 +44,25 @@ def enter_user_name(_fr):
 
             cv2.imshow('Frame', _frame)
             _key = cv2.waitKey(1)
+            key_keypad = read_keypad()
             stream_capture.truncate(0)
 
             if _key != -1:
-                if _key == DELETE:
+                if _key == DELETE or key_keypad == KEYPAD_INPUTS['D']:
                     _name = _name[:-1]
-                elif _key == ESCAPE:
+                elif _key == ESCAPE or key_keypad == KEYPAD_INPUTS['#']:
                     break
-                elif _key == ENTER and _name != '':
+                elif (_key == ENTER or key_keypad == KEYPAD_INPUTS['*']) and _name != '':
                     if get_configs('logging')['use_logging_in_admin_login']:
                         log('username entered: "{}"'.format(get_name()))
                     return get_name()
                 else:
                     if get_configs('general')['using_numeric_keypad']:
+                        # TODO
                         if chr(_key) in KEYPAD_VALID_NUMERIC_INPUTS:
                             _name += chr(_key)
                     else:
+                        # TODO
                         _name += chr(_key)
                         _name = _name.replace('_', ' ')
     else:
@@ -118,9 +122,10 @@ def take_and_save_user_image(_name, _index, _fr):
 
             cv2.imshow('Frame', _frame)
             _key = cv2.waitKey(1)
+            key_keypad = read_keypad()
             stream_capture.truncate(0)
 
-            if _key == ENTER and is_a_face_detected:
+            if (_key == ENTER or key_keypad == KEYPAD_INPUTS['*']) and is_a_face_detected:
                 top, right, bottom, left = face_locations[0]
                 resized_image = cv2.resize(_frame_copy[top:bottom, left:right], (64, 64))
                 resized_image = cv2.cvtColor(resized_image, cv2.COLOR_RGB2GRAY)
@@ -130,7 +135,7 @@ def take_and_save_user_image(_name, _index, _fr):
                 )
                 break
 
-            if _key == ESCAPE:
+            if _key == ESCAPE or key_keypad == KEYPAD_INPUTS['#']:
                 break
     else:
         cap = cv2.VideoCapture(get_configs('general')['camera_arg'])

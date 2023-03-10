@@ -10,6 +10,7 @@ from utils.log import log
 from utils.files import get_configs
 from utils.system import is_raspberry
 from utils.screen.capture import get_raspberry_frames
+from utils.keypad import read_keypad, KEYPAD_INPUTS
 
 
 def enter_id():
@@ -30,18 +31,20 @@ def enter_id():
 
             cv2.imshow('Frame', _frame)
             _key = cv2.waitKey(1)
+            key_keypad = read_keypad()
             stream_capture.truncate(0)
             if _key != -1:
-                if _key == DELETE:
+                if _key == DELETE or key_keypad == KEYPAD_INPUTS['D']:
                     _id = _id[:-1]
-                elif _key == ESCAPE:
+                elif _key == ESCAPE or key_keypad == KEYPAD_INPUTS['#']:
                     break
-                elif _key == ENTER:
+                elif _key == ENTER or key_keypad == KEYPAD_INPUTS['*']:
                     if _id in get_all_user_ids_from_files() and _id not in admins:
                         files = get_list_of_files()
                         return [x for x in files if _id in x], _id
 
                 else:
+                    # TODO
                     _id += chr(_key)
                     _id = _id.replace('_', ' ')
     else:
