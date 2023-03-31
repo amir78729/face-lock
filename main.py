@@ -33,11 +33,11 @@ if __name__ == '__main__':
             stream_capture.truncate(0)
             if key == ENTER or key_keypad == KEYPAD_INPUTS['*']:
                 enter_user(fr)
-            if key == ord('a') or key_keypad == KEYPAD_INPUTS['A']:
+            if key == ord('a') or key == ord('A') or key_keypad == KEYPAD_INPUTS['A']:
                 add_user(fr)
-            elif key == ord('d') or key_keypad == KEYPAD_INPUTS['D']:
+            elif key == ord('d') or key == ord('D') or key_keypad == KEYPAD_INPUTS['D']:
                 delete_user(fr)
-            elif key == ESCAPE or key == ord('q') or key_keypad == KEYPAD_INPUTS['#']:
+            elif key == ESCAPE or key == ord('q') or key == ord('Q') or key_keypad == KEYPAD_INPUTS['#']:
                 break
     else:
         while True:
