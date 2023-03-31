@@ -1,11 +1,13 @@
 import serial
 import time
-import RPi.GPIO as GPIO
+from utils.system import is_raspberry
 # from utils.log import log
 # from utils.files import get_configs
 
-GPIO.setmode(GPIO.BOARD)
-port = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=1)
+if is_raspberry:
+    import RPi.GPIO as GPIO
+    GPIO.setmode(GPIO.BOARD)
+    port = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=1)
 
 
 def send_sms(msg):
