@@ -107,7 +107,7 @@ def delete_user(_fr):
                     log('admin logged in')
                 delete_user_images()
                 _fr.load_encoding_images(
-                    get_configs('general')['images_path'])  # FIXME after deleting user still is detected on screen
+                    get_configs('general')['images_path'])
                 break
             else:
                 if get_configs('logging')['use_logging_in_wrong_password']:

@@ -27,6 +27,8 @@ class FaceRecognition:
         images_path = glob.glob(os.path.join(images_path, '*.*'))
 
         print('{} encoding images found.'.format(len(images_path)))
+        self.known_face_encodings.clear()
+        self.known_face_names.clear()
 
         try:
             # Store image encoding and names
