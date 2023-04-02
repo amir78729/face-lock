@@ -60,6 +60,20 @@ def add_time_to_screen(_frame, _color=WHITE):
     cv2.putText(_frame, time, (textX, textY), cv2.FONT_HERSHEY_DUPLEX, 0.7, _color, 1)
 
 
+def add_debug_text_to_screen(_frame, text, line_num=0,  _color=CYAN):
+    """
+    Show Time
+
+    :param _frame: Input frame
+    :param _color: Input color
+    """
+    textsize = cv2.getTextSize(text, cv2.FONT_HERSHEY_DUPLEX, 0.7, 2)[0]
+    textX = (30)
+    textY = (_frame.shape[0] - textsize[1] - 30 - (line_num * 30))
+
+    cv2.putText(_frame, text, (textX, textY), cv2.FONT_HERSHEY_DUPLEX, 0.7, BLACK, 4)
+    cv2.putText(_frame, text, (textX, textY), cv2.FONT_HERSHEY_DUPLEX, 0.7, _color, 1)
+
 def show_loading_on_screen():
     """
     Show loading on a frame
@@ -72,7 +86,7 @@ def show_loading_on_screen():
             break
         add_time_to_screen(_frame)
         add_title_to_screen(_frame, 'LOADING...', YELLOW)
-        cv2.imshow('Frame', _frame)
+        cv2.imshow('FACE LOCK', _frame)
         _key = cv2.waitKey(1)
         stream_capture.truncate(0)
     else:
@@ -80,6 +94,6 @@ def show_loading_on_screen():
         ret_add, _frame = cap.read()
         add_time_to_screen(_frame)
         add_title_to_screen(_frame, 'LOADING...', YELLOW)
-        cv2.imshow('Frame', _frame)
+        cv2.imshow('FACE LOCK', _frame)
         _key = cv2.waitKey(1)
 

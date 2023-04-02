@@ -91,4 +91,4 @@ def show_recognized_faces_on_screen(_frame, _fr):
     except Exception as e:
         show_detected_faces_on_screen(_fr, _frame)
 
-    cv2.imshow('Frame', _frame)
+    cv2.imshow('FACE LOCK', _frame)

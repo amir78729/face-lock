@@ -29,7 +29,7 @@ def enter_id():
             add_title_to_screen(_frame, 'DELETE USER', RED)
             add_subtitle_to_screen(_frame, 'please enter id to delete: ' + _id)
 
-            cv2.imshow('Frame', _frame)
+            cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
             _key_keypad = read_keypad()
             stream_capture.truncate(0)
@@ -54,7 +54,7 @@ def enter_id():
             add_title_to_screen(_frame, 'DELETE USER', RED)
             add_subtitle_to_screen(_frame, 'please enter id to delete: ' + _id)
 
-            cv2.imshow('Frame', _frame)
+            cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
 
             if _key != -1:

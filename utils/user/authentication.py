@@ -55,7 +55,7 @@ def is_user_admin(_fr):
                 elif _id != '':
                     add_description_to_screen(_frame, 'YOUR ID IS NOT "{}"'.format(_id), RED)
 
-            cv2.imshow('Frame', _frame)
+            cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
             _key_keypad = read_keypad()
             stream_capture.truncate(0)
@@ -107,7 +107,7 @@ def is_user_admin(_fr):
                 elif _id != '':
                     add_description_to_screen(_frame, 'YOUR ID IS NOT "{}"'.format(_id), RED)
 
-            cv2.imshow('Frame', _frame)
+            cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
 
             if _key != -1:
@@ -149,7 +149,7 @@ def is_admin_user_authenticated(_fr, retry):
             if retry:
                 add_description_to_screen(_frame, 'WRONG PASSWORD! TRY AGAIN...', RED)
 
-            cv2.imshow('Frame', _frame)
+            cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
             _key_keypad = read_keypad()
             stream_capture.truncate(0)
@@ -177,7 +177,7 @@ def is_admin_user_authenticated(_fr, retry):
             if retry:
                 add_description_to_screen(_frame, 'WRONG PASSWORD! TRY AGAIN...', RED)
 
-            cv2.imshow('Frame', _frame)
+            cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
 
             if _key != -1:
@@ -230,7 +230,7 @@ def enter_user(_fr):
             add_description_to_screen(_frame, "Please try again...")
             log('unsuccessful entrance, no face detected')
 
-        cv2.imshow('Frame', _frame)
+        cv2.imshow('FACE LOCK', _frame)
         _key = cv2.waitKey(1)
         stream_capture.truncate(0)
         time.sleep(3)
@@ -263,7 +263,7 @@ def enter_user(_fr):
             add_description_to_screen(_frame, "Please try again...")
             log('unsuccessful entrance, no face detected')
 
-        cv2.imshow('Frame', _frame)
+        cv2.imshow('FACE LOCK', _frame)
         _key = cv2.waitKey(1)
         time.sleep(3)
 
