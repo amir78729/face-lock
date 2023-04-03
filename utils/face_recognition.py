@@ -52,7 +52,9 @@ class FaceRecognition:
                     pass
             print(Style.RESET_ALL+'', end='')
             end = time.time()
-            print(Fore.GREEN + 'Model was trained in {}s.'.format(round(end - start, 4)) + Style.RESET_ALL)
+            duration = round(end - start, 4)
+            print(Fore.GREEN + 'Model was trained in {}s.'.format(duration) + Style.RESET_ALL)
+            return duration
         except Exception as e:
             print(e)
 

@@ -3,9 +3,11 @@ import dlib
 import numpy as np
 from PIL import ImageFile
 import face_recognition_models
+import os
 try:
+    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
     from mtcnn.mtcnn import MTCNN
-    _face_detector = MTCNN()
+    mtcnn_face_detector = MTCNN()
 except:
     pass
 

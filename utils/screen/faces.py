@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 from constants import *
 from utils.face_recognition import FaceRecognition
@@ -59,22 +60,29 @@ def show_detected_faces_on_screen(_fr, _frame):
         print(e)
 
 
-def show_recognized_faces_on_screen(_frame, _fr):
+def show_recognized_faces_on_screen(_frame, _fr, _fig, is_debug_mode):
     """
     Show recognized faces on a frame
 
     :param _frame: Input frame
     :param _fr: face recognition module
+    :param _fig: plot used in debug mode
+    :param is_debug_mode: a boolean value
     :return:
     """
+    _num_all_faces = 0
+    _num_known_faces = 0
+
     def get_name(_id):
         try:
             return get_username_by_id(_id)
         except KeyError:
             return _id
+
     try:
         face_locations, face_names = _fr.recognize_known_faces(_frame)
-
+        _num_all_faces = len(face_names)
+        _num_known_faces = len(list(filter(lambda a: a != 'Unknown', face_names)))
         for face_loc, name in zip(face_locations, face_names):
             _id = name.split('_')[0]
             draw_rectangle_on_screen(
@@ -91,4 +99,15 @@ def show_recognized_faces_on_screen(_frame, _fr):
     except Exception as e:
         show_detected_faces_on_screen(_fr, _frame)
 
+    if _fig and is_debug_mode:
+        try:
+            _fig.canvas.draw()
+            _fig_array = np.frombuffer(_fig.canvas.tostring_rgb(), dtype=np.uint8)
+            _fig_array = _fig_array.reshape((400, 400, 3))
+            height, width, _ = _fig_array.shape
+            _frame[0:height, _frame.shape[1] - 400:_frame.shape[1]] = _fig_array
+        except:
+            pass
+
     cv2.imshow('FACE LOCK', _frame)
+    return _num_all_faces, _num_known_faces
