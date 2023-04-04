@@ -75,6 +75,9 @@ def is_user_admin(_fr):
                     if get_configs('logging')['use_logging_in_admin_login']:
                         log('face for id "{}" was not detected'.format(_id))
                 else:
+                    print(_key_keypad)
+                    print(_key_keypad if get_configs('general')['using_numeric_keypad'] else _key)
+                    print(_key_keypad if get_configs('general')['using_numeric_keypad'] else _key)
                     _id += chr(_key_keypad if get_configs('general')['using_numeric_keypad'] else _key)
                     # TODO: add keypad input
                     _id = _id.replace('_', ' ')
