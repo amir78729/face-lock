@@ -1,6 +1,6 @@
 from utils.system import is_raspberry
 
-LED_PIN = 17
+LED_PIN = 3
 
 if is_raspberry:
     from gpiozero import LED
