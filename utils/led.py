@@ -1,7 +1,6 @@
-import time
 from utils.system import is_raspberry
 
-LED_PIN = 3
+LED_PIN = 4
 
 if is_raspberry:
     from gpiozero import LED
