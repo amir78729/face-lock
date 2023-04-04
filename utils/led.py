@@ -11,12 +11,14 @@ def led_on():
     if is_raspberry:
         led = Buzzer(LED_PIN)  # TODO: FIX!
         led.on()
+        print('led: ', led.value)
 
 
 def led_off():
     if is_raspberry:
         led = Buzzer(LED_PIN)  # TODO: FIX!
         led.off()
+        print('led: ', led.value)
 
 
 
