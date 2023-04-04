@@ -11,6 +11,7 @@ from utils.files import get_configs
 from utils.system import is_raspberry
 from utils.screen.capture import get_raspberry_frames
 from utils.keypad import read_keypad, KEYPAD_INPUTS
+from utils.buzzer import buzz
 
 
 def enter_id():
@@ -93,6 +94,7 @@ def delete_user_images():
     [delete_user_image_file(path) for path in file_paths]
     if get_configs('logging')['use_logging_in_delete_user']:
         log('user "{}" deleted successfully'.format(_id))
+    buzz(2)
     show_loading_on_screen()
 
 
@@ -106,12 +108,14 @@ def delete_user(_fr):
                 if get_configs('logging')['use_logging_in_admin_login']:
                     log('admin logged in')
                 delete_user_images()
+                buzz(2)
                 _fr.load_encoding_images(
                     get_configs('general')['images_path'])
                 break
             else:
                 if get_configs('logging')['use_logging_in_wrong_password']:
                     log('wrong password')
+                buzz(3)
                 _try += 1
     else:
         if get_configs('logging')['use_logging_in_delete_user']:

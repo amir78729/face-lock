@@ -7,5 +7,6 @@ from .encryption import *
 from .face_recognition import *
 from .files import *
 from .keypad import *
+from .buzzer import *
 from .log import *
 from .system import *

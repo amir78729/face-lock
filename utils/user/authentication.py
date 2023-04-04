@@ -7,6 +7,7 @@ from utils.encryption import get_encrypted_password
 from utils.files import get_configs
 from utils.user.retrieve import get_username_by_id
 from utils.log import log
+from utils.buzzer import buzz
 from constants.keys import *
 from constants.colors import *
 from utils.screen.texts import add_time_to_screen
@@ -69,6 +70,7 @@ def is_user_admin(_fr):
                     if get_configs('logging')['use_logging_in_admin_login']:
                         log('admin entered user id "{}"'.format(_id))
                     if not is_authentication_strict or _id in detected_faces:
+                        buzz(2)
                         return _id in get_configs('authentication')['admin_users']
                     if get_configs('logging')['use_logging_in_admin_login']:
                         log('face for id "{}" was not detected'.format(_id))
@@ -212,6 +214,7 @@ def enter_user(_fr):
                 add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
                 add_subtitle_to_screen(_frame, 'More than one faces were detected')
                 log('unsuccessful entrance, more than one faces detected')
+                buzz(3)
             else:
                 name = get_name(face_names[0])
                 if name == 'Unknown' or len(face_locations) != 1:
@@ -219,16 +222,19 @@ def enter_user(_fr):
                     add_subtitle_to_screen(_frame, 'You are not able to enter')
                     add_description_to_screen(_frame, "please call system's administrator", YELLOW)
                     log('unsuccessful entrance, unauthorized access')
+                    buzz(3)
                 else:
                     add_title_to_screen(_frame, 'DOOR IS OPEN', GREEN)
                     add_subtitle_to_screen(_frame, 'WELCOME!')
                     add_description_to_screen(_frame, "Don't forget to close the door!", YELLOW)
                     log('"{}" entered'.format(name.split('_')[0]))
+                    buzz(2)
         except (IndexError, TypeError):
             add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
             add_subtitle_to_screen(_frame, 'No face was detected!', YELLOW)
             add_description_to_screen(_frame, "Please try again...")
             log('unsuccessful entrance, no face detected')
+            buzz(3)
 
         cv2.imshow('FACE LOCK', _frame)
         _key = cv2.waitKey(1)

@@ -17,6 +17,7 @@ from utils.screen.texts import add_time_to_screen
 from utils.system import is_raspberry
 from utils.screen.capture import get_raspberry_frames
 from utils.keypad import read_keypad, KEYPAD_INPUTS
+from utils.buzzer import buzz
 
 
 def enter_user_name(_fr):
@@ -131,6 +132,7 @@ def take_and_save_user_image(_name, _index, _fr):
                     '{}/{}_{}.jpg'.format(get_configs('general')['images_path'], _name, _index),
                     resized_image,
                 )
+                buzz(2)
                 break
 
             if _key == ESCAPE or _key_keypad == KEYPAD_INPUTS['#']:
@@ -213,11 +215,13 @@ def add_user(_fr):
                 if get_configs('logging')['use_logging_in_admin_login']:
                     log('admin logged in')
                 add_user_image_to_dataset(_fr)
+                buzz(2)
                 _fr.load_encoding_images(get_configs('general')['images_path'])
                 break
             else:
                 if get_configs('logging')['use_logging_in_wrong_password']:
                     log('wrong password')
+                buzz(3)
                 _try += 1
 
     else:
