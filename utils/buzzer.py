@@ -6,7 +6,7 @@ BUZZER_PIN = 4
 
 if is_raspberry:
     from gpiozero import Buzzer
-
+    from signal import pause
 
 def buzz(n):
     if is_raspberry:
@@ -22,7 +22,7 @@ def buzz_on():
     if is_raspberry:
         buzzer = Buzzer(BUZZER_PIN)
         buzzer.on()
-        time.sleep(BUZZER_DELAY)
+        pause()
 
 
 def buzz_off():
