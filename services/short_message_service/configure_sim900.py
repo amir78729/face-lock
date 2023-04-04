@@ -20,7 +20,7 @@ rcv = port.read(10)
 print(rcv)
 time.sleep(1)
 
-port.write(b'AT+CMGF=1\r\n')  # Select Message format as Text mode 
+port.write(b'AT+CMGF=1\r\n')  # Select Message format as Text mode
 rcv = port.read(10)
 
 print(rcv)
@@ -45,7 +45,7 @@ rcv = port.read(10)
 
 print(rcv)
 
-port.write("\x1A")  # Enable to send SMS
+port.write(b'\x1A')  # Enable to send SMS
 for i in range(10):
     rcv = port.read(10)
     print(rcv)
