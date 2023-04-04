@@ -6,6 +6,7 @@ from utils.files import get_configs
 from time import ctime
 from utils.system import is_raspberry
 from utils.screen.capture import get_raspberry_frames
+from utils.led import led_on, led_off
 
 
 def add_title_to_screen(_frame, _text, _color=WHITE):
@@ -73,6 +74,7 @@ def add_debug_text_to_screen(_frame, text, line_num=0,  _color=CYAN):
 
     cv2.putText(_frame, text, (textX, textY), cv2.FONT_HERSHEY_DUPLEX, 0.7, BLACK, 4)
     cv2.putText(_frame, text, (textX, textY), cv2.FONT_HERSHEY_DUPLEX, 0.7, _color, 1)
+
 
 def show_loading_on_screen():
     """

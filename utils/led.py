@@ -1,15 +1,11 @@
 import time
 from utils.system import is_raspberry
-
-LED_PIN = 2
-LED_DELAY = 0.2
-HIGH = 1
-LOW = 0
+from constants.raspberry_pi import LED_PIN, HIGH, LOW
 
 
 if is_raspberry:
     import RPi.GPIO as GPIO
-    GPIO.setmode(GPIO.BCM)  # choose BCM or BOARD
+    GPIO.setmode(GPIO.BCM)
     GPIO.setup(LED_PIN, GPIO.OUT)
 
 

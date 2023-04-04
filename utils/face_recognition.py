@@ -7,6 +7,7 @@ import glob
 import numpy as np
 from tqdm import tqdm
 from utils.files import get_configs
+from utils.led import led_on, led_off
 from colorama import *
 
 
@@ -24,6 +25,7 @@ class FaceRecognition:
         :return:
         """
         # Load Images
+        led_on()
         images_path = glob.glob(os.path.join(images_path, '*.*'))
 
         print('{} encoding images found.'.format(len(images_path)))
@@ -54,9 +56,11 @@ class FaceRecognition:
             end = time.time()
             duration = round(end - start, 4)
             print(Fore.GREEN + 'Model was trained in {}s.'.format(duration) + Style.RESET_ALL)
+            led_off()
             return duration
         except Exception as e:
             print(e)
+            led_off()
 
     def recognize_known_faces(self, frame):
         """

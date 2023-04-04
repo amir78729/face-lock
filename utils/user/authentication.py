@@ -8,6 +8,7 @@ from utils.files import get_configs
 from utils.user.retrieve import get_username_by_id
 from utils.log import log
 from utils.buzzer import buzz
+from utils.led import led_on, led_off
 from constants.keys import *
 from constants.colors import *
 from utils.screen.texts import add_time_to_screen
@@ -245,7 +246,9 @@ def enter_user(_fr):
         cv2.imshow('FACE LOCK', _frame)
         _key = cv2.waitKey(1)
         stream_capture.truncate(0)
+        led_on()
         time.sleep(3)
+        led_off()
     else:
         cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
         ret_add, _frame = cap.read()
