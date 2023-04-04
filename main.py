@@ -117,6 +117,12 @@ if __name__ == '__main__':
                 if is_debug_mode:
                     show_debug_params(frame)
                 num_all_faces, num_known_faces = show_recognized_faces_on_screen(frame, fr, fig, is_debug_mode)
+
+                if num_known_faces == 1:
+                    led_on()
+                else:
+                    led_off()
+
                 key = cv2.waitKey(1)
                 key_keypad = read_keypad()
                 stream_capture.truncate(0)

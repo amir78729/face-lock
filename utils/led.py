@@ -1,24 +1,27 @@
+import time
 from utils.system import is_raspberry
 
 LED_PIN = 2
+LED_DELAY = 0.2
+HIGH = 1
+LOW = 0
+
 
 if is_raspberry:
-    from gpiozero import Buzzer  # TODO: FIX!
-    # from gpiozero import LED
+    import RPi.GPIO as GPIO
+    GPIO.setmode(GPIO.BCM)  # choose BCM or BOARD
+    GPIO.setup(LED_PIN, GPIO.OUT)
 
 
 def led_on():
     if is_raspberry:
-        led = Buzzer(LED_PIN)  # TODO: FIX!
-        led.on()
-        print('led: ', led.value)
+        GPIO.output(LED_PIN, HIGH)
 
 
 def led_off():
     if is_raspberry:
-        led = Buzzer(LED_PIN)  # TODO: FIX!
-        led.off()
-        print('led: ', led.value)
+        GPIO.output(LED_PIN, LOW)
+
 
 
 
