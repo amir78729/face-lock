@@ -18,8 +18,4 @@ def led_off():
         led.off()
 
 
-def led_blink():
-    if is_raspberry:
-        led = LED(LED_PIN)
-        led.blink()
 

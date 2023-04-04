@@ -19,18 +19,17 @@ from utils.keypad import read_keypad, KEYPAD_INPUTS
 from utils.screen.texts import add_time_to_screen, add_debug_text_to_screen
 from utils.screen.capture import get_raspberry_frames
 from utils.system import is_raspberry
-from utils.led import led_blink, led_off
+from utils.led import led_on, led_off
 from colorama import Style, Fore
 from time import time
 
-led_blink()
 
 if __name__ == '__main__':
+    led_on()
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--debug", dest="debug", help="Debug Mode", type=bool)
     args = parser.parse_args()
     is_debug_mode = args.debug
-    led_off()
 
     # debugging variables
     fig = None
@@ -103,6 +102,7 @@ if __name__ == '__main__':
             print('░░░░░░░░░░░░░░░░░░░░░ DEBUG MODE IS ACTIVATED! ░░░░░░░░░░░░░░░░░░░░░')
             print('░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░' + Style.RESET_ALL)
         fr = FaceRecognition()
+        led_off()
         training_duration = fr.load_encoding_images(get_configs('general')['images_path'])
 
         if is_raspberry:
