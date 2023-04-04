@@ -45,7 +45,10 @@ def enter_id():
                         return [x for x in files if _id in x], _id
 
                 else:
-                    _id += chr(_key_keypad if get_configs('general')['using_numeric_keypad'] else _key)
+                    if _key:
+                        _id += chr(_key)
+                    elif _key_keypad:
+                        _id += chr(_key_keypad)
                     _id = _id.replace('_', ' ')
     else:
         _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
