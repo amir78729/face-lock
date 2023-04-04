@@ -16,3 +16,15 @@ def buzz(n):
             buzzer.off()
             time.sleep(BUZZER_DELAY)
 
+
+def buzz_on():
+    if is_raspberry:
+        buzzer = Buzzer(4)
+        buzzer.on()
+
+
+def buzz_off():
+    if is_raspberry:
+        buzzer = Buzzer(4)
+        buzzer.off()
+

@@ -20,6 +20,7 @@ from utils.screen.texts import add_time_to_screen, add_debug_text_to_screen
 from utils.screen.capture import get_raspberry_frames
 from utils.system import is_raspberry
 from utils.led import led_on, led_off
+from utils.buzzer import buzz_on, buzz_off
 from colorama import Style, Fore
 from time import time
 
@@ -103,8 +104,10 @@ if __name__ == '__main__':
             print('░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░' + Style.RESET_ALL)
         fr = FaceRecognition()
         led_on()
+        buzz_on()
         training_duration = fr.load_encoding_images(get_configs('general')['images_path'])
         led_off()
+        buzz_off()
 
         if is_raspberry:
             frames, stream_capture = get_raspberry_frames()
