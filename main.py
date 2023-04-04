@@ -124,6 +124,7 @@ if __name__ == '__main__':
                 elif key == ord('d') or key == ord('D') or key_keypad == KEYPAD_INPUTS['D']:
                     delete_user(fr)
                 elif key == ESCAPE or key == ord('q') or key == ord('Q') or key_keypad == KEYPAD_INPUTS['#']:
+                    print(Fore.RED + '\nExiting the Program...' + Style.RESET_ALL)
                     break
                 if is_debug_mode:
                     update_debug_params()
@@ -143,6 +144,7 @@ if __name__ == '__main__':
                 elif key == ord('d'):
                     delete_user(fr)
                 elif key == ESCAPE or key == ord('q'):
+                    print(Fore.RED + '\nExiting the Program...' + Style.RESET_ALL)
                     break
                 if is_debug_mode:
                     update_debug_params()
