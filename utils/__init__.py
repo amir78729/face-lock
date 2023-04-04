@@ -10,3 +10,4 @@ from .keypad import *
 from .buzzer import *
 from .log import *
 from .system import *
+from .led import *
