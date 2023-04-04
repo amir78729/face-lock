@@ -1,4 +1,4 @@
-from ...utils.system import is_raspberry
+from ..utils.system import is_raspberry
 
 if is_raspberry:
     import serial
