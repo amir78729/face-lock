@@ -10,7 +10,6 @@ if is_raspberry:
 def buzz(n):
     if is_raspberry:
         buzzer = Buzzer(4)
-        print(buzzer)
         for i in range(n):
             buzzer.on()
             time.sleep(BUZZER_DELAY)
