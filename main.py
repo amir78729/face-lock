@@ -25,7 +25,7 @@ from time import time
 
 
 if __name__ == '__main__':
-    led_on()
+    # led_on()
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--debug", dest="debug", help="Debug Mode", type=bool)
     args = parser.parse_args()
@@ -102,8 +102,9 @@ if __name__ == '__main__':
             print('░░░░░░░░░░░░░░░░░░░░░ DEBUG MODE IS ACTIVATED! ░░░░░░░░░░░░░░░░░░░░░')
             print('░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░' + Style.RESET_ALL)
         fr = FaceRecognition()
-        led_off()
+        led_on()
         training_duration = fr.load_encoding_images(get_configs('general')['images_path'])
+        led_off()
 
         if is_raspberry:
             frames, stream_capture = get_raspberry_frames()
