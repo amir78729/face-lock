@@ -45,7 +45,7 @@ rcv = port.read(10)
 
 print(rcv)
 
-port.write(b"\x1A")  # Enable to send SMS
+port.write(b'\x1A')  # Enable to send SMS
 for i in range(10):
     rcv = port.read(10)
     print(rcv)
