@@ -70,10 +70,10 @@ SERIAL_PORT = "/dev/ttyAMA0"  # Raspberry Pi 2
 ser = serial.Serial(SERIAL_PORT, baudrate=9600, timeout=5)
 GPIO.setmode(GPIO.BOARD)
 
-# ser.write(b'AT\r')
-# rcv = ser.read(10)
-# print(rcv)
-# time.sleep(1)
+ser.write(b'AT\r')
+rcv = ser.read(10)
+print(rcv)
+time.sleep(1)
 # 
 # ser.write(b'ATD9129334535;\r')
 # print("Calling…")
