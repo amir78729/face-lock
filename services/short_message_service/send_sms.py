@@ -108,4 +108,5 @@ while True:
             ser.read(ser.inWaiting())  # Clear buf
         time.sleep(5)
     except Exception as e:
+        print('errrr')
         print(e)
