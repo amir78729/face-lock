@@ -80,6 +80,21 @@ ser.write(b'AT+CMGS="+989129334535"\r')
 time.sleep(3)
 msg = "test".encode('utf-8')
 ser.write(msg)
+time.sleep(3)
+ser.write(b'AT+CMGDA="DEL ALL"\r')  # delete all
+time.sleep(3)
+ser.read(ser.inWaiting())  # Clear buf
+
+print('send2')
+ser.write(b'AT+CMGS="+989129334535"\r')
+time.sleep(3)
+msg = "test 2"
+ser.write(msg + chr(26))
+time.sleep(3)
+ser.write(b'AT+CMGDA="DEL ALL"\r')  # delete all
+time.sleep(3)
+ser.read(ser.inWaiting())  # Clear buf
+
 print("Listening for incomming SMS...")
 while True:
     print('.')
@@ -95,13 +110,9 @@ while True:
         print(reply)
         if "getStatus" in reply:
             t = str(datetime.datetime.now())
-            if GPIO.input(P_BUTTON) == GPIO.HIGH:
-                state = "Button released"
-            else:
-                state = "Button pressed"
             ser.write(b'AT+CMGS="+989129334535"\r')
             time.sleep(3)
-            msg = "Sending status at " + t + ":--" + state
+            msg = "Sending status at " + t + ":--" + 'sss'
             print("Sending SMS with status info:" + msg)
             ser.write(msg + chr(26))
         time.sleep(3)
