@@ -74,13 +74,13 @@ time.sleep(3)
 ser.write(b'AT+CMGDA="DEL ALL"\r')  # delete all SMS
 time.sleep(3)
 reply = ser.read(ser.inWaiting())  # Clean buf
-print("Listening for incomming SMS...")
 
-# ser.write(b'AT+CMGS="+989129334535"\r')
-# time.sleep(3)
-# msg = "test".encode('utf-8')
-# ser.write(msg)
-print('start')
+print('send')
+ser.write(b'AT+CMGS="+989129334535"\r')
+time.sleep(3)
+msg = "test".encode('utf-8')
+ser.write(msg)
+print("Listening for incomming SMS...")
 while True:
     print('.')
     reply = ser.read(ser.inWaiting())
