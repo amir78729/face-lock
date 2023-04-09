@@ -79,7 +79,7 @@ print("Listening for incomming SMS...")
 ser.write(b'AT+CMGS="+989129334535"\r')
 time.sleep(3)
 msg = "test".encode('utf-8')
-ser.write(msg + chr(26))
+ser.write(msg)
 while True:
     try:
         print('.', end='')
