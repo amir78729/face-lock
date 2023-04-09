@@ -85,27 +85,19 @@ ser.write(b'AT+CMGDA="DEL ALL"\r')  # delete all
 time.sleep(3)
 ser.read(ser.inWaiting())  # Clear buf
 
-print('send2')
-ser.write(b'AT+CMGS="+989129334535"\r')
-time.sleep(3)
-msg = "test 2"
-ser.write(msg + chr(26))
-time.sleep(3)
-ser.write(b'AT+CMGDA="DEL ALL"\r')  # delete all
-time.sleep(3)
-ser.read(ser.inWaiting())  # Clear buf
-
 print("Listening for incomming SMS...")
 while True:
     print('.')
-    reply = ser.read(ser.inWaiting())
+    reply = ser.read(10)
+    # reply = ser.read(ser.inWaiting())
     reply = reply.decode("utf-8")
     print(reply)
 
     if reply != "":
         ser.write(b"AT+CMGR=1\r")
         time.sleep(3)
-        reply = ser.read(ser.inWaiting())
+        reply = ser.read(10)
+        # reply = ser.read(ser.inWaiting())
         print("SMS received. Content:")
         print(reply)
         if "getStatus" in reply:
