@@ -82,6 +82,7 @@ msg = "test".encode('utf-8')
 ser.write(msg + chr(26))
 while True:
     try:
+        print('.', end='')
         reply = ser.read(ser.inWaiting())
         reply = reply.decode("utf-8")
         if reply != "":
