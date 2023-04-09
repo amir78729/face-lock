@@ -3,7 +3,7 @@
     "images_path": "data/images/",
     "images_per_user": 2,
     "store_usernames": true,
-    "using_numeric_keypad": true,
+    "using_numeric_keypad": false,
     "camera_arg": 0,
     "names_data": "data/names.json"
   },

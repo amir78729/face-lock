@@ -1,4 +1,3 @@
-import time
 from utils.system import is_raspberry
 from constants.raspberry_pi import LED_PIN, HIGH, LOW
 
@@ -17,7 +16,3 @@ def led_on():
 def led_off():
     if is_raspberry:
         GPIO.output(LED_PIN, LOW)
-
-
-
-
