@@ -31,7 +31,7 @@
     "model": "hog"
   },
   "sms": {
-    "send_sms": false,
+    "send_sms": true,
     "target_phone_number": "989129334535"
   }
 }
