@@ -85,6 +85,8 @@ while True:
     print('.')
     reply = ser.read(ser.inWaiting())
     reply = reply.decode("utf-8")
+    print(reply)
+
     if reply != "":
         ser.write(b"AT+CMGR=1\r")
         time.sleep(3)
