@@ -75,7 +75,7 @@ rcv = ser.read(10)
 print(rcv)
 time.sleep(1)
 
-ser.write(b'ATD9166873301;\r')
+ser.write(b'ATD9129334535;\r')
 print("Calling…")
 time.sleep(30)
 ser.write(b'ATH\r')
