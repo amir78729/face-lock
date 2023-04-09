@@ -7,43 +7,43 @@
 # if is_raspberry:
 #     import RPi.GPIO as GPIO
 #     GPIO.setmode(GPIO.BOARD)
-#     port = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=1)
+#     ser = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=1)
 #
 #
 # def send_sms(msg):
 #     # if get_configs('sms')['send_sms']:
-#     #     # port.write(b'AT\r')
-#     #     # rcv = port.read(10)
+#     #     # ser.write(b'AT\r')
+#     #     # rcv = ser.read(10)
 #     #     # print(rcv)
 #     #     # time.sleep(1)
 #     #     #
-#     #     # port.write(b"AT+CMGF=1\r")
+#     #     # ser.write(b"AT+CMGF=1\r")
 #     #     #
 #     #     # # log("Text Mode Enabled…")
 #     #     # time.sleep(3)
-#     #     # port.write(bytes('AT+CMGS="{}″\r'.format(get_configs('sms')['target_phone_number']), 'utf-8'))
+#     #     # ser.write(bytes('AT+CMGS="{}″\r'.format(get_configs('sms')['target_phone_number']), 'utf-8'))
 #     #     # # log("sending message….")
 #     #     # time.sleep(3)
-#     #     # port.reset_output_buffer()
+#     #     # ser.reset_output_buffer()
 #     #     # time.sleep(1)
-#     #     # port.write(str.encode(msg+chr(26)))
+#     #     # ser.write(str.encode(msg+chr(26)))
 #     #     # time.sleep(3)
 #     #     # # log("message sent...")
-#     port.write(b'AT\r')
-#     rcv = port.read(10)
+#     ser.write(b'AT\r')
+#     rcv = ser.read(10)
 #     print(rcv)
 #     time.sleep(1)
 #
-#     port.write(b"AT+CMGF=1\r")
+#     ser.write(b"AT+CMGF=1\r")
 #
 #     print("Text Mode Enabled…")
 #     time.sleep(3)
-#     port.write(bytes('AT+CMGS="{}″\r'.format('989121580288'), 'utf-8'))
+#     ser.write(bytes('AT+CMGS="{}″\r'.format('989121580288'), 'utf-8'))
 #     print("sending message….")
 #     time.sleep(3)
-#     port.reset_output_buffer()
+#     ser.reset_output_buffer()
 #     time.sleep(1)
-#     port.write(str.encode(msg + chr(26)))
+#     ser.write(str.encode(msg + chr(26)))
 #     time.sleep(3)
 #     print("message sent...")
 #
@@ -70,16 +70,30 @@ SERIAL_PORT = "/dev/ttyAMA0"  # Raspberry Pi 2
 ser = serial.Serial(SERIAL_PORT, baudrate=9600, timeout=5)
 GPIO.setmode(GPIO.BOARD)
 
-ser.write(b'AT\r')
-rcv = ser.read(10)
-print(rcv)
-time.sleep(1)
+# ser.write(b'AT\r')
+# rcv = ser.read(10)
+# print(rcv)
+# time.sleep(1)
+# 
+# ser.write(b'ATD9129334535;\r')
+# print("Calling…")
+# time.sleep(30)
+# ser.write(b'ATH\r')
+# print("Hang Call…")
 
-ser.write(b'ATD9129334535;\r')
-print("Calling…")
-time.sleep(30)
-ser.write(b'ATH\r')
-print("Hang Call…")
+
+ser.write(b"AT+CMGF=1\r")
+print("Text Mode Enabled…")
+time.sleep(3)
+ser.write(b'AT+CMGS="+989129334535"\r')
+msg = "test message from SIM900A…"
+print("sending message….")
+time.sleep(3)
+ser.reset_output_buffer()
+time.sleep(1)
+ser.write(str.encode(msg+chr(26)))
+time.sleep(3)
+print("message sent…")
 
 
 # ser.write(b"AT+CMGF=1\r")  # set to text mode
