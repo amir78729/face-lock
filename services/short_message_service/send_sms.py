@@ -70,10 +70,10 @@ SERIAL_PORT = "/dev/ttyAMA0"  # Raspberry Pi 2
 ser = serial.Serial(SERIAL_PORT, baudrate=9600, timeout=5)
 GPIO.setmode(GPIO.BOARD)
 
-ser.write(b'AT\r')
-rcv = ser.read(10)
-print(rcv)
-time.sleep(1)
+# ser.write(b'AT\r')
+# rcv = ser.read(10)
+# print(rcv)
+# time.sleep(1)
 # 
 # ser.write(b'ATD9129334535;\r')
 # print("Calling…")
@@ -82,18 +82,52 @@ time.sleep(1)
 # print("Hang Call…")
 
 
-ser.write(b"AT+CMGF=1\r")
-print("Text Mode Enabled…")
-time.sleep(3)
-ser.write(b'AT+CMGS="+989129334535"\r')
-msg = "test message from SIM900A…"
-print("sending message….")
-time.sleep(3)
-ser.reset_output_buffer()
+# ser.write(b"AT+CMGF=1\r")
+# print("Text Mode Enabled…")
+# time.sleep(3)
+# ser.write(b'AT+CMGS="+989129334535"\r')
+# msg = "test message from SIM900A…"
+# print("sending message….")
+# time.sleep(3)
+# ser.reset_output_buffer()
+# time.sleep(1)
+# ser.write(str.encode(msg+chr(26)))
+# time.sleep(3)
+# print("message sent…")
+
+ser.write(b'AT\r')
+rcv = ser.read(10)
+print(rcv)
 time.sleep(1)
-ser.write(str.encode(msg+chr(26)))
-time.sleep(3)
-print("message sent…")
+
+ser.write(b"ATE0\r")
+rcv = ser.read(10)
+print(rcv)
+time.sleep(1)
+
+ser.write(b"AT+CMGF=1\r")
+rcv = ser.read(10)
+print(rcv)
+time.sleep(1)
+print("Text Mode Enabled…")
+time.sleep(1)
+
+ser.write(b'AT+CPMS="SM","SM","SM"\r')
+rcv = ser.read(30)
+print(rcv)
+time.sleep(1)
+
+ser.write(b'AT+CMGR=1\r')
+rcv = ser.read(100)
+print(rcv)
+time.sleep(1)
+
+ser.write(b'AT+CMGL="ALL"\r')
+rcv = ser.read(300)
+print(rcv)
+time.sleep(1)
+
+
 
 
 # ser.write(b"AT+CMGF=1\r")  # set to text mode
