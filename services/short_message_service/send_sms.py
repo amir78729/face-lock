@@ -76,26 +76,30 @@ time.sleep(3)
 reply = ser.read(ser.inWaiting())  # Clean buf
 print("Listening for incomming SMS...")
 while True:
-    reply = ser.read(ser.inWaiting())
-    if reply != "":
-        ser.write(b"AT+CMGR=1\r")
-        time.sleep(3)
+    try:
         reply = ser.read(ser.inWaiting())
-        print("SMS received. Content:")
-        print(reply)
-        if "getStatus" in reply:
-            t = str(datetime.datetime.now())
-            if GPIO.input(P_BUTTON) == GPIO.HIGH:
-                state = "Button released"
-            else:
-                state = "Button pressed"
-            ser.write(b'AT+CMGS="+989129334535"\r')
+        reply = reply.decode("utf-8")
+        if reply != "":
+            ser.write(b"AT+CMGR=1\r")
             time.sleep(3)
-            msg = "Sending status at " + t + ":--" + state
-            print("Sending SMS with status info:" + msg)
-            ser.write(msg + chr(26))
-        time.sleep(3)
-        ser.write(b'AT+CMGDA="DEL ALL"\r')  # delete all
-        time.sleep(3)
-        ser.read(ser.inWaiting())  # Clear buf
-    time.sleep(5)
+            reply = ser.read(ser.inWaiting())
+            print("SMS received. Content:")
+            print(reply)
+            if "getStatus" in reply:
+                t = str(datetime.datetime.now())
+                if GPIO.input(P_BUTTON) == GPIO.HIGH:
+                    state = "Button released"
+                else:
+                    state = "Button pressed"
+                ser.write(b'AT+CMGS="+989129334535"\r')
+                time.sleep(3)
+                msg = "Sending status at " + t + ":--" + state
+                print("Sending SMS with status info:" + msg)
+                ser.write(msg + chr(26))
+            time.sleep(3)
+            ser.write(b'AT+CMGDA="DEL ALL"\r')  # delete all
+            time.sleep(3)
+            ser.read(ser.inWaiting())  # Clear buf
+        time.sleep(5)
+    except Exception as e:
+        print(e)
