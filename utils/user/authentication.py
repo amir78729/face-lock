@@ -33,7 +33,7 @@ def is_user_admin(_fr):
             _frame = f.array
             detected_faces = []
             try:
-                add_time_to_screen(_frame)
+                # add_time_to_screen(_frame)
                 face_locations, face_names = _fr.recognize_known_faces(_frame)
 
                 for face_loc, name in zip(face_locations, face_names):
@@ -89,7 +89,7 @@ def is_user_admin(_fr):
             ret_add, _frame = _cap.read()
             detected_faces = []
             try:
-                add_time_to_screen(_frame)
+                # add_time_to_screen(_frame)
                 face_locations, face_names = _fr.recognize_known_faces(_frame)
 
                 for face_loc, name in zip(face_locations, face_names):
@@ -148,7 +148,7 @@ def is_admin_user_authenticated(_fr, retry):
         frames, stream_capture = get_raspberry_frames()
         for f in frames:
             _frame = f.array
-            add_time_to_screen(_frame)
+            # add_time_to_screen(_frame)
             show_detected_faces_on_screen(_fr, _frame)
 
             add_title_to_screen(_frame, 'AUTHENTICATION', YELLOW)
@@ -179,7 +179,7 @@ def is_admin_user_authenticated(_fr, retry):
         _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
         while True:
             ret_add, _frame = _cap.read()
-            add_time_to_screen(_frame)
+            # add_time_to_screen(_frame)
             show_detected_faces_on_screen(_fr, _frame)
 
             add_title_to_screen(_frame, 'AUTHENTICATION', YELLOW)
@@ -214,7 +214,7 @@ def enter_user(_fr):
         for f in frames:
             _frame = f.array
             break
-        add_time_to_screen(_frame)
+        # add_time_to_screen(_frame)
         face_locations, face_names = _fr.recognize_known_faces(_frame)
 
         try:
@@ -255,7 +255,7 @@ def enter_user(_fr):
     else:
         cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
         ret_add, _frame = cap.read()
-        add_time_to_screen(_frame)
+        # add_time_to_screen(_frame)
         face_locations, face_names = _fr.recognize_known_faces(_frame)
 
         try:

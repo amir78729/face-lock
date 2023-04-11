@@ -86,7 +86,7 @@ def show_loading_on_screen():
         for f in frames:
             _frame = f.array
             break
-        add_time_to_screen(_frame)
+        # add_time_to_screen(_frame)
         add_title_to_screen(_frame, 'LOADING...', YELLOW)
         cv2.imshow('FACE LOCK', _frame)
         _key = cv2.waitKey(1)
@@ -94,7 +94,7 @@ def show_loading_on_screen():
     else:
         cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
         ret_add, _frame = cap.read()
-        add_time_to_screen(_frame)
+        # add_time_to_screen(_frame)
         add_title_to_screen(_frame, 'LOADING...', YELLOW)
         cv2.imshow('FACE LOCK', _frame)
         _key = cv2.waitKey(1)
