@@ -20,10 +20,17 @@ from utils.screen.texts import add_time_to_screen, add_debug_text_to_screen
 from utils.screen.capture import get_raspberry_frames
 from utils.system import is_raspberry
 from utils.led import led_on, led_off
-from utils.buzzer import buzz_on, buzz_off
+from utils.buzzer import buzz_off
 from colorama import Style, Fore
 from time import time
 from utils.lock import close_door
+
+
+def exit_program():
+    print(Fore.RED + '\nExiting the Program...' + Style.RESET_ALL)
+    buzz_off()
+    close_door()
+    led_off()
 
 
 if __name__ == '__main__':
@@ -154,11 +161,11 @@ if __name__ == '__main__':
                 elif key == ord('d'):
                     delete_user(fr)
                 elif key == ESCAPE or key == ord('q'):
-                    print(Fore.RED + 'Exiting the Program...' + Style.RESET_ALL)
+                    exit_program
                     break
                 if is_debug_mode:
                     update_debug_params()
             cap.release()
             cv2.destroyAllWindows()
     except KeyboardInterrupt:
-        print(Fore.RED + '\nExiting the Program...' + Style.RESET_ALL)
+        exit_program
