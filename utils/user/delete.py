@@ -12,7 +12,8 @@ from utils.system import is_raspberry
 from utils.screen.capture import get_raspberry_frames
 from utils.keypad import read_keypad, KEYPAD_INPUTS
 from utils.buzzer import buzz
-
+from utils.sms import send_sms
+from time import ctime
 
 def enter_id():
     """
@@ -98,6 +99,11 @@ def delete_user_images():
     if get_configs('logging')['use_logging_in_delete_user']:
         log('user "{}" deleted successfully'.format(_id))
     buzz(2)
+    send_sms("Hi.\n" +
+             "New user was removed from the system.\n" +
+             "Info:\n" +
+             "- ID: {}\n".format(_id) +
+             "- TIME: {}".format(ctime()))
     show_loading_on_screen()
 
 

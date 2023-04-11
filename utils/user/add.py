@@ -18,6 +18,9 @@ from utils.system import is_raspberry
 from utils.screen.capture import get_raspberry_frames
 from utils.keypad import read_keypad, KEYPAD_INPUTS
 from utils.buzzer import buzz
+from utils.sms import send_sms
+from time import ctime
+
 
 
 def enter_user_name(_fr):
@@ -202,6 +205,12 @@ def add_user_image_to_dataset(_fr):
      range(get_configs('general')['images_per_user'])]
     if get_configs('logging')['use_logging_in_add_user']:
         log('user "{}" added successfully'.format(new_id))
+    send_sms("Hi.\n" +
+             "New user was added to the system.\n" +
+             "Info:\n" +
+             "- ID: {}\n".format(new_id) +
+             "- NAME: {}\n".format(new_username) +
+             "- TIME: {}".format(ctime()))
     show_loading_on_screen()
 
 

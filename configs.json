@@ -32,6 +32,6 @@
   },
   "sms": {
     "send_sms": true,
-    "target_phone_number": "989129334535"
+    "phone_number": "+989129334535"
   }
 }

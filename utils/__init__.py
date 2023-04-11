@@ -11,3 +11,4 @@ from .buzzer import *
 from .log import *
 from .system import *
 from .led import *
+from .sms import *

@@ -6,3 +6,8 @@ LED_DELAY = 0.2
 
 BUZZER_DELAY = 0.2
 BUZZER_PIN = 4
+
+SERIAL_PORT = "/dev/ttyAMA0"
+ENCODING = 'utf-8'
+
+LOCK_PIN = 23
