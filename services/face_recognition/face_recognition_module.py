@@ -4,12 +4,15 @@ import numpy as np
 from PIL import ImageFile
 import face_recognition_models
 import os
-try:
-    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-    from mtcnn.mtcnn import MTCNN
-    mtcnn_face_detector = MTCNN()
-except:
-    pass
+
+if os.uname()[4][:3] == 'CPU':
+    try:
+        os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+        from mtcnn.mtcnn import MTCNN
+
+        mtcnn_face_detector = MTCNN()
+    except:
+        pass
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
