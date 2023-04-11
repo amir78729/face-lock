@@ -9,6 +9,7 @@ from utils.user.retrieve import get_username_by_id
 from utils.log import log
 from utils.buzzer import buzz
 from utils.led import led_on, led_off
+from utils.lock import open_door, close_door
 from constants.keys import *
 from constants.colors import *
 from utils.screen.texts import add_time_to_screen
@@ -247,8 +248,10 @@ def enter_user(_fr):
         _key = cv2.waitKey(1)
         stream_capture.truncate(0)
         led_on()
+        open_door()
         time.sleep(3)
         led_off()
+        close_door()
     else:
         cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
         ret_add, _frame = cap.read()
