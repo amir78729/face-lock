@@ -9,7 +9,7 @@ if is_raspberry:
     from picamera.array import PiRGBArray
     from picamera import PiCamera
 
-    RESOLUTION = (1280, 720)
+    RESOLUTION = (600, 600)
     FRAME_RATE = 32
 
     camera = PiCamera()

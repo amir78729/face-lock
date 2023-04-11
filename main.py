@@ -1,6 +1,4 @@
 import collections
-import random
-
 import cv2
 import os
 import argparse
@@ -161,11 +159,11 @@ if __name__ == '__main__':
                 elif key == ord('d'):
                     delete_user(fr)
                 elif key == ESCAPE or key == ord('q'):
-                    exit_program
+                    exit_program()
                     break
                 if is_debug_mode:
                     update_debug_params()
             cap.release()
             cv2.destroyAllWindows()
     except KeyboardInterrupt:
-        exit_program
+        exit_program()
