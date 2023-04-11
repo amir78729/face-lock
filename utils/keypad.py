@@ -55,20 +55,20 @@ keypadPressed = -1
 
 # This callback registers the key that was pressed
 # if no other key is currently pressed
-# def keypad_callback(channel):
-#     global keypadPressed
-#     if keypadPressed == -1:
-#         keypadPressed = channel
+def keypad_callback(channel):
+    global keypadPressed
+    if keypadPressed == -1:
+        keypadPressed = channel
 
 
 # # Detect the rising edges on the column lines of the
 # # keypad. This way, we can detect if the user presses
 # # a button when we send a pulse.
-# if is_raspberry:
-#     GPIO.add_event_detect(C1, GPIO.RISING, callback=keypad_callback)
-#     GPIO.add_event_detect(C2, GPIO.RISING, callback=keypad_callback)
-#     GPIO.add_event_detect(C3, GPIO.RISING, callback=keypad_callback)
-#     GPIO.add_event_detect(C4, GPIO.RISING, callback=keypad_callback)
+if is_raspberry:
+    GPIO.add_event_detect(C1, GPIO.RISING, callback=keypad_callback)
+    GPIO.add_event_detect(C2, GPIO.RISING, callback=keypad_callback)
+    GPIO.add_event_detect(C3, GPIO.RISING, callback=keypad_callback)
+    GPIO.add_event_detect(C4, GPIO.RISING, callback=keypad_callback)
 
 
 def read_keypad_line(line, characters):
@@ -88,32 +88,7 @@ def read_keypad_line(line, characters):
 
 
 def read_keypad():
-    ###
-
-    keypadPressed = -1
-
-    def keypad_callback(channel):
-        global keypadPressed
-        if keypadPressed == -1:
-            keypadPressed = channel
-
-
-    GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(L1, GPIO.OUT)
-    GPIO.setup(L2, GPIO.OUT)
-    GPIO.setup(L3, GPIO.OUT)
-    GPIO.setup(L4, GPIO.OUT)
-    GPIO.setup(C1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.setup(C2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.setup(C3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.setup(C4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.add_event_detect(C1, GPIO.RISING, callback=keypad_callback)
-    GPIO.add_event_detect(C2, GPIO.RISING, callback=keypad_callback)
-    GPIO.add_event_detect(C3, GPIO.RISING, callback=keypad_callback)
-    GPIO.add_event_detect(C4, GPIO.RISING, callback=keypad_callback)
-    ###
-    # global keypadPressed
+    global keypadPressed
     if is_raspberry:
         if GPIO.event_detected(C1) or GPIO.event_detected(C2) or GPIO.event_detected(C3) or GPIO.event_detected(C4):
             key = ''
