@@ -1,7 +1,7 @@
 import time
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(LOCK_PIN, GPIO.OUT)
+GPIO.setup(24, GPIO.OUT)
 
 if __name__ == '__main__':
     lock = 0
