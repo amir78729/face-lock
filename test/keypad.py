@@ -107,8 +107,10 @@ class Keypad:
         GPIO.output(line, GPIO.LOW)
     
     def main(self):
+
         try:
             while True:
+                print('.')
                 # If a button was previously pressed,
                 # check, whether the user has released it yet
                 if self.keypad_pressed != -1:
