@@ -36,11 +36,11 @@ def enter_id(keypad):
             _key_keypad = keypad.get_character()
             stream_capture.truncate(0)
             if _key != -1:
-                if _key == DELETE or _key_keypad == KEYPAD_INPUTS['D']:
+                if _key == DELETE:
                     _id = _id[:-1]
-                elif _key == ESCAPE or _key_keypad == KEYPAD_INPUTS['#']:
+                elif _key == ESCAPE:
                     break
-                elif _key == ENTER or _key_keypad == KEYPAD_INPUTS['*']:
+                elif _key == ENTER:
                     if _id in get_all_user_ids_from_files() and _id not in admins:
                         files = get_list_of_files()
                         return [x for x in files if _id in x], _id
@@ -48,9 +48,22 @@ def enter_id(keypad):
                 else:
                     if _key:
                         _id += chr(_key)
-                    elif _key_keypad:
+                    _id = _id.replace('_', ' ')
+            else:
+                if _key_keypad == KEYPAD_INPUTS['D']:
+                    _id = _id[:-1]
+                elif _key_keypad == KEYPAD_INPUTS['#']:
+                    break
+                elif _key_keypad == KEYPAD_INPUTS['*']:
+                    if _id in get_all_user_ids_from_files() and _id not in admins:
+                        files = get_list_of_files()
+                        return [x for x in files if _id in x], _id
+
+                else:
+                    if _key_keypad:
                         _id += chr(_key_keypad)
                     _id = _id.replace('_', ' ')
+
     else:
         _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
         while True:

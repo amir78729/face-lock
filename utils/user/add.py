@@ -52,21 +52,38 @@ def enter_user_name(_fr, keypad):
             stream_capture.truncate(0)
 
             if _key != -1:
-                if _key == DELETE or _key_keypad == KEYPAD_INPUTS['D']:
+                if _key == DELETE:
                     _name = _name[:-1]
-                elif _key == ESCAPE or _key_keypad == KEYPAD_INPUTS['#']:
+                elif _key == ESCAPE:
                     break
-                elif (_key == ENTER or _key_keypad == KEYPAD_INPUTS['*']) and _name != '':
+                elif (_key == ENTER) and _name != '':
                     if get_configs('logging')['use_logging_in_admin_login']:
                         log('username entered: "{}"'.format(get_name()))
                     return get_name()
                 else:
                     if get_configs('general')['using_numeric_keypad']:
                         if chr(_key) in KEYPAD_VALID_NUMERIC_INPUTS:
-                            _name += chr(_key_keypad)
+                            _name += chr(_key)
                     else:
                         _name += chr(_key)
                         _name = _name.replace('_', ' ')
+            else:
+                if _key_keypad == KEYPAD_INPUTS['D']:
+                    _name = _name[:-1]
+                elif _key_keypad == KEYPAD_INPUTS['#']:
+                    break
+                elif (_key_keypad == KEYPAD_INPUTS['*']) and _name != '':
+                    if get_configs('logging')['use_logging_in_admin_login']:
+                        log('username entered: "{}"'.format(get_name()))
+                    return get_name()
+                else:
+                    if get_configs('general')['using_numeric_keypad']:
+                        if chr(_key_keypad) in KEYPAD_VALID_NUMERIC_INPUTS:
+                            _name += chr(_key_keypad)
+                    else:
+                        _name += chr(_key_keypad)
+                        _name = _name.replace('_', ' ')
+
     else:
         _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
         while True:

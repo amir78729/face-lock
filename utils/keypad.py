@@ -229,12 +229,6 @@ class Keypad:
         return x
 
     def get_character(self):
-        # for L, buttons in zip([L1, L2, L3, L4], [
-        #     ["1", "2", "3", "A"],
-        #     ["4", "5", "6", "B"],
-        #     ["7", "8", "9", "C"],
-        #     ["*", "0", "#", "D"]
-        # ]):
         for L, buttons in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
             i = self.read_line(L, buttons)
             if i:
