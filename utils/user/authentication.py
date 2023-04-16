@@ -95,7 +95,7 @@ def is_user_admin(_fr, keypad):
                         log('face for id "{}" was not detected'.format(_id))
                 else:
                     if _key_keypad:
-                        _id += chr(_key_keypad)
+                        _id += _key_keypad
                     _id = _id.replace('_', ' ')
 
     else:
@@ -198,7 +198,7 @@ def is_admin_user_authenticated(_fr, retry, keypad):
                         'admin_encrypted_password']
                 else:
                     if _key_keypad:
-                        _password += chr(_key_keypad)
+                        _password += _key_keypad
                     _password = _password.replace('_', ' ')
     else:
         _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])

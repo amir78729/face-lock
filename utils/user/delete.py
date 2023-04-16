@@ -61,7 +61,7 @@ def enter_id(keypad):
 
                 else:
                     if _key_keypad:
-                        _id += chr(_key_keypad)
+                        _id += _key_keypad
                     _id = _id.replace('_', ' ')
 
     else:
