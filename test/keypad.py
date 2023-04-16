@@ -113,31 +113,34 @@ class Keypad:
         return x
 
     def get_character(self):
-        if self.keypad_pressed != -1:
-            self.set_all_lines(GPIO.HIGH)
-            if GPIO.input(self.keypad_pressed) == 0:
-                self.keypad_pressed = -1
-            else:
-                time.sleep(0.1)
-        # Otherwise, just read the input
-        else:
-            # if not self.check_special_keys():
-            for L, buttons in zip([L1, L2, L3, L4], [
-                ["1", "2", "3", "A"],
-                ["4", "5", "6", "B"],
-                ["7", "8", "9", "C"],
-                ["*", "0", "#", "D"]
-            ]):
-                i = self.read_line(L, buttons)
-                if i: return i
-            return None
-            # i = self.read_line(L1, ["1", "2", "3", "A"])
-            # i = self.read_line(L2, ["4", "5", "6", "B"])
-            # i = self.read_line(L3, ["7", "8", "9", "C"])
-            # i = self.read_line(L4, ["*", "0", "#", "D"])
-            # time.sleep(0.1)
-            # else:
-            #     time.sleep(0.1)
+        for L, buttons in zip([L1, L2, L3, L4], [
+            ["1", "2", "3", "A"],
+            ["4", "5", "6", "B"],
+            ["7", "8", "9", "C"],
+            ["*", "0", "#", "D"]
+        ]):
+            i = self.read_line(L, buttons)
+            if i:
+                return i
+        return None
+        # if self.keypad_pressed != -1:
+        #     self.set_all_lines(GPIO.HIGH)
+        #     if GPIO.input(self.keypad_pressed) == 0:
+        #         self.keypad_pressed = -1
+        #     else:
+        #         time.sleep(0.1)
+        # else:
+        #     # if not self.check_special_keys():
+        #     for L, buttons in zip([L1, L2, L3, L4], [
+        #         ["1", "2", "3", "A"],
+        #         ["4", "5", "6", "B"],
+        #         ["7", "8", "9", "C"],
+        #         ["*", "0", "#", "D"]
+        #     ]):
+        #         i = self.read_line(L, buttons)
+        #         if i:
+        #             return i
+        #     return None
 
     
     def main(self):
