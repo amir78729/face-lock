@@ -1,5 +1,4 @@
 from utils.system import is_raspberry
-import time
 if is_raspberry:
     import RPi.GPIO as GPIO
 
@@ -218,18 +217,15 @@ class Keypad:
         GPIO.output(line, GPIO.HIGH)
         x = None
         if (GPIO.input(C1) == 1):
-            # self.input = self.input + characters[0]
             x = characters[0]
         if (GPIO.input(C2) == 1):
-            # self.input = self.input + characters[1]
             x = characters[1]
         if (GPIO.input(C3) == 1):
-            # self.input = self.input + characters[2]
             x = characters[2]
         if (GPIO.input(C4) == 1):
-            # self.input = self.input + characters[3]
             x = characters[3]
         GPIO.output(line, GPIO.LOW)
+        print(x)
         return x
 
     def get_character(self):
