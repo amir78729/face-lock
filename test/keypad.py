@@ -123,7 +123,7 @@ class Keypad:
         return None
 
 
-if __name__ == '__main__':
-    keypad = Keypad()
-    keypad.main()
+# if __name__ == '__main__':
+#     keypad = Keypad()
+#     keypad.main()
     
