@@ -13,7 +13,7 @@ from utils.user.add import add_user
 from utils.user.delete import delete_user
 from utils.user.authentication import enter_user
 from utils.files import get_configs
-from utils.keypad import read_keypad, KEYPAD_INPUTS, Keypad
+from utils.keypad import Keypad, KEYPAD_INPUTS
 from utils.screen.texts import add_time_to_screen, add_debug_text_to_screen
 from utils.screen.capture import get_raspberry_frames
 from utils.system import is_raspberry

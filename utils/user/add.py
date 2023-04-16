@@ -16,7 +16,7 @@ from utils.files import get_configs
 from utils.screen.texts import add_time_to_screen
 from utils.system import is_raspberry
 from utils.screen.capture import get_raspberry_frames
-from utils.keypad import read_keypad, KEYPAD_INPUTS
+from utils.keypad import Keypad, KEYPAD_INPUTS
 from utils.buzzer import buzz
 from utils.sms import send_sms
 from time import ctime
@@ -48,7 +48,8 @@ def enter_user_name(_fr):
 
             cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
-            _key_keypad = read_keypad()  # TODO: FIX
+            keypad = Keypad()
+            _key_keypad = keypad.get_character()
             stream_capture.truncate(0)
 
             if _key != -1:
@@ -124,7 +125,8 @@ def take_and_save_user_image(_name, _index, _fr):
 
             cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
-            _key_keypad = read_keypad()  # TODO: FIX
+            keypad = Keypad()
+            _key_keypad = keypad.get_character()
             stream_capture.truncate(0)
 
             if (_key == ENTER or _key_keypad == KEYPAD_INPUTS['*']) and is_a_face_detected:

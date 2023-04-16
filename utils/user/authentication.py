@@ -15,7 +15,7 @@ from constants.colors import *
 from utils.screen.texts import add_time_to_screen
 from utils.system import is_raspberry
 from utils.screen.capture import get_raspberry_frames
-from utils.keypad import read_keypad, KEYPAD_INPUTS
+from utils.keypad import Keypad, KEYPAD_INPUTS
 
 
 def is_user_admin(_fr):
@@ -60,7 +60,8 @@ def is_user_admin(_fr):
 
             cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
-            _key_keypad = read_keypad()  # TODO: FIX
+            keypad = Keypad()
+            _key_keypad = keypad.get_character()
             stream_capture.truncate(0)
 
             if _key != -1:
@@ -81,7 +82,6 @@ def is_user_admin(_fr):
                         _id += chr(_key)
                     elif _key_keypad:
                         _id += chr(_key_keypad)
-                    # TODO: add keypad input
                     _id = _id.replace('_', ' ')
     else:
         _cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
@@ -158,7 +158,8 @@ def is_admin_user_authenticated(_fr, retry):
 
             cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
-            _key_keypad = read_keypad()  # TODO: FIX
+            keypad = Keypad()
+            _key_keypad = keypad.get_character()
             stream_capture.truncate(0)
 
             if _key != -1:

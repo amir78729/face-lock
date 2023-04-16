@@ -10,7 +10,7 @@ from utils.log import log
 from utils.files import get_configs
 from utils.system import is_raspberry
 from utils.screen.capture import get_raspberry_frames
-from utils.keypad import read_keypad, KEYPAD_INPUTS
+from utils.keypad import Keypad, KEYPAD_INPUTS
 from utils.buzzer import buzz
 from utils.sms import send_sms
 from time import ctime
@@ -33,7 +33,8 @@ def enter_id():
 
             cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
-            _key_keypad = read_keypad()  # TODO: FIX
+            keypad = Keypad()
+            _key_keypad = keypad.get_character()
             stream_capture.truncate(0)
             if _key != -1:
                 if _key == DELETE or _key_keypad == KEYPAD_INPUTS['D']:
