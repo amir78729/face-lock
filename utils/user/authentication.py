@@ -232,6 +232,7 @@ def enter_user(_fr):
                     log('unsuccessful entrance, unauthorized access')
                     buzz(3)
                 else:
+                    open_door()
                     add_title_to_screen(_frame, 'DOOR IS OPEN', GREEN)
                     add_subtitle_to_screen(_frame, 'WELCOME!')
                     add_description_to_screen(_frame, "Don't forget to close the door!", YELLOW)
@@ -248,7 +249,6 @@ def enter_user(_fr):
         _key = cv2.waitKey(1)
         stream_capture.truncate(0)
         led_on()
-        open_door()
         time.sleep(3)
         led_off()
         close_door()
