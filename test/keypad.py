@@ -143,7 +143,9 @@ class Keypad:
     def main(self):
         try:
             while True:
-                print(self.get_character())
+                c = self.get_character()
+                if c:
+                    print(c)
 
             # while True:
             #     print('> ' + self.input)
