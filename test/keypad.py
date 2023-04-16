@@ -110,7 +110,7 @@ class Keypad:
 
         try:
             while True:
-                print('.')
+                print('> ' + self.input)
                 # If a button was previously pressed,
                 # check, whether the user has released it yet
                 if self.keypad_pressed != -1:
