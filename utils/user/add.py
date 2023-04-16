@@ -77,10 +77,7 @@ def enter_user_name(_fr, keypad):
                         log('username entered: "{}"'.format(get_name()))
                     return get_name()
                 else:
-                    if get_configs('general')['using_numeric_keypad']:
-                        if _key_keypad in KEYPAD_VALID_NUMERIC_INPUTS:
-                            _name += _key_keypad
-                    else:
+                    if _key_keypad in KEYPAD_VALID_NUMERIC_INPUTS:
                         _name += _key_keypad
                         _name = _name.replace('_', ' ')
 
