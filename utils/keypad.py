@@ -87,7 +87,7 @@ def read_keypad_line(line, characters):
         return pressed
 
 
-def read_keypad()  # TODO: FIX:
+def read_keypad():  # TODO: FIX
     global keypadPressed
     if is_raspberry:
         if GPIO.event_detected(C1) or GPIO.event_detected(C2) or GPIO.event_detected(C3) or GPIO.event_detected(C4):
