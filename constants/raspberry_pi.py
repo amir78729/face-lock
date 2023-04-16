@@ -10,4 +10,4 @@ BUZZER_PIN = 4
 SERIAL_PORT = "/dev/ttyAMA0"
 ENCODING = 'utf-8'
 
-LOCK_PIN = 24
+LOCK_PIN = 18
