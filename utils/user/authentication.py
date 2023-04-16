@@ -221,7 +221,7 @@ def enter_user(_fr):
             if len(face_locations) > 1:
                 add_title_to_screen(_frame, 'DOOR CANNOT BE OPENED!', RED)
                 add_subtitle_to_screen(_frame, 'More than one faces were detected')
-                log('unsuccessful entrance, more than one faces detected')
+                log('unsuccessful entrance, more than one faces detected.')
                 buzz(3)
             else:
                 name = get_name(face_names[0])
