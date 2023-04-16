@@ -1,14 +1,14 @@
 import time
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(24, GPIO.OUT)
+GPIO.setup(4, GPIO.OUT)
 
 if __name__ == '__main__':
     while True:
         print('locking door...')
-        GPIO.output(24, 0)
+        GPIO.output(4, 0)
         time.sleep(1)
 
         print('unlocking door...')
-        GPIO.output(24, 1)
+        GPIO.output(4, 1)
         time.sleep(1)
