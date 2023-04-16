@@ -96,39 +96,75 @@ class Keypad:
         # We have to send a pulse on each line to
         # detect button presses
         GPIO.output(line, GPIO.HIGH)
+        x = None
         if (GPIO.input(C1) == 1):
-            self.input = self.input + characters[0]
-        if (GPIO.input(C2) == 1):
-            self.input = self.input + characters[1]
-        if (GPIO.input(C3) == 1):
-            self.input = self.input + characters[2]
-        if (GPIO.input(C4) == 1):
-            self.input = self.input + characters[3]
+            # self.input = self.input + characters[0]
+            x = characters[0]
+        elif (GPIO.input(C2) == 1):
+            # self.input = self.input + characters[1]
+            x = characters[1]
+        elif (GPIO.input(C3) == 1):
+            # self.input = self.input + characters[2]
+            x = characters[2]
+        elif (GPIO.input(C4) == 1):
+            # self.input = self.input + characters[3]
+            x = characters[3]
         GPIO.output(line, GPIO.LOW)
+        return x
+
+    def get_character(self):
+        if self.keypad_pressed != -1:
+            self.set_all_lines(GPIO.HIGH)
+            if GPIO.input(self.keypad_pressed) == 0:
+                self.keypad_pressed = -1
+            else:
+                time.sleep(0.1)
+        # Otherwise, just read the input
+        else:
+            # if not self.check_special_keys():
+            for L, buttons in zip([L1, L2, L3, L4], [
+                ["1", "2", "3", "A"],
+                ["4", "5", "6", "B"],
+                ["7", "8", "9", "C"],
+                ["*", "0", "#", "D"]
+            ]):
+                i = self.read_line(L, buttons)
+                if i: return i
+            return None
+            # i = self.read_line(L1, ["1", "2", "3", "A"])
+            # i = self.read_line(L2, ["4", "5", "6", "B"])
+            # i = self.read_line(L3, ["7", "8", "9", "C"])
+            # i = self.read_line(L4, ["*", "0", "#", "D"])
+            # time.sleep(0.1)
+            # else:
+            #     time.sleep(0.1)
+
     
     def main(self):
-
         try:
             while True:
-                print('> ' + self.input)
-                # If a button was previously pressed,
-                # check, whether the user has released it yet
-                if self.keypad_pressed != -1:
-                    self.set_all_lines(GPIO.HIGH)
-                    if GPIO.input(self.keypad_pressed) == 0:
-                        self.keypad_pressed = -1
-                    else:
-                        time.sleep(0.1)
-                # Otherwise, just read the input
-                else:
-                    if not self.check_special_keys():
-                        self.read_line(L1, ["1", "2", "3", "A"])
-                        self.read_line(L2, ["4", "5", "6", "B"])
-                        self.read_line(L3, ["7", "8", "9", "C"])
-                        self.read_line(L4, ["*", "0", "#", "D"])
-                        time.sleep(0.1)
-                    else:
-                        time.sleep(0.1)
+                print(self.get_character())
+
+            # while True:
+            #     print('> ' + self.input)
+            #     # If a button was previously pressed,
+            #     # check, whether the user has released it yet
+            #     if self.keypad_pressed != -1:
+            #         self.set_all_lines(GPIO.HIGH)
+            #         if GPIO.input(self.keypad_pressed) == 0:
+            #             self.keypad_pressed = -1
+            #         else:
+            #             time.sleep(0.1)
+            #     # Otherwise, just read the input
+            #     else:
+            #         if not self.check_special_keys():
+            #             self.read_line(L1, ["1", "2", "3", "A"])
+            #             self.read_line(L2, ["4", "5", "6", "B"])
+            #             self.read_line(L3, ["7", "8", "9", "C"])
+            #             self.read_line(L4, ["*", "0", "#", "D"])
+            #             time.sleep(0.1)
+            #         else:
+            #             time.sleep(0.1)
         except KeyboardInterrupt:
             print("\nApplication stopped!")
 
