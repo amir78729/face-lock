@@ -15,7 +15,7 @@ from utils.buzzer import buzz
 from utils.sms import send_sms
 from time import ctime
 
-def enter_id():
+def enter_id(keypad):
     """
     Removing files for input id
 
@@ -33,7 +33,6 @@ def enter_id():
 
             cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
-            keypad = Keypad()
             _key_keypad = keypad.get_character()
             stream_capture.truncate(0)
             if _key != -1:
@@ -93,8 +92,8 @@ def delete_username_by_user_id(_id):
         json.dump(json_decoded, names_data)
 
 
-def delete_user_images():
-    file_paths, _id = enter_id()
+def delete_user_images(keypad):
+    file_paths, _id = enter_id(keypad)
     delete_username_by_user_id(_id)
     [delete_user_image_file(path) for path in file_paths]
     if get_configs('logging')['use_logging_in_delete_user']:
@@ -108,16 +107,16 @@ def delete_user_images():
     show_loading_on_screen()
 
 
-def delete_user(_fr):
+def delete_user(_fr, keypad):
     if get_configs('logging')['use_logging_in_delete_user']:
         log('deleting user...')
-    if is_user_admin(_fr):
+    if is_user_admin(_fr, keypad):
         _try = 0
         while _try < get_configs('authentication')['wrong_password_limit']:
-            if is_admin_user_authenticated(_fr, retry=_try != 0):
+            if is_admin_user_authenticated(_fr, retry=_try != 0, keypad=keypad):
                 if get_configs('logging')['use_logging_in_admin_login']:
                     log('admin logged in')
-                delete_user_images()
+                delete_user_images(keypad)
                 buzz(2)
                 _fr.load_encoding_images(
                     get_configs('general')['images_path'])

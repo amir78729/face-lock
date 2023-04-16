@@ -23,7 +23,7 @@ from time import ctime
 
 
 
-def enter_user_name(_fr):
+def enter_user_name(_fr, keypad):
     """
     Enter Username
     :return:
@@ -48,7 +48,6 @@ def enter_user_name(_fr):
 
             cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
-            keypad = Keypad()
             _key_keypad = keypad.get_character()
             stream_capture.truncate(0)
 
@@ -100,7 +99,7 @@ def enter_user_name(_fr):
                         _name = _name.replace('_', ' ')
 
 
-def take_and_save_user_image(_name, _index, _fr):
+def take_and_save_user_image(_name, _index, _fr, keypad):
     """
     Take a Picture from user and save taken image as a file
     :param _fr: User ID
@@ -125,7 +124,6 @@ def take_and_save_user_image(_name, _index, _fr):
 
             cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
-            keypad = Keypad()
             _key_keypad = keypad.get_character()
             stream_capture.truncate(0)
 
@@ -192,7 +190,7 @@ def add_username_by_user_id(_id, _username):
             log('name "{}" added for user "{}"'.format(_username, _id))
 
 
-def add_user_image_to_dataset(_fr):
+def add_user_image_to_dataset(_fr, keypad):
     """
     Take Picture from user ``images_per_user`` times
 
@@ -200,10 +198,10 @@ def add_user_image_to_dataset(_fr):
     """
     new_id = generate_next_user_id_from_files()
     if get_configs('general')['store_usernames']:
-        new_username = enter_user_name(_fr)
+        new_username = enter_user_name(_fr, keypad)
         if new_username and new_username != '':
             add_username_by_user_id(new_id, new_username)
-    [take_and_save_user_image(_name=new_id, _index=i + 1, _fr=_fr) for i in
+    [take_and_save_user_image(_name=new_id, _index=i + 1, _fr=_fr, keypad=keypad) for i in
      range(get_configs('general')['images_per_user'])]
     if get_configs('logging')['use_logging_in_add_user']:
         log('user "{}" added successfully'.format(new_id))
@@ -216,16 +214,16 @@ def add_user_image_to_dataset(_fr):
     show_loading_on_screen()
 
 
-def add_user(_fr):
+def add_user(_fr, keypad):
     if get_configs('logging')['use_logging_in_add_user']:
         log('adding user...')
-    if is_user_admin(_fr):
+    if is_user_admin(_fr, keypad):
         _try = 0
         while _try < get_configs('authentication')['wrong_password_limit']:
-            if is_admin_user_authenticated(_fr, retry=_try != 0):
+            if is_admin_user_authenticated(_fr, retry=_try != 0, keypad=keypad):
                 if get_configs('logging')['use_logging_in_admin_login']:
                     log('admin logged in')
-                add_user_image_to_dataset(_fr)
+                add_user_image_to_dataset(_fr, keypad)
                 buzz(2)
                 _fr.load_encoding_images(get_configs('general')['images_path'])
                 break

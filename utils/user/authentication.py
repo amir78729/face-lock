@@ -18,7 +18,7 @@ from utils.screen.capture import get_raspberry_frames
 from utils.keypad import Keypad, KEYPAD_INPUTS
 
 
-def is_user_admin(_fr):
+def is_user_admin(_fr, keypad):
     """
     Check if User is Admin
     :param _fr: face recognition module
@@ -60,7 +60,6 @@ def is_user_admin(_fr):
 
             cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
-            keypad = Keypad()
             _key_keypad = keypad.get_character()
             stream_capture.truncate(0)
 
@@ -134,7 +133,7 @@ def is_user_admin(_fr):
                     _id = _id.replace('_', ' ')
 
 
-def is_admin_user_authenticated(_fr, retry):
+def is_admin_user_authenticated(_fr, retry, keypad):
     """
     Check if admin entered the password correctly
 
@@ -158,7 +157,6 @@ def is_admin_user_authenticated(_fr, retry):
 
             cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
-            keypad = Keypad()
             _key_keypad = keypad.get_character()
             stream_capture.truncate(0)
 

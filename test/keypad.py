@@ -124,6 +124,6 @@
 #
 #
 # # if __name__ == '__main__':
-# #     keypad = Keypad()
+# #     keypad = Keypad()  # TODO FIX
 # #     keypad.main()
 #

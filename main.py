@@ -116,6 +116,7 @@ if __name__ == '__main__':
         led_off()
 
         if is_raspberry:
+            keypad = Keypad()
             frames, stream_capture = get_raspberry_frames()
             for f in frames:
                 frame = f.array
@@ -130,15 +131,14 @@ if __name__ == '__main__':
                     led_off()
 
                 key = cv2.waitKey(1)
-                keypad = Keypad()
                 key_keypad = keypad.get_character()
                 stream_capture.truncate(0)
                 if key == ENTER or key_keypad == KEYPAD_INPUTS['*']:
                     enter_user(fr)
                 if key == ord('a') or key == ord('A') or key_keypad == KEYPAD_INPUTS['A']:
-                    add_user(fr)
+                    add_user(fr, keypad)
                 elif key == ord('d') or key == ord('D') or key_keypad == KEYPAD_INPUTS['D']:
-                    delete_user(fr)
+                    delete_user(fr, keypad)
                 elif key == ESCAPE or key == ord('q') or key == ord('Q') or key_keypad == KEYPAD_INPUTS['#']:
                     print(Fore.RED + 'Exiting the Program...' + Style.RESET_ALL)
                     break
@@ -156,9 +156,9 @@ if __name__ == '__main__':
                 if key == ENTER:
                     enter_user(fr)
                 if key == ord('a'):
-                    add_user(fr)
+                    add_user(fr, None)
                 elif key == ord('d'):
-                    delete_user(fr)
+                    delete_user(fr, None)
                 elif key == ESCAPE or key == ord('q'):
                     exit_program()
                     break
