@@ -10,9 +10,9 @@ if is_raspberry:
 
 def close_door():
     if is_raspberry:
-        GPIO.output(LOCK_PIN, LOW)
+        GPIO.output(LOCK_PIN, HIGH)
 
 
 def open_door():
     if is_raspberry:
-        GPIO.output(LOCK_PIN, HIGH)
+        GPIO.output(LOCK_PIN, LOW)
