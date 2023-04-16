@@ -225,7 +225,6 @@ class Keypad:
         if (GPIO.input(C4) == 1):
             x = characters[3]
         GPIO.output(line, GPIO.LOW)
-        print(x)
         return x
 
     def get_character(self):
