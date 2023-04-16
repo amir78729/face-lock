@@ -119,7 +119,7 @@ if __name__ == '__main__':
             frames, stream_capture = get_raspberry_frames()
             for f in frames:
                 frame = f.array
-                # add_time_to_screen(frame)
+                add_time_to_screen(frame)
                 if is_debug_mode:
                     show_debug_params(frame)
                 num_all_faces, num_known_faces = show_recognized_faces_on_screen(frame, fr, fig, is_debug_mode)
@@ -147,7 +147,7 @@ if __name__ == '__main__':
             while True:
                 cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
                 ret, frame = cap.read()
-                # add_time_to_screen(frame)
+                add_time_to_screen(frame)
                 if is_debug_mode:
                     show_debug_params(frame)
                 num_all_faces, num_known_faces = show_recognized_faces_on_screen(frame, fr, fig, is_debug_mode)
