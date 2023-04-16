@@ -35,69 +35,69 @@ C3 = 20
 C4 = 21
 
 # Setup GPIO
-if is_raspberry:
-    GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BCM)
-
-    GPIO.setup(L1, GPIO.OUT)
-    GPIO.setup(L2, GPIO.OUT)
-    GPIO.setup(L3, GPIO.OUT)
-    GPIO.setup(L4, GPIO.OUT)
-
-    # Use the internal pull-down resistors
-    GPIO.setup(C1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.setup(C2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.setup(C3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.setup(C4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
-keypadPressed = -1
-
-
-# This callback registers the key that was pressed
-# if no other key is currently pressed
-def keypad_callback(channel):
-    global keypadPressed
-    if keypadPressed == -1:
-        keypadPressed = channel
-
-
-# # Detect the rising edges on the column lines of the
-# # keypad. This way, we can detect if the user presses
-# # a button when we send a pulse.
-if is_raspberry:
-    GPIO.add_event_detect(C1, GPIO.RISING, callback=keypad_callback)
-    GPIO.add_event_detect(C2, GPIO.RISING, callback=keypad_callback)
-    GPIO.add_event_detect(C3, GPIO.RISING, callback=keypad_callback)
-    GPIO.add_event_detect(C4, GPIO.RISING, callback=keypad_callback)
-
-
-def read_keypad_line(line, characters):
-    if is_raspberry:
-        GPIO.output(line, GPIO.HIGH)
-        pressed = ''
-        if GPIO.input(C1) == 1:
-            pressed = characters[0]
-        if GPIO.input(C2) == 1:
-            pressed = characters[1]
-        if GPIO.input(C3) == 1:
-            pressed = characters[2]
-        if GPIO.input(C4) == 1:
-            pressed = characters[3]
-        GPIO.output(line, GPIO.LOW)
-        return pressed
-
-
-def read_keypad():  # TODO: FIX
-    global keypadPressed
-    if is_raspberry:
-        if GPIO.event_detected(C1) or GPIO.event_detected(C2) or GPIO.event_detected(C3) or GPIO.event_detected(C4):
-            key = ''
-            for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
-                key = read_keypad_line(line, characters)
-                if key:
-                    break
-            time.sleep(0.1)
-            return key
+# if is_raspberry:
+#     GPIO.setwarnings(False)
+#     GPIO.setmode(GPIO.BCM)
+#
+#     GPIO.setup(L1, GPIO.OUT)
+#     GPIO.setup(L2, GPIO.OUT)
+#     GPIO.setup(L3, GPIO.OUT)
+#     GPIO.setup(L4, GPIO.OUT)
+#
+#     # Use the internal pull-down resistors
+#     GPIO.setup(C1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+#     GPIO.setup(C2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+#     GPIO.setup(C3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+#     GPIO.setup(C4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+#
+# keypadPressed = -1
+#
+#
+# # This callback registers the key that was pressed
+# # if no other key is currently pressed
+# def keypad_callback(channel):
+#     global keypadPressed
+#     if keypadPressed == -1:
+#         keypadPressed = channel
+#
+#
+# # # Detect the rising edges on the column lines of the
+# # # keypad. This way, we can detect if the user presses
+# # # a button when we send a pulse.
+# if is_raspberry:
+#     GPIO.add_event_detect(C1, GPIO.RISING, callback=keypad_callback)
+#     GPIO.add_event_detect(C2, GPIO.RISING, callback=keypad_callback)
+#     GPIO.add_event_detect(C3, GPIO.RISING, callback=keypad_callback)
+#     GPIO.add_event_detect(C4, GPIO.RISING, callback=keypad_callback)
+#
+#
+# def read_keypad_line(line, characters):
+#     if is_raspberry:
+#         GPIO.output(line, GPIO.HIGH)
+#         pressed = ''
+#         if GPIO.input(C1) == 1:
+#             pressed = characters[0]
+#         if GPIO.input(C2) == 1:
+#             pressed = characters[1]
+#         if GPIO.input(C3) == 1:
+#             pressed = characters[2]
+#         if GPIO.input(C4) == 1:
+#             pressed = characters[3]
+#         GPIO.output(line, GPIO.LOW)
+#         return pressed
+#
+#
+# def read_keypad():
+#     global keypadPressed
+#     if is_raspberry:
+#         if GPIO.event_detected(C1) or GPIO.event_detected(C2) or GPIO.event_detected(C3) or GPIO.event_detected(C4):
+#             key = ''
+#             for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
+#                 key = read_keypad_line(line, characters)
+#                 if key:
+#                     break
+#             time.sleep(0.1)
+#             return key
 
 
 MOBILE_NUMERIC_KEYPAD_DICTIONARY = {
@@ -177,24 +177,6 @@ def standardize_keypad_input_sequence(input_string):
                 result += '#'
         result += input_string[-1]
     return result
-
-
-class Keypad:
-    keypadPressed = -1
-    def __init__(self):
-        pass
-
-    def read_keypad(self):
-        if is_raspberry:
-            if GPIO.event_detected(C1) or GPIO.event_detected(C2) or GPIO.event_detected(C3) or GPIO.event_detected(C4):
-                key = ''
-                for line, characters in zip([L1, L2, L3, L4], KEYPAD_KEYMAP):
-                    key = read_keypad_line(line, characters)
-                    if key:
-                        break
-                time.sleep(0.1)
-                return key
-
 
 class Keypad:
     # The GPIO pin of the column of the key that is currently
