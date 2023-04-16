@@ -100,13 +100,13 @@ class Keypad:
         if (GPIO.input(C1) == 1):
             # self.input = self.input + characters[0]
             x = characters[0]
-        elif (GPIO.input(C2) == 1):
+        if (GPIO.input(C2) == 1):
             # self.input = self.input + characters[1]
             x = characters[1]
-        elif (GPIO.input(C3) == 1):
+        if (GPIO.input(C3) == 1):
             # self.input = self.input + characters[2]
             x = characters[2]
-        elif (GPIO.input(C4) == 1):
+        if (GPIO.input(C4) == 1):
             # self.input = self.input + characters[3]
             x = characters[3]
         GPIO.output(line, GPIO.LOW)
