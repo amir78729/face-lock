@@ -77,10 +77,8 @@ class Keypad:
         if not pressed and GPIO.input(C4) == 1:
             if self.input == secretCode:
                 print("Code correct!")
-                # TODO: Unlock a door, turn a light on, etc.
             else:
                 print("Incorrect code!")
-                # TODO: Sound an alarm, send an email, etc.
             pressed = True
     
         GPIO.output(L3, GPIO.LOW)
@@ -123,32 +121,6 @@ class Keypad:
             if i:
                 return i
         return None
-        # if self.keypad_pressed != -1:
-        #     self.set_all_lines(GPIO.HIGH)
-        #     if GPIO.input(self.keypad_pressed) == 0:
-        #         self.keypad_pressed = -1
-        #     else:
-        #         time.sleep(0.1)
-        # else:
-        #     # if not self.check_special_keys():
-        #     for L, buttons in zip([L1, L2, L3, L4], [
-        #         ["1", "2", "3", "A"],
-        #         ["4", "5", "6", "B"],
-        #         ["7", "8", "9", "C"],
-        #         ["*", "0", "#", "D"]
-        #     ]):
-        #         i = self.read_line(L, buttons)
-        #         if i:
-        #             return i
-        #     return None
-
-    
-    def main(self):
-        while True:
-            c = self.get_character()
-            if c:
-                print(c)
-                time.sleep(0.5)
 
 
 if __name__ == '__main__':

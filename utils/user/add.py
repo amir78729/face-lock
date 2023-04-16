@@ -48,7 +48,7 @@ def enter_user_name(_fr):
 
             cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
-            _key_keypad = read_keypad()
+            _key_keypad = read_keypad()  # TODO: FIX
             stream_capture.truncate(0)
 
             if _key != -1:
@@ -124,7 +124,7 @@ def take_and_save_user_image(_name, _index, _fr):
 
             cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
-            _key_keypad = read_keypad()
+            _key_keypad = read_keypad()  # TODO: FIX
             stream_capture.truncate(0)
 
             if (_key == ENTER or _key_keypad == KEYPAD_INPUTS['*']) and is_a_face_detected:

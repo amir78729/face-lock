@@ -33,7 +33,7 @@ def enter_id():
 
             cv2.imshow('FACE LOCK', _frame)
             _key = cv2.waitKey(1)
-            _key_keypad = read_keypad()
+            _key_keypad = read_keypad()  # TODO: FIX
             stream_capture.truncate(0)
             if _key != -1:
                 if _key == DELETE or _key_keypad == KEYPAD_INPUTS['D']:

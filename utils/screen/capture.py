@@ -24,7 +24,7 @@ def get_raspberry_frames():
     return [all_captured_frames, raw_capture]
 
 
-cap = cv2.VideoCapture(get_configs('general')['camera_arg'])  # TODO GLOBALIZE
+cap = cv2.VideoCapture(get_configs('general')['camera_arg'])
 
 
 def capture_frame():
