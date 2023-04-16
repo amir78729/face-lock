@@ -144,35 +144,11 @@ class Keypad:
 
     
     def main(self):
-        try:
-            while True:
-                c = self.get_character()
-                if c:
-                    print(c)
-                    time.sleep(0.1)
-
-            # while True:
-            #     print('> ' + self.input)
-            #     # If a button was previously pressed,
-            #     # check, whether the user has released it yet
-            #     if self.keypad_pressed != -1:
-            #         self.set_all_lines(GPIO.HIGH)
-            #         if GPIO.input(self.keypad_pressed) == 0:
-            #             self.keypad_pressed = -1
-            #         else:
-            #             time.sleep(0.1)
-            #     # Otherwise, just read the input
-            #     else:
-            #         if not self.check_special_keys():
-            #             self.read_line(L1, ["1", "2", "3", "A"])
-            #             self.read_line(L2, ["4", "5", "6", "B"])
-            #             self.read_line(L3, ["7", "8", "9", "C"])
-            #             self.read_line(L4, ["*", "0", "#", "D"])
-            #             time.sleep(0.1)
-            #         else:
-            #             time.sleep(0.1)
-        except KeyboardInterrupt:
-            print("\nApplication stopped!")
+        while True:
+            c = self.get_character()
+            if c:
+                print(c)
+                time.sleep(0.5)
 
 
 if __name__ == '__main__':
